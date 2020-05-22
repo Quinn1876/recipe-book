@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/quinn1876.github.io/recipe-book/static/js/main.ee16894b.chunk.js",
-    "main.js.map": "/quinn1876.github.io/recipe-book/static/js/main.ee16894b.chunk.js.map",
-    "runtime-main.js": "/quinn1876.github.io/recipe-book/static/js/runtime-main.7721f506.js",
-    "runtime-main.js.map": "/quinn1876.github.io/recipe-book/static/js/runtime-main.7721f506.js.map",
-    "static/js/2.124452ef.chunk.js": "/quinn1876.github.io/recipe-book/static/js/2.124452ef.chunk.js",
-    "static/js/2.124452ef.chunk.js.map": "/quinn1876.github.io/recipe-book/static/js/2.124452ef.chunk.js.map",
-    "index.html": "/quinn1876.github.io/recipe-book/index.html",
-    "precache-manifest.82ffcedb097f1575d988bb6d32af4356.js": "/quinn1876.github.io/recipe-book/precache-manifest.82ffcedb097f1575d988bb6d32af4356.js",
-    "service-worker.js": "/quinn1876.github.io/recipe-book/service-worker.js",
-    "static/js/2.124452ef.chunk.js.LICENSE.txt": "/quinn1876.github.io/recipe-book/static/js/2.124452ef.chunk.js.LICENSE.txt"
+    "main.js": "/recipe-book/static/js/main.eaae4828.chunk.js",
+    "main.js.map": "/recipe-book/static/js/main.eaae4828.chunk.js.map",
+    "runtime-main.js": "/recipe-book/static/js/runtime-main.e7a7df35.js",
+    "runtime-main.js.map": "/recipe-book/static/js/runtime-main.e7a7df35.js.map",
+    "static/js/2.636085c4.chunk.js": "/recipe-book/static/js/2.636085c4.chunk.js",
+    "static/js/2.636085c4.chunk.js.map": "/recipe-book/static/js/2.636085c4.chunk.js.map",
+    "index.html": "/recipe-book/index.html",
+    "precache-manifest.09db8132e76ffbe9eef10f651fb4b6f6.js": "/recipe-book/precache-manifest.09db8132e76ffbe9eef10f651fb4b6f6.js",
+    "service-worker.js": "/recipe-book/service-worker.js",
+    "static/js/2.636085c4.chunk.js.LICENSE.txt": "/recipe-book/static/js/2.636085c4.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7721f506.js",
-    "static/js/2.124452ef.chunk.js",
-    "static/js/main.ee16894b.chunk.js"
+    "static/js/runtime-main.e7a7df35.js",
+    "static/js/2.636085c4.chunk.js",
+    "static/js/main.eaae4828.chunk.js"
   ]
 }
