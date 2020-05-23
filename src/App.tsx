@@ -1,7 +1,12 @@
 import React from 'react';
 import { HashRouter, Route, Link } from 'react-router-dom'
 
-function App() {
+// import Home from './pages/Home'
+
+const Home: React.FC = () => <div><h2>Home</h2></div>
+const About: React.FC = () => <div><h2>About</h2></div>
+
+const App: React.FC = () => {
   return (
     <HashRouter basename="/">
       <div>
