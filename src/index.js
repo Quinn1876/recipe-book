@@ -1,22 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 
-import App from './App';
-import Firebase, { FirebaseContextProvider } from './Firebase';
-import store from './store'
+import { ThemeProvider } from "@material-ui/core/styles";
 
-import unregister from './serviceWorker';
+import App from "./App";
+import store from "./store";
+import theme from "./theme";
 
-require('dotenv').config()
+import { unregister } from "./serviceWorker";
+
+require("dotenv").config();
 
 ReactDOM.render(
   <Provider store={store}>
-    <FirebaseContextProvider value={new Firebase()}>
+    <ThemeProvider theme={theme}>
       <App />
-    </FirebaseContextProvider>
-  </Provider>
-  , document.getElementById('root'));
+    </ThemeProvider>
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

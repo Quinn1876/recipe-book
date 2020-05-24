@@ -231,9 +231,84 @@
         "signature": "a53918c9b79617e01ec9fac08f8c1d1ec3e435759f8dc8b651b19208d3b8f518",
         "affectsGlobalScope": false
       },
+      "./node_modules/firebase/index.d.ts": {
+        "version": "5cff52cee6eadf96a832f9e758d03f38a5765f7d33e7e376446dee56386ae177",
+        "signature": "5cff52cee6eadf96a832f9e758d03f38a5765f7d33e7e376446dee56386ae177",
+        "affectsGlobalScope": false
+      },
+      "./src/firebase/config.ts": {
+        "version": "7785266948674b630800d8e3d14fbde2aa143d9a89c6172854bf5bccd255334c",
+        "signature": "6ed7a2343bfc790dcb89a85e5cfcfaf6461ecabd933ffd9264eda78787bd659c",
+        "affectsGlobalScope": false
+      },
+      "./src/firebase/types.ts": {
+        "version": "c64102ca07e23f801100831d523363bf7e9bd47dea219d240b44e532e394f437",
+        "signature": "6db656ce6107beea25f08592549149dcec924990f369bc1f77c13658d4247014",
+        "affectsGlobalScope": false
+      },
+      "./src/firebase/context.ts": {
+        "version": "8c631370918a6aa3cd4dc519abf5f5114d4b0f94a58b28b286dbbb00e0357cae",
+        "signature": "453c2b5ecf879d592d62dd2d99ab5ba2ca4e1ec698d381a03f1501c04149d478",
+        "affectsGlobalScope": false
+      },
+      "./src/firebase/connectfirebase.tsx": {
+        "version": "0b587489631d2f4681d041ed414e5a4c66ce84c095a707f897d4091a5eeedb08",
+        "signature": "e30c502b8c80bb17f639e5a1f097bbc35c3c9e0f0e9cb9130ad243fc7980419a",
+        "affectsGlobalScope": false
+      },
+      "./src/firebase/index.ts": {
+        "version": "4e088dcd3d7d0e3182b43cae23daab4b3101afce33885993435d73b6cc638346",
+        "signature": "6e8e4026889716b6ff8209fae3e7f72122af8b52409a54f5bfb2e5301d0ec1c1",
+        "affectsGlobalScope": false
+      },
       "./src/pages/home.tsx": {
         "version": "0b53235de5be44b28678a762ae4f4065f5dbf3bf04362bbc0a6dcdc1c00a5474",
         "signature": "cff571a4e77a8a73b9de8438d7d9d4a8fea22ff6549b961bfb461109c3843c67",
+        "affectsGlobalScope": false
+      },
+      "./src/store/actiontypes.ts": {
+        "version": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/symbol-observable/index.d.ts": {
+        "version": "7ccece60f62968f5765383f1f5322ace6937e42c3a2068834ac214fe24f9b7bc",
+        "signature": "7ccece60f62968f5765383f1f5322ace6937e42c3a2068834ac214fe24f9b7bc",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/redux/index.d.ts": {
+        "version": "dc7b63bcdfaf08b68a9fabeab720173481db52014bbb40314f5a6757387b6516",
+        "signature": "dc7b63bcdfaf08b68a9fabeab720173481db52014bbb40314f5a6757387b6516",
+        "affectsGlobalScope": false
+      },
+      "./src/store/user/actiontypes.ts": {
+        "version": "142760fee72f0dd018fad8068e1986100ae1c7706b68db80fbe7974f973a1e5f",
+        "signature": "874a9da8e126a3a8ad042498d68937574c066d0661e11d271d2c911b4ffd4a5b",
+        "affectsGlobalScope": false
+      },
+      "./src/store/user/actions.ts": {
+        "version": "2226d5c6bdd57092f81267e3d0634555dfb9c1649cbc867ef1ce8f6e7cb6e097",
+        "signature": "d191cd98be0bc362ef1a183bcd411ff64edb7e257317c87dbd2ee72bb5305b38",
+        "affectsGlobalScope": false
+      },
+      "./src/store/user/reducer.ts": {
+        "version": "ce152bbd609b443fdc49d53e91c1e906d841204308cfdb626a41e674c5c41249",
+        "signature": "b607a372fe8bf9c49daf69f6ea2bb89d0689e5b6cc9a08e9bf85700479036142",
+        "affectsGlobalScope": false
+      },
+      "./src/store/user/index.ts": {
+        "version": "4baa6b8bdcf465f5ecc68bacf27999809213b43a49488254a59c0019b80fb740",
+        "signature": "e06545314fba36e4f5fd94e6b56c9aca8c11ee0dd21ffb26a535c10371f02819",
+        "affectsGlobalScope": false
+      },
+      "./src/store/rootreducer.ts": {
+        "version": "333696e6778d09a99e0d092bd6b0c45eb8835f589031ff11acb6daa6a84ba439",
+        "signature": "a51c6d5eb402f961e08f8b9ab1b3f7c43df697f14a65ec17b5564117bc306f74",
+        "affectsGlobalScope": false
+      },
+      "./src/store/index.ts": {
+        "version": "73ec0550eed67cd816641bc581b0656c60fb81d6e60835d7598247066a6aad0b",
+        "signature": "67630b120707fa71f7a005768423b9399d0f28d1d5be407f560811f825cadba3",
         "affectsGlobalScope": false
       },
       "./node_modules/@babel/types/lib/index.d.ts": {
@@ -546,6 +621,11 @@
         "signature": "d852d6282c8dc8156d26d6bda83ab4bde51fee05ba2fe0ecdc165ddda009d3ee",
         "affectsGlobalScope": false
       },
+      "./node_modules/@types/hoist-non-react-statics/index.d.ts": {
+        "version": "bfe1b52cf71aea9bf8815810cc5d9490fa9617313e3d3c2ee3809a28b80d0bb4",
+        "signature": "bfe1b52cf71aea9bf8815810cc5d9490fa9617313e3d3c2ee3809a28b80d0bb4",
+        "affectsGlobalScope": false
+      },
       "./node_modules/@types/istanbul-lib-coverage/index.d.ts": {
         "version": "9e951ec338c4232d611552a1be7b4ecec79a8c2307a893ce39701316fe2374bd",
         "signature": "9e951ec338c4232d611552a1be7b4ecec79a8c2307a893ce39701316fe2374bd",
@@ -629,6 +709,11 @@
       "./node_modules/@types/react-dom/index.d.ts": {
         "version": "8483a29c17f7feb768a1f4333cf12ccf1e7341bd89dadcf407e012d5315228d0",
         "signature": "8483a29c17f7feb768a1f4333cf12ccf1e7341bd89dadcf407e012d5315228d0",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/react-redux/index.d.ts": {
+        "version": "1bda2f0ea3e43d36d496ea9a21e37961d2712726c0255ef4098ef585474777b6",
+        "signature": "1bda2f0ea3e43d36d496ea9a21e37961d2712726c0255ef4098ef585474777b6",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/stack-utils/index.d.ts": {
@@ -934,6 +1019,13 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./node_modules/@types/hoist-non-react-statics/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts"
+      ],
       "./node_modules/@types/istanbul-lib-coverage/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -1476,6 +1568,15 @@
         "./node_modules/@types/react-dom/test-utils/index.d.ts",
         "./node_modules/@types/react/index.d.ts"
       ],
+      "./node_modules/@types/react-redux/index.d.ts": [
+        "./node_modules/@types/hoist-non-react-statics/index.d.ts",
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./node_modules/redux/index.d.ts"
+      ],
       "./node_modules/@types/react-router-dom/index.d.ts": [
         "./node_modules/@types/history/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
@@ -1672,6 +1773,25 @@
         "./node_modules/@types/yargs-parser/index.d.ts"
       ],
       "./node_modules/csstype/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
+      "./node_modules/firebase/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
+      "./node_modules/redux/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/symbol-observable/index.d.ts"
+      ],
+      "./node_modules/symbol-observable/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
@@ -1877,12 +1997,105 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./src/firebase/config.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/firebase/index.d.ts"
+      ],
+      "./src/firebase/connectfirebase.tsx": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./src/firebase/context.ts",
+        "./src/firebase/types.ts"
+      ],
+      "./src/firebase/context.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./src/firebase/types.ts"
+      ],
+      "./src/firebase/index.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./src/firebase/config.ts",
+        "./src/firebase/connectfirebase.tsx",
+        "./src/firebase/context.ts"
+      ],
+      "./src/firebase/types.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./src/firebase/config.ts"
+      ],
       "./src/pages/home.tsx": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/react/index.d.ts"
+      ],
+      "./src/store/actiontypes.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
+      "./src/store/index.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/redux/index.d.ts",
+        "./src/store/rootreducer.ts"
+      ],
+      "./src/store/rootreducer.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/redux/index.d.ts",
+        "./src/store/user/index.ts"
+      ],
+      "./src/store/user/actions.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./src/store/user/actiontypes.ts",
+        "./src/store/user/reducer.ts"
+      ],
+      "./src/store/user/actiontypes.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
+      "./src/store/user/index.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./src/store/user/actiontypes.ts",
+        "./src/store/user/reducer.ts"
+      ],
+      "./src/store/user/reducer.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./src/store/user/actions.ts",
+        "./src/store/user/actiontypes.ts"
       ],
       "../../../../node_modules/@types/prop-types/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
@@ -2080,6 +2293,13 @@
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
+      ],
+      "./node_modules/@types/hoist-non-react-statics/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts"
       ],
       "./node_modules/@types/istanbul-lib-coverage/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
@@ -2623,6 +2843,15 @@
         "./node_modules/@types/react-dom/test-utils/index.d.ts",
         "./node_modules/@types/react/index.d.ts"
       ],
+      "./node_modules/@types/react-redux/index.d.ts": [
+        "./node_modules/@types/hoist-non-react-statics/index.d.ts",
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/react/index.d.ts",
+        "./node_modules/redux/index.d.ts"
+      ],
       "./node_modules/@types/react-router-dom/index.d.ts": [
         "./node_modules/@types/history/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
@@ -2824,6 +3053,25 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./node_modules/firebase/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
+      "./node_modules/redux/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/symbol-observable/index.d.ts"
+      ],
+      "./node_modules/symbol-observable/index.d.ts": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts",
+        "./node_modules/@types/node/util.d.ts"
+      ],
       "./node_modules/typescript/lib/lib.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -3019,6 +3267,40 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts"
       ],
+      "./src/firebase/connectfirebase.tsx": [
+        "./node_modules/@types/react/index.d.ts",
+        "./src/firebase/config.ts"
+      ],
+      "./src/firebase/context.ts": [
+        "./node_modules/@types/react/index.d.ts",
+        "./src/firebase/config.ts"
+      ],
+      "./src/firebase/index.ts": [
+        "./src/firebase/config.ts",
+        "./src/firebase/connectfirebase.tsx",
+        "./src/firebase/context.ts"
+      ],
+      "./src/firebase/types.ts": [
+        "./src/firebase/config.ts"
+      ],
+      "./src/store/index.ts": [
+        "./node_modules/redux/index.d.ts",
+        "./src/store/user/reducer.ts"
+      ],
+      "./src/store/rootreducer.ts": [
+        "./node_modules/redux/index.d.ts",
+        "./src/store/user/reducer.ts"
+      ],
+      "./src/store/user/actions.ts": [
+        "./src/store/user/reducer.ts"
+      ],
+      "./src/store/user/index.ts": [
+        "./src/store/user/actiontypes.ts",
+        "./src/store/user/reducer.ts"
+      ],
+      "./src/store/user/reducer.ts": [
+        "./src/store/user/actions.ts"
+      ],
       "../../../../node_modules/@types/prop-types/index.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -3105,6 +3387,7 @@
       "./node_modules/@types/history/index.d.ts",
       "./node_modules/@types/history/locationutils.d.ts",
       "./node_modules/@types/history/pathutils.d.ts",
+      "./node_modules/@types/hoist-non-react-statics/index.d.ts",
       "./node_modules/@types/istanbul-lib-coverage/index.d.ts",
       "./node_modules/@types/istanbul-lib-report/index.d.ts",
       "./node_modules/@types/istanbul-reports/index.d.ts",
@@ -3176,6 +3459,7 @@
       "./node_modules/@types/q/index.d.ts",
       "./node_modules/@types/react-dom/index.d.ts",
       "./node_modules/@types/react-dom/test-utils/index.d.ts",
+      "./node_modules/@types/react-redux/index.d.ts",
       "./node_modules/@types/react-router-dom/index.d.ts",
       "./node_modules/@types/react-router/index.d.ts",
       "./node_modules/@types/react/global.d.ts",
@@ -3203,6 +3487,9 @@
       "./node_modules/@types/yargs-parser/index.d.ts",
       "./node_modules/@types/yargs/index.d.ts",
       "./node_modules/csstype/index.d.ts",
+      "./node_modules/firebase/index.d.ts",
+      "./node_modules/redux/index.d.ts",
+      "./node_modules/symbol-observable/index.d.ts",
       "./node_modules/typescript/lib/lib.d.ts",
       "./node_modules/typescript/lib/lib.dom.d.ts",
       "./node_modules/typescript/lib/lib.es2015.collection.d.ts",
@@ -3236,7 +3523,19 @@
       "./node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
       "./src/app.tsx",
       "./src/declarations.d.ts",
+      "./src/firebase/config.ts",
+      "./src/firebase/connectfirebase.tsx",
+      "./src/firebase/context.ts",
+      "./src/firebase/index.ts",
+      "./src/firebase/types.ts",
       "./src/pages/home.tsx",
+      "./src/store/actiontypes.ts",
+      "./src/store/index.ts",
+      "./src/store/rootreducer.ts",
+      "./src/store/user/actions.ts",
+      "./src/store/user/actiontypes.ts",
+      "./src/store/user/index.ts",
+      "./src/store/user/reducer.ts",
       "../../../../node_modules/@types/prop-types/index.d.ts",
       "../../../../node_modules/@types/react-transition-group/csstransition.d.ts",
       "../../../../node_modules/@types/react-transition-group/index.d.ts",
