@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 
 import AppBar from '@material-ui/core/AppBar'
@@ -13,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
+
+import { getUser } from "../store/selectors";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -37,6 +40,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     textAlign: 'left',
     padding: theme.spacing(1, 2)
+  },
+  toolBar: {
   }
 }))
 
@@ -44,6 +49,7 @@ const NavBar: React.FC = ({children}) => {
   const classes = useStyles()
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false)
+  const user = useSelector(getUser)
 
   const toggleDrawer: (open: boolean) => (event: object) => void = open => _ => setDrawerOpen(open);
 
@@ -65,8 +71,8 @@ const NavBar: React.FC = ({children}) => {
 
   return (
     <AppBar position='sticky'>
-      <Toolbar>
-        <IconButton
+      <Toolbar className={classes.toolBar}>
+        {user && (<IconButton
           color="primary"
           classes={{
             colorPrimary: classes.primaryText,
@@ -75,7 +81,7 @@ const NavBar: React.FC = ({children}) => {
           onClick={() => setDrawerOpen(true)}
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton>)}
         <Typography variant="h6">
           Recipe Book
         </Typography>

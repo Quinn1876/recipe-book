@@ -11,6 +11,7 @@ import theme from "./theme";
 import { unregister } from "./serviceWorker";
 
 require("dotenv").config();
+document.body.style.margin = 0;
 
 ReactDOM.render(
   <Provider store={store}>

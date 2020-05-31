@@ -5,7 +5,8 @@ import {
   SIGN_IN_COMPLETED,
   SIGN_IN_FAILED,
   FirebaseActionTypes,
-  FirebaseState
+  FirebaseState,
+  UPDATE_USER
 } from './types'
 
 const firebaseConfig = {
@@ -33,6 +34,7 @@ const initialState: FirebaseState = {
     loginFailed: false,
     errMsg: ''
   },
+  user: null
 }
 
 const firebaseReducer = (state = initialState, action: FirebaseActionTypes) => {
@@ -66,6 +68,11 @@ const firebaseReducer = (state = initialState, action: FirebaseActionTypes) => {
           loggedIn: false,
           errMsg: action.msg || 'No Error Message given'
         }
+      }
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.user
       }
   default:
     return state

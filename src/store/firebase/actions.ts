@@ -6,6 +6,7 @@ import {
   SIGN_IN_FAILED,
   SIGN_IN_COMPLETED,
   SIGN_IN_STATUS,
+  UPDATE_USER,
   FirebaseActionTypes
 } from './types'
 
@@ -14,6 +15,10 @@ const signInStatusChange = (type: SIGN_IN_STATUS, msg?: string): FirebaseActionT
   msg
 })
 
+export const updateUser = (user: firebase.User): FirebaseActionTypes => ({
+  type: UPDATE_USER,
+  user
+})
 
 export const signInWithEmailAndPassword = (
   email: string,
@@ -24,9 +29,14 @@ export const signInWithEmailAndPassword = (
   const { firebase } = getState();
 
   try {
-    const response = await firebase.auth.signInWithEmailAndPassword(email, password);
-    console.log(response)
-    dispatch(signInStatusChange(SIGN_IN_COMPLETED))
+    await firebase.auth.setPersistence('local')
+    const {user} = await firebase.auth.signInWithEmailAndPassword(email, password);
+    if (user != null) {
+      dispatch(updateUser(user))
+      dispatch(signInStatusChange(SIGN_IN_COMPLETED))
+    } else {
+      console.log('user not found')
+    }
   } catch(e) {
     dispatch(signInStatusChange(SIGN_IN_FAILED, e))
   }
