@@ -1,0 +1,136 @@
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import TextInput from '../../components/FormControl/TextInput';
+
+import * as UserActions from '../../store/user/actions';
+import * as FirebaseTypes from '../../Firebase/types';
+import Firebase from '../../Firebase/Firebase';
+import { getRecipes } from '../../store/selectors';
+
+import useDisplayNameDialog from './hooks/display-name-dialog';
+
+import withAuth from '../../hoc/AuthRedirect';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    margin: '32px',
+    padding: '32px',
+    backgroundColor: theme.palette.background.paper,
+  },
+  dialogTitle: {
+    color: theme.palette.primary.main,
+  }
+}));
+
+const AdminPage = () => {
+  const { root, dialogTitle } = useStyles();
+  const {
+    name,
+    open,
+    doOpen,
+    doClose,
+    doChangeName,
+  } = useDisplayNameDialog();
+  const dispatch = useDispatch();
+  const recipes = useSelector(getRecipes);
+
+  if (process.env.NODE_ENV !== 'development') {
+    return <Redirect to="/home" />;
+  }
+
+  const handleAddRecipe = () => {
+    console.log("DEV COMMAND: Adding Recipe...");
+    const recipe: FirebaseTypes.NewRecipe = {
+      name: "Dev Recipe",
+      description: "This is a development Recipe added as a test",
+      directions: [
+        "Add Cookies to Sheet",
+        "Eat the cookies"
+      ],
+      ingredients: [
+        {
+          name: 'sugar',
+          quantity: 0.75,
+          unit: 'cups',
+        }
+      ]
+    }
+    console.log("Recipe: ", recipe);
+    dispatch(UserActions.addRedicpeRequest(recipe))
+  }
+
+  const handleAddFriend = () => {
+    console.log("DEV COMMAND: Adding Friend...");
+  }
+
+  const handleChangeName = () => {
+    console.log("DEV COMMAND: Changing Name...");
+    Firebase.updateUserDisplayName(name);
+    doClose();
+  }
+
+  const handleLogRecipes = () => {
+    console.log(recipes);
+  }
+
+  const handleGetRecipes = () => {
+    console.log("DEV COMMAND: Getting Recipes...");
+    dispatch(UserActions.loadRecipesRequest());
+  }
+  return (
+    <>
+      <Paper variant="outlined" className={root} elevation={2}>
+        <Grid container justify="center" direction="column" spacing={2}>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" size="medium" onClick={handleAddRecipe}>
+              Add Recipe
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" size="medium" onClick={handleAddFriend}>
+              Add Friend
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" size="medium" onClick={doOpen}>
+              Update DisplayName
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" size="medium" onClick={handleGetRecipes}>
+              Get Recipes
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" size="medium" onClick={handleLogRecipes}>
+              Log Recipes
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Dialog open={open} onClose={doClose}>
+        <DialogTitle className={dialogTitle}>Update Display Name</DialogTitle>
+        <DialogContent>
+          <TextInput label="Display Name" value={name} onChange={(event) => doChangeName(event.target.value)} />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="text" color="primary" size="medium" onClick={doClose}>Cancel</Button>
+          <Button variant="contained" color="primary" size="medium" onClick={handleChangeName}>Update</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default withAuth(AdminPage);

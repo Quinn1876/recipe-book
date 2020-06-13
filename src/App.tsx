@@ -4,9 +4,10 @@ import { HashRouter, Route, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Nav from './components/NavBar'
-import SignIn from './pages/SignIn'
+import SignIn from './pages/sign-in/SignIn'
 import Home from './pages/Home'
 import RecipeList from './pages/recipe-list/RecipeList'
+import AdminPage from './pages/admin/AdminPage';
 import { Theme } from './theme'
 
 const useStyles = makeStyles(theme => ({
@@ -25,25 +26,20 @@ const App: React.FC = () => {
   return (
     <HashRouter basename="/">
       <div className={classes.root}>
-        {/* <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/theme">Theme</Link></li>
-        </ul>
-
-        <hr /> */}
         <Nav>
           <Link to="/">Home</Link>
           <Link to="/theme">Theme</Link>
           <Link to="/recipes">Recipe List</Link>
+          <Link to='/admin'>Admin</Link>
         </Nav>
 
-        {/* <Route exact path="/" component={Home} /> */}
-        {/* <Route path="/about" component={About} />
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
         <Route path="/theme" component={Theme} />
         <Route path="/signIn" component={SignIn} />
-        <Route path='/recipes' component={RecipeList} /> */}
-        <Route path="/" component={RecipeList} />
+        <Route path='/recipes' component={RecipeList} />
+        <Route path='/admin' component={AdminPage} />
+        {/* <Route path="/" component={RecipeList} /> */}
       </div>
     </HashRouter>
   );

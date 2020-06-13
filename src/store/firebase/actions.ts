@@ -20,24 +20,24 @@ export const updateUser = (user: firebase.User): FirebaseActionTypes => ({
   user
 })
 
-export const signInWithEmailAndPassword = (
-  email: string,
-  password: string
-): ThunkAction<void, RootState, unknown, Action<string>>  => async (dispatch, getState) => {
-  dispatch(signInStatusChange(SIGN_IN_STARTED));
+// export const signInWithEmailAndPassword = (
+//   email: string,
+//   password: string
+// ): ThunkAction<void, RootState, unknown, Action<string>>  => async (dispatch, getState) => {
+//   dispatch(signInStatusChange(SIGN_IN_STARTED));
 
-  const { firebase } = getState();
+//   // const { firebase } = getState();
 
-  try {
-    await firebase.auth.setPersistence('local')
-    const {user} = await firebase.auth.signInWithEmailAndPassword(email, password);
-    if (user != null) {
-      dispatch(updateUser(user))
-      dispatch(signInStatusChange(SIGN_IN_COMPLETED))
-    } else {
-      console.log('user not found')
-    }
-  } catch(e) {
-    dispatch(signInStatusChange(SIGN_IN_FAILED, e))
-  }
-}
+//   try {
+//     await firebase.auth.setPersistence('local')
+//     const {user} = await firebase.auth.signInWithEmailAndPassword(email, password);
+//     if (user != null) {
+//       dispatch(updateUser(user))
+//       dispatch(signInStatusChange(SIGN_IN_COMPLETED))
+//     } else {
+//       console.log('user not found')
+//     }
+//   } catch(e) {
+//     dispatch(signInStatusChange(SIGN_IN_FAILED, e))
+//   }
+// }

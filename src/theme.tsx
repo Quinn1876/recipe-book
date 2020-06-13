@@ -8,6 +8,9 @@ const theme = createMuiTheme({
     primary: {
       main: "#566246", // Ebony Green
     },
+    secondary: {
+      main: '#CDE7CE'
+    },
     text: {
       primary: "#FFFFFF", // White
       secondary: "#222423" // Eerie Black

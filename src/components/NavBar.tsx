@@ -15,7 +15,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Divider from '@material-ui/core/Divider'
 
-import { getUser } from "../store/selectors";
+import { userData } from "../store/selectors";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -49,7 +49,7 @@ const NavBar: React.FC = ({children}) => {
   const classes = useStyles()
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false)
-  const user = useSelector(getUser)
+  const user = useSelector(userData)
 
   const toggleDrawer: (open: boolean) => (event: object) => void = open => _ => setDrawerOpen(open);
 

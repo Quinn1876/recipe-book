@@ -32,7 +32,8 @@ export interface FirebaseState {
     loginFailed: boolean,
     errMsg: string,
   },
-  user: firebase.User | null
+  user: firebase.User | null,
+  func: firebase.functions.Functions
 }
 
 

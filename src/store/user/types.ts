@@ -1,23 +1,43 @@
+import { Recipe, NewRecipe } from '../../Firebase/types';
+
 // *** State Interfaces ***
-export interface Recipe {
-  title: string,
-  description: string,
-  ingredients: string,
-  tags: string[],
-}
 export interface UserState {
-  recipes: Recipe[]
+  recipes: Recipe[];
+  userData: firebase.User | null;
 }
 
 // *** Action Types ***
-export const USER_ADD_RECIPE = 'USER_ADD_RECIPE'
+export const USER_ADD_RECIPE_REQUEST = 'USER_ADD_RECIPE_REQUEST';
+export const USER_ADD_RECIPE_SUCCESS = 'USER_ADD_RECIPE_SUCCESS';
 
-// *** Action Interfaces***
-export interface AddRecipeAction {
-  type: typeof USER_ADD_RECIPE,
-  payload: {
-    recipe: Recipe
-  }
+export const USER_GET_RECIPES_REQUEST = 'USER_GET_RECIPES_REQUEST';
+export const USER_GET_RECIPES_SUCCESS = 'USER_GET_RECIPES_SUCCESS';
+
+export const USER_SIGN_IN_SUCCESS = 'USER_SIGN_IN_SUCCESS';
+
+// *** Action Payloads ***
+interface RecipePayload {
+  recipes: Recipe[];
+}
+interface UserPayload {
+  user: firebase.User;
 }
 
-export type UserActionTypes = AddRecipeAction
+// *** Action Interfaces ***
+export interface AddRecipeSuccessAction {
+  type: typeof USER_ADD_RECIPE_SUCCESS;
+  payload: RecipePayload;
+}
+export interface LoadRecipeSuccessAction {
+  type: typeof USER_GET_RECIPES_SUCCESS;
+  payload: RecipePayload;
+}
+
+export interface SignInSuccessAction {
+  type: typeof USER_SIGN_IN_SUCCESS;
+  payload: UserPayload;
+}
+
+export type UserActionTypes = AddRecipeSuccessAction
+                            | LoadRecipeSuccessAction
+                            | SignInSuccessAction;

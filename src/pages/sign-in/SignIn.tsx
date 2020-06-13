@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core'
 
 
-import SignInPaper from '../components/SignInComponent'
+import SignInPaper from './components/SignInComponent'
 
-import { signInSuccess } from '../store/selectors'
+import { isSignedIn } from '../../store/selectors'
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,10 +19,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-const SignIn = ({ }) => {
-  const dispatch = useDispatch();
+const SignIn = () => {
   const classes = useStyles();
-  const signedIn = useSelector( signInSuccess );
+  const signedIn = useSelector( isSignedIn );
 
   if (signedIn) {
     return <Redirect to="/" />
