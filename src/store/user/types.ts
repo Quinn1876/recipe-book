@@ -1,5 +1,3 @@
-import { Recipe, NewRecipe } from '../../Firebase/types';
-
 // *** State Interfaces ***
 export interface UserState {
   recipes: Recipe[];

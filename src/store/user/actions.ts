@@ -4,10 +4,9 @@ import { RootState } from '../rootReducer';
 
 import * as UserTypes from './types';
 import Firebase from '../../Firebase/Firebase';
-import * as FirebaseTypes from '../../Firebase/types';
 
 export const addRedicpeRequest = (
-  recipe: FirebaseTypes.NewRecipe
+  recipe: NewRecipe
 ): ThunkAction<void, RootState, unknown, Action<string>> => async (
   dispatch,
   getState
@@ -21,7 +20,7 @@ export const addRedicpeRequest = (
 };
 
 const addRecipeSuccess = (
-  recipes: FirebaseTypes.Recipe[]
+  recipes: Recipe[]
 ): UserTypes.AddRecipeSuccessAction => ({
   type: UserTypes.USER_ADD_RECIPE_SUCCESS,
   payload: {
@@ -45,7 +44,7 @@ export const loadRecipesRequest = (): ThunkAction<
 };
 
 const loadRecipesSuccess = (
-  recipes: FirebaseTypes.Recipe[]
+  recipes: Recipe[]
 ): UserTypes.LoadRecipeSuccessAction => ({
   type: UserTypes.USER_GET_RECIPES_SUCCESS,
   payload: {

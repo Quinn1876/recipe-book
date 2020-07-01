@@ -16,7 +16,7 @@ const useDebugReducer = <S, A>(
     [debug, state]
   );
 
-  return {state, dispatch};
+  return [state, dispatch];
 };
 
 export default useDebugReducer;

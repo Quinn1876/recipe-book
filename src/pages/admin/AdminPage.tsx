@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,9 +14,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextInput from '../../components/FormControl/TextInput';
 
 import * as UserActions from '../../store/user/actions';
-import * as FirebaseTypes from '../../Firebase/types';
 import Firebase from '../../Firebase/Firebase';
-import { getRecipes } from '../../store/selectors';
+import * as Selectors from '../../store/selectors';
 
 import useDisplayNameDialog from './hooks/display-name-dialog';
 
@@ -43,7 +42,7 @@ const AdminPage = () => {
     doChangeName,
   } = useDisplayNameDialog();
   const dispatch = useDispatch();
-  const recipes = useSelector(getRecipes);
+  const recipes = useSelector(Selectors.recipes);
 
   if (process.env.NODE_ENV !== 'development') {
     return <Redirect to="/home" />;
@@ -51,7 +50,7 @@ const AdminPage = () => {
 
   const handleAddRecipe = () => {
     console.log("DEV COMMAND: Adding Recipe...");
-    const recipe: FirebaseTypes.NewRecipe = {
+    const recipe: NewRecipe = {
       name: "Dev Recipe",
       description: "This is a development Recipe added as a test",
       directions: [

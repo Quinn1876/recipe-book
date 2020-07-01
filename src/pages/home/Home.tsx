@@ -1,6 +1,6 @@
 import React from 'react'
 
-import withAuthRedirect from '../hoc/AuthRedirect'
+import withAuthRedirect from '../../hoc/AuthRedirect'
 
 const Home = () => {
 

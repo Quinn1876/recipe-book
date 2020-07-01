@@ -1,7 +1,18 @@
 import * as UserTypes from './types';
 
 const initialState: UserTypes.UserState = {
-  recipes: [],
+  recipes: [
+    {
+      ownerName: 'Quinn',
+      ownerId: '1',
+      createdAt: new Date(),
+      description: 'Blank Description',
+      directions: [],
+      ingredients: [],
+      name: 'Chocochip Cookies',
+      recipeId: '21',
+    }
+  ],
   userData: null,
 };
 

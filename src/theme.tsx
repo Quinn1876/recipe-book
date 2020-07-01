@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 // https://coolors.co/222423-566246-cde7ce-fafcfc-8a8d91
-const theme = createMuiTheme({
+export const theme = {
   palette: {
     primary: {
       main: "#566246", // Ebony Green
@@ -43,17 +43,19 @@ const theme = createMuiTheme({
     },
     h5: {
       fontSize: 25,
-      fontWeiht: 150,
+      fontWeight: 150,
     },
     h6: {
       fontSize: 20,
       fontWeight: 500,
+    },
+    body1: {
+      fontSize: 14,
     }
   },
+};
 
-});
-
-export default theme;
+export default createMuiTheme(theme);
 
 export const Theme = () => {
   return (

@@ -55,7 +55,7 @@ const useSignIn = () => {
       console.log('password: ', password);
       email && password && reduxDispatch(UserActions.signInRequest(email, password));
     }
-  }, []);
+  }, [reduxDispatch]);
 
   const doChangeEmail = useCallback(
     (email) => {

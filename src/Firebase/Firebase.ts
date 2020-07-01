@@ -2,8 +2,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth';
 import 'firebase/functions'
 
-import * as FirebaseTypes from './types';
-
 const firebaseConfig = {
   apiKey: "AIzaSyCOkMIZTCJBlLEqoiRfAqRKqV8rzHRNQcA",
   authDomain: "recipe-book-a502c.firebaseapp.com",
@@ -22,7 +20,7 @@ class Firebase {
   private static addRecipe: firebase.functions.HttpsCallable = Firebase.functions.httpsCallable('v1-callable-addRecipe');
   private static getRecipes: firebase.functions.HttpsCallable = Firebase.functions.httpsCallable('v1-callable-getRecipes');
 
-  static async getUserRecipesRequest(): Promise<FirebaseTypes.Recipe[]> {
+  static async getUserRecipesRequest(): Promise<Recipe[]> {
     try {
       const response = await this.getRecipes(null);
       return response.data
@@ -34,7 +32,7 @@ class Firebase {
     }
   }
 
-  static async addRecipeRequest(newRecipe: FirebaseTypes.NewRecipe): Promise<FirebaseTypes.Recipe[]> {
+  static async addRecipeRequest(newRecipe: NewRecipe): Promise<Recipe[]> {
     try {
       const response = await this.addRecipe(newRecipe);
       return response.data;
@@ -58,7 +56,7 @@ class Firebase {
 
   static async updateUserDisplayName(name: string) {
     try {
-      const repsonse = await this.auth.currentUser?.updateProfile({ displayName: name });
+      await this.auth.currentUser?.updateProfile({ displayName: name });
     } catch (err) {
       console.error(err);
     }
