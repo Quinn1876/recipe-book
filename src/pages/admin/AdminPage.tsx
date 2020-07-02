@@ -13,13 +13,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import TextInput from '../../components/FormControl/TextInput';
 
-import * as UserActions from '../../store/user/actions';
+import * as RecipesActions from '../../store/recipes/actions';
 import Firebase from '../../Firebase/Firebase';
 import * as Selectors from '../../store/selectors';
 
 import useDisplayNameDialog from './hooks/display-name-dialog';
 
 import withAuth from '../../hoc/AuthRedirect';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,7 +43,7 @@ const AdminPage = () => {
     doChangeName,
   } = useDisplayNameDialog();
   const dispatch = useDispatch();
-  const recipes = useSelector(Selectors.recipes);
+  const recipes = useSelector(Selectors.recipesByOrder);
 
   if (process.env.NODE_ENV !== 'development') {
     return <Redirect to="/home" />;
@@ -66,7 +67,7 @@ const AdminPage = () => {
       ]
     }
     console.log("Recipe: ", recipe);
-    dispatch(UserActions.addRedicpeRequest(recipe))
+    dispatch(RecipesActions.recipeAddRequest(recipe))
   }
 
   const handleAddFriend = () => {
@@ -85,7 +86,7 @@ const AdminPage = () => {
 
   const handleGetRecipes = () => {
     console.log("DEV COMMAND: Getting Recipes...");
-    dispatch(UserActions.loadRecipesRequest());
+    dispatch(RecipesActions.recipesLoadRequest());
   }
   return (
     <>

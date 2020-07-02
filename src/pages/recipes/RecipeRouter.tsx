@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
+import { Route, Redirect, useRouteMatch } from 'react-router-dom';
 
 import RecipeList from './recipe-list/RecipeList';
-import Recipe from './recipe/Recipe';
+import RecipeContainer from './recipe/RecipeContainer';
 
 const RecipeRouter: FC = () => {
   const { path, url } = useRouteMatch();
@@ -17,7 +17,7 @@ const RecipeRouter: FC = () => {
         <RecipeList />
       </Route>
       <Route path={`${path}/:recipeId`}>
-        <Recipe />
+        <RecipeContainer />
       </Route>
     </>
   );

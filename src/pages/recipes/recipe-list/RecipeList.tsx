@@ -18,7 +18,7 @@ const recipeMap =  (recipe: Recipe) => <Grid item xs={12} md={4} lg={3} xl={2}><
 
 const RecipeList = () => {
   const classes = useStyles();
-  const recipes = useSelector(Selectors.recipes);
+  const recipes = useSelector(Selectors.recipesByOrder);
 
   const recipeItems = recipes.map(recipeMap);
 

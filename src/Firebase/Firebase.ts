@@ -19,8 +19,9 @@ class Firebase {
 
   private static addRecipe: firebase.functions.HttpsCallable = Firebase.functions.httpsCallable('v1-callable-addRecipe');
   private static getRecipes: firebase.functions.HttpsCallable = Firebase.functions.httpsCallable('v1-callable-getRecipes');
+  private static getRecipeById: firebase.functions.HttpsCallable = Firebase.functions.httpsCallable('v1-callable-getRecipeById');
 
-  static async getUserRecipesRequest(): Promise<Recipe[]> {
+  static async loadUserRecipesRequest(): Promise<Recipe[]> {
     try {
       const response = await this.getRecipes(null);
       return response.data
@@ -32,7 +33,19 @@ class Firebase {
     }
   }
 
-  static async addRecipeRequest(newRecipe: NewRecipe): Promise<Recipe[]> {
+  static async loadRecipeByIdRequest(recipeId: RecipeId): Promise<Recipe> {
+      try {
+        const response = await this.getRecipeById(recipeId);
+        return response.data
+      } catch ( err ) {
+        console.log('Error fetching recipes', err)
+        return new Promise((resolve, reject) => {
+          reject(err);
+        });
+      }
+  }
+
+  static async fetchRecipeRequest(newRecipe: NewRecipe): Promise<Recipe[]> {
     try {
       const response = await this.addRecipe(newRecipe);
       return response.data;
