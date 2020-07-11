@@ -4,10 +4,10 @@ import { Route, Redirect, useRouteMatch } from 'react-router-dom';
 import RecipeList from './recipe-list/RecipeList';
 import RecipeContainer from './recipe/RecipeContainer';
 
+import withAuth from '../../hoc/AuthRedirect';
+
 const RecipeRouter: FC = () => {
   const { path, url } = useRouteMatch();
-  console.log('path', path);
-  console.log('url', url);
   return (
     <>
       <Route exact strict path={`${path}/`}>
@@ -23,4 +23,4 @@ const RecipeRouter: FC = () => {
   );
 };
 
-export default RecipeRouter;
+export default withAuth(RecipeRouter);

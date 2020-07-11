@@ -72,7 +72,8 @@ const NavBar: React.FC = ({children}) => {
   return (
     <AppBar position='sticky'>
       <Toolbar className={classes.toolBar}>
-        {user && (<IconButton
+        {/* TODO Fix this */}
+        {(user || true) && (<IconButton
           color="primary"
           classes={{
             colorPrimary: classes.primaryText,

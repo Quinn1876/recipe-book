@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-
 
 
 const ImagePlaceholder = styled.div`
@@ -16,10 +14,11 @@ interface RecipeProps{
 };
 
 const RecipeDetails: React.FC<RecipeProps> = ({ recipe }) => {
-  const params = useParams();
-  console.log(params)
   return (
-    <ImagePlaceholder/>
+    <>
+      <ImagePlaceholder/>
+      {recipe.name}
+    </>
   );
 };
 

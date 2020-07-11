@@ -4,8 +4,8 @@ const initialState: RecipeTypes.RecipesState = {
   byOrder: [
     {
       ownerName: 'Quinn',
-      ownerId: '1',
-      createdAt: new Date(),
+      // ownerId: '1',
+      // createdAt: new Date(),
       description: 'Blank Description',
       directions: [],
       ingredients: [],
@@ -33,6 +33,13 @@ const recipesReducer = (state = initialState, action: RecipeTypes.RecipesActionT
         ...state,
         byOrder: recipes,
       };
+    }
+    case RecipeTypes.RECIPE_LOAD_BY_ID_SUCCESS: {
+      const { payload: { recipe } } = action;
+      return {
+        ...state,
+        currentRecipe: recipe,
+      }
     }
 
   default:

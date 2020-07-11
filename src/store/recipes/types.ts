@@ -43,4 +43,5 @@ export interface RecipeLoadByIdSuccessAction {
 }
 
 export type RecipesActionTypes = RecipeAddSuccessAction
-                               | RecipesLoadSuccessAction;
+                               | RecipesLoadSuccessAction
+                               | RecipeLoadByIdSuccessAction;

@@ -44,6 +44,7 @@ const AdminPage = () => {
   } = useDisplayNameDialog();
   const dispatch = useDispatch();
   const recipes = useSelector(Selectors.recipesByOrder);
+  const state = useSelector((state) => state);
 
   if (process.env.NODE_ENV !== 'development') {
     return <Redirect to="/home" />;
@@ -88,6 +89,11 @@ const AdminPage = () => {
     console.log("DEV COMMAND: Getting Recipes...");
     dispatch(RecipesActions.recipesLoadRequest());
   }
+
+  const handleLogState = () => {
+    console.log(state);
+  }
+
   return (
     <>
       <Paper variant="outlined" className={root} elevation={2}>
@@ -115,6 +121,11 @@ const AdminPage = () => {
           <Grid item xs={12}>
             <Button variant="contained" color="primary" size="medium" onClick={handleLogRecipes}>
               Log Recipes
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" size="medium" onClick={handleLogState}>
+              Log State
             </Button>
           </Grid>
         </Grid>

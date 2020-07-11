@@ -15,17 +15,16 @@ const useRecipe: RecipeHook = (recipeId) => {
   const dispatch = useDispatch();
   const recipe = useSelector(selectors.currentRecipe);
 
-  // useEffect(
-  //   () => {
-  //     if (!(recipeId in recipes)) {
-  //       dispatch(recipesActions.)
-  //     }
-  //   }
-  // )
+  useEffect(
+    () => {
+      // dispatch(recipesActions.recipeLoadRequest(recipeId));
+    },
+    [dispatch, recipeId],
+  );
 
   return {
-    recipe
-  }
+    recipe,
+  };
 };
 
 export default useRecipe;
