@@ -1,6 +1,4 @@
 import { useCallback, useReducer, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import * as UserActions from '../../../store/user/actions';
 
 const EMAIL_CHANGE = 'EMAIL_CHANGE';
 const PASSWORD_CHANGE = 'PASSWORD_CHANGE';
@@ -14,70 +12,51 @@ interface PasswordChangeAction {
   type: typeof PASSWORD_CHANGE;
   password: string;
 }
-type Action = EmailChangeAction | PasswordChangeAction
+type Action = EmailChangeAction | PasswordChangeAction;
 
 const initialState = {
   email: '',
   password: '',
 };
 
-const reducer = (
-  state: typeof initialState,
-  action: Action
-  ) => {
+const reducer = (state: typeof initialState, action: Action) => {
   switch (action.type) {
     case EMAIL_CHANGE:
       return {
         ...state,
         email: action.email,
-      }
+      };
     case PASSWORD_CHANGE:
       return {
         ...state,
         password: action.password,
-      }
+      };
 
     default:
       return state;
   }
-}
+};
 
 const useSignIn = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const reduxDispatch = useDispatch();
-
-  useEffect(() => {
-    if ( process.env.NODE_ENV === 'development' ) {
-      const email = process.env.REACT_APP_USERNAME;
-      const password = process.env.REACT_APP_PASSWORD;
-      console.log('Attempting automatic dev sign in with: ')
-      console.log('email: ', email);
-      console.log('password: ', password);
-      email && password && reduxDispatch(UserActions.signInRequest(email, password));
-    }
-  }, [reduxDispatch]);
 
   const doChangeEmail = useCallback(
-    (email) => {
-      dispatch({ type: EMAIL_CHANGE, email});
+    email => {
+      dispatch({ type: EMAIL_CHANGE, email });
     },
-    [dispatch],
+    [dispatch]
   );
 
   const doChangePassword = useCallback(
-    (password) => {
+    password => {
       dispatch({ type: PASSWORD_CHANGE, password });
     },
-    [dispatch],
+    [dispatch]
   );
 
-  const doSignInAttempt = useCallback(
-    () => {
-      reduxDispatch(UserActions.signInRequest(state.email, state.password));
-      doChangePassword('');
-    },
-    [reduxDispatch, doChangePassword, state.email, state.password],
-  );
+  const doSignInAttempt = useCallback(() => {
+    doChangePassword('');
+  }, [doChangePassword, state.email, state.password]);
 
   return {
     email: state.email,
@@ -85,7 +64,7 @@ const useSignIn = () => {
     doChangeEmail,
     doChangePassword,
     doSignInAttempt,
-  }
-}
+  };
+};
 
 export default useSignIn;

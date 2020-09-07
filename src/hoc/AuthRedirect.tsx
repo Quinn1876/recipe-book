@@ -1,17 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom';
 
-import { isSignedIn } from '../store/selectors'
-
-const withAuthRedirect = <P extends object>(Page: React.ComponentType<P>): React.SFC<P> => (props: P) => {
-  const signedIn = useSelector(isSignedIn);
+const withAuthRedirect = <P extends Record<string, unknown>>(Page: React.ComponentType<P>): React.SFC<P> => (props: P) => {
   // TODO FIX
-  if (signedIn || true) {
-    return <Page {...props}/>
-  } else {
-    return <Redirect to='/signIn' />
-  }
-}
+  // if (true) {
+  return <Page {...props}/>;
+  // } else {
+  //   return <Redirect to='/signIn' />
+  // }
+};
 
 export default withAuthRedirect;

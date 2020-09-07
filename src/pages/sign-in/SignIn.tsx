@@ -1,38 +1,31 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core';
 
-
-import SignInPaper from './components/SignInComponent'
-
-import { isSignedIn } from '../../store/selectors'
-
+import SignInPaper from './components/SignInComponent';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: theme.spacing(12)
-  }
-}))
-
+    paddingTop: theme.spacing(12),
+  },
+}));
 
 const SignIn = () => {
   const classes = useStyles();
-  const signedIn = useSelector( isSignedIn );
 
-  if (signedIn) {
-    return <Redirect to="/" />
-  }
+  // if (signedIn) {
+  return <Redirect to="/" />;
+  // }
 
   return (
     <div className={classes.root}>
       <SignInPaper />
     </div>
-  )
-}
+  );
+};
 
-
-export default SignIn
+export default SignIn;
