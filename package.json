@@ -41,7 +41,7 @@
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:api": "cd ../recipe-book-server && python -m server"
+    "start:server": "cd ../recipe-book-server && python -m server"
   },
   "eslintConfig": {
     "extends": "react-app"

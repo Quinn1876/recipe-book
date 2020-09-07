@@ -1,10 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import RecipeDetails from './RecipeDetails';
+import Recipe from './Recipe';
 import useRecipe from './hooks/recipe';
-
-import { isRecipe } from '../../../utils/types/recipe';
 
 const RecipeContainer = () => {
   const { recipeId } = useParams();
@@ -13,7 +11,7 @@ const RecipeContainer = () => {
 
   return (
     <>
-      {isRecipe(recipe) && <RecipeDetails recipe={recipe} />}
+      {recipe && <Recipe recipe={recipe} />}
     </>
   );
 };

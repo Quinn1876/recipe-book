@@ -57,19 +57,26 @@ const recipesLoadSuccess = (
   },
 });
 
-// TODO ReWrite for Flask
-// export const recipeLoadRequest = (recipeId: RecipeId): Thunk => async dispatch => {
-//   try {
-//     const recipe = await Firebase.loadRecipeByIdRequest(recipeId);
-//     dispatch(recipeLoadSuccess(recipe))
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
+export const recipeLoadRequest = (recipeId: RecipeId): Thunk => async dispatch => {
+  try {
+    const { data: recipe } = await api.getRecipeById(recipeId);
+    if (isRecipe(recipe)) {
+      dispatch(recipeLoadSuccess(recipe));
+    } else {
+      throw new Error('Recipe Failed to load')
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-// const recipeLoadSuccess = (recipe: Recipe): RecipesTypes.RecipeLoadByIdSuccessAction => ({
-//   type: RecipesTypes.RECIPE_LOAD_BY_ID_SUCCESS,
-//   payload: {
-//     recipe,
-//   },
-// });
+const recipeLoadSuccess = (recipe: Recipe) => ({
+  type: RecipesTypes.RECIPE_LOAD_BY_ID_SUCCESS,
+  payload: {
+    recipe
+  }
+})
+
+export const clearCurrentRecipe = (): RecipesTypes.ClearCurrentRecipeAction => ({
+  type: RecipesTypes.CLEAR_CURRENT_RECIPE
+});

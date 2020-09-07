@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Link } from 'react-router-dom';
+import { HashRouter, Route, Link, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from './components/NavBar';
@@ -34,14 +34,15 @@ const App: React.FC = () => {
           <Link to="/recipes">Recipe List</Link>
           <Link to="/admin">Admin</Link>
         </Nav>
-
-        <Route exact path="/" component={Home} />
+        <Route path="/">
+          <Redirect to="/recipes"/>
+        </Route>
+        <Route path="/home" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/theme" component={Theme} />
         <Route path="/signIn" component={SignIn} />
         <Route path="/recipes" component={RecipeRouter} />
         <Route path="/admin" component={AdminPage} />
-        {/* <Route path="/" component={RecipeList} /> */}
       </div>
     </HashRouter>
   );

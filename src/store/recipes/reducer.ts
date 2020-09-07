@@ -1,19 +1,8 @@
 import * as RecipeTypes from './types';
 
 const initialState: RecipeTypes.RecipesState = {
-  byOrder: [
-    {
-      ownerName: 'Quinn',
-      // ownerId: '1',
-      // createdAt: new Date(),
-      description: 'Blank Description',
-      directions: [],
-      ingredients: [],
-      name: 'Chocochip Cookies',
-      recipeId: '21',
-    }
-  ],
-  currentRecipe: {}
+  byOrder: [],
+  currentRecipe: undefined
 };
 
 const recipesReducer = (state = initialState, action: RecipeTypes.RecipesActionTypes) => {
@@ -41,9 +30,17 @@ const recipesReducer = (state = initialState, action: RecipeTypes.RecipesActionT
         currentRecipe: recipe,
       }
     }
+    case RecipeTypes.CLEAR_CURRENT_RECIPE: {
+      return {
+        ...state,
+        currentRecipe: undefined,
+      };
+    }
 
   default:
-    return state;
+    return {
+      ...state,
+    };
   }
 };
 

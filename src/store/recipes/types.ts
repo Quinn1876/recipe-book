@@ -2,7 +2,7 @@
 // *** State Interfaces ***
 export interface RecipesState {
   byOrder: Recipe[];
-  currentRecipe: Recipe | {};
+  currentRecipe?: Recipe;
 }
 
 
@@ -15,6 +15,8 @@ export const RECIPES_LOAD_SUCCESS = 'RECIPES_LOAD_SUCCESS';
 
 export const RECIPE_LOAD_BY_ID_REQUEST = 'RECIPE_LOAD_BY_ID_REQUEST';
 export const RECIPE_LOAD_BY_ID_SUCCESS = 'RECIPE_LOAD_BY_ID_SUCCESS';
+
+export const CLEAR_CURRENT_RECIPE = 'CLEAR_CURRENT_RECIPE';
 
 
 // *** Action Payloads
@@ -42,6 +44,11 @@ export interface RecipeLoadByIdSuccessAction {
   payload: RecipePayload;
 }
 
+export interface ClearCurrentRecipeAction {
+  type: typeof CLEAR_CURRENT_RECIPE;
+}
+
 export type RecipesActionTypes = RecipeAddSuccessAction
                                | RecipesLoadSuccessAction
-                               | RecipeLoadByIdSuccessAction;
+                               | RecipeLoadByIdSuccessAction
+                               | ClearCurrentRecipeAction;

@@ -5,7 +5,7 @@ import * as recipesActions from '../../../../store/recipes/actions';
 
 
 interface RecipeResponse {
-  recipe: Recipe | {};
+  recipe?: Recipe;
 };
 
 type RecipeHook = (recipeId: string) => RecipeResponse;
@@ -17,9 +17,14 @@ const useRecipe: RecipeHook = (recipeId) => {
 
   useEffect(
     () => {
-      // dispatch(recipesActions.recipeLoadRequest(recipeId));
+      if (recipe === undefined) {
+        dispatch(recipesActions.recipeLoadRequest(recipeId));
+      }
+      if (recipe && recipe.recipeId !== recipeId) {
+        dispatch(recipesActions.clearCurrentRecipe())
+      }
     },
-    [dispatch, recipeId],
+    [dispatch, recipeId, recipe],
   );
 
   return {
