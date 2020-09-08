@@ -2,9 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import Recipe from './Recipe';
-import useRecipe from './hooks/recipe';
+import useRecipe from '../../../hooks/recipe';
 
-const RecipeContainer = () => {
+const RecipeContainer: React.FC = () => {
   const { recipeId } = useParams();
   const { recipe } = useRecipe(recipeId);
   console.log('Recipe: ', recipe);
