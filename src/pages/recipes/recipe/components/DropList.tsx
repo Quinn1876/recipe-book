@@ -45,7 +45,7 @@ const DropList: React.FC<DropDownProps> = ({
   open,
   onToggle,
 }) => {
-  const handleToggle = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleToggle = (): void => {
     onToggle();
   };
   return (
