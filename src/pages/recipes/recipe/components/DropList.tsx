@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import MUICollapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
 import MUIArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import MUITypography from '@material-ui/core/Typography';
 
 const Collapse = styled(MUICollapse)``;
 const ArrowDropDown = styled(MUIArrowDropDown)`
@@ -32,20 +32,31 @@ const TopBar = styled.div`
 const Container = styled.div``;
 
 interface DropDownProps {
-  title: string
-  className?: string
+  title: string;
+  className?: string;
+  open: boolean;
+  onToggle: () => void;
 }
 
-const DropList: React.FC<DropDownProps> = ({ title, className, children }) => {
+const DropList: React.FC<DropDownProps> = ({
+  title,
+  className,
+  children,
+  open,
+  onToggle,
+}) => {
+  const handleToggle = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    onToggle();
+  };
   return (
     <Container className={className}>
       <TopBar>
         {title}
-        <ArrowDropDown/>
+        <IconButton onClick={handleToggle} href="">
+          <ArrowDropDown/>
+        </IconButton>
       </TopBar>
-      <Collapse>
-        {children}
-      </Collapse>
+      <Collapse in={open}>{children}</Collapse>
     </Container>
   );
 };

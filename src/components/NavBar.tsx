@@ -88,34 +88,34 @@ const NavBar: React.FC<Props> = ({ children }) => {
     <AppBar position="sticky">
       <Toolbar className={classes.toolBar}>
         {/* TODO Fix this */}
-        {(true) && (
-          <IconButton
-            color="primary"
-            classes={{
-              colorPrimary: classes.primaryText,
-            }}
-            edge="start"
-            onClick={() => setDrawerOpen(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-        )}
+        <IconButton
+          color="primary"
+          classes={{
+            colorPrimary: classes.primaryText,
+          }}
+          edge="start"
+          onClick={() => setDrawerOpen(true)}
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography variant="h6">Recipe Book</Typography>
       </Toolbar>
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <div className={classes.list}>
-          {/* TODO: Add Icon to right in Drawer */}
-          <Typography
-            variant="h3"
-            color="textPrimary"
-            className={classes.drawerTitle}
-          >
-            Recipe Book
-          </Typography>
-          <Divider />
-          <List>{renderChildren(children)}</List>
-        </div>
-      </Drawer>
+      {process.env.NODE_ENV === 'development' && (
+        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+          <div className={classes.list}>
+            {/* TODO: Add Icon to right in Drawer */}
+            <Typography
+              variant="h3"
+              color="textPrimary"
+              className={classes.drawerTitle}
+            >
+              Recipe Book
+            </Typography>
+            <Divider />
+            <List>{renderChildren(children)}</List>
+          </div>
+        </Drawer>
+      )}
     </AppBar>
   );
 };

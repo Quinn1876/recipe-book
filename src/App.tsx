@@ -37,12 +37,16 @@ const App: React.FC = () => {
         <Route path="/">
           <Redirect to="/recipes"/>
         </Route>
-        <Route path="/home" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/theme" component={Theme} />
-        <Route path="/signIn" component={SignIn} />
         <Route path="/recipes" component={RecipeRouter} />
-        <Route path="/admin" component={AdminPage} />
+        {process.env.NODE_ENV === 'development' && (
+          <>
+            <Route path="/home" component={Home} />
+            <Route path="/about" component={About} />
+            <Route path="/theme" component={Theme} />
+            <Route path="/signIn" component={SignIn} />
+            <Route path="/admin" component={AdminPage} />
+          </>
+        )}
       </div>
     </HashRouter>
   );

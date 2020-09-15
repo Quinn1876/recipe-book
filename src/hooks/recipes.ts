@@ -1,6 +1,5 @@
-import axios, { AxiosAdapter, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { useState, useEffect } from 'react';
-import Recipe from '../pages/recipes/recipe/Recipe';
 
 interface Return {
   recipes: Recipe[];

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 
 import SignInPaper from './components/SignInComponent';
@@ -14,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   const classes = useStyles();
 
   // if (signedIn) {

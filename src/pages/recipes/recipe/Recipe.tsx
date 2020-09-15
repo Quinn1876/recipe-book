@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-
-import MUICollapse from '@material-ui/core/Collapse';
-
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import UnstyledDropList from './components/DropList';
 
 const DropList = styled(UnstyledDropList)``;
@@ -41,9 +40,17 @@ const RecipeDetails = styled.div`
 
 interface RecipeProps{
   recipe: Recipe;
-};
+}
 
 const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
+  const [ingredientsOpen, setIngredientsOpen] = useState<boolean>(true);
+
+  const ingredientItems: React.ReactElement[] = recipe.ingredients.map((ingredient, index) => <ListItem key={index}>{ingredient}</ListItem>);
+
+  const handleIngredientsDrawerToggle = useCallback(() => {
+    setIngredientsOpen(!ingredientsOpen);
+  }, [setIngredientsOpen, ingredientsOpen]);
+
   return (
     <Container>
       <ImagePlaceholder/>
@@ -55,8 +62,10 @@ const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
           {recipe.description}
         </RecipeDescription>
       </RecipeDetails>
-      <DropList title="Ingredients">
-
+      <DropList title="Ingredients" open={ingredientsOpen} onToggle={handleIngredientsDrawerToggle}>
+        <List>
+          {ingredientItems}
+        </List>
       </DropList>
     </Container>
   );

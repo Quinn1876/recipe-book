@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
 
 import RecipeListItem from './components/RecipeListItem';
 
@@ -13,21 +13,21 @@ const RecipeGridItem = styled(Grid)`
 
 const Container = styled(Grid)`
   padding-top: 16px;
-`
+`;
 
-const recipeMap =  (recipe: Recipe) => <RecipeGridItem key={recipe.recipeId} item xs={12} md={4} lg={3} xl={2}><RecipeListItem recipe={recipe} /></RecipeGridItem>;
+const recipeMap = (recipe: Recipe) => (
+  <RecipeGridItem key={recipe.recipeId} item xs={12} md={4} lg={3} xl={2}>
+    <RecipeListItem recipe={recipe} />
+  </RecipeGridItem>
+);
 
-const RecipeList = () => {
+const RecipeList: React.FC = () => {
   const { recipes } = useRecipes();
 
   const recipeItems = recipes.map(recipeMap);
 
   return (
-    <Container
-      container
-      direction="column"
-      alignItems="center"
-    >
+    <Container container direction="column" alignItems="center">
       {recipeItems}
     </Container>
   );
