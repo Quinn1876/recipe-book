@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import List from '@material-ui/core/List';
+import MUIList from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import UnstyledDropList from './components/DropList';
 
@@ -37,6 +37,9 @@ const RecipeDetails = styled.div`
   }
 `;
 
+const List = styled(MUIList)`
+  padding-left: 32px;
+`;
 
 interface RecipeProps{
   recipe: Recipe;
@@ -44,12 +47,18 @@ interface RecipeProps{
 
 const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
   const [ingredientsOpen, setIngredientsOpen] = useState<boolean>(true);
+  const [directionsOpen, setDirectionsOpen] = useState<boolean>(true);
 
   const ingredientItems: React.ReactElement[] = recipe.ingredients.map((ingredient, index) => <ListItem key={index}>{ingredient}</ListItem>);
+  const directionItems: React.ReactElement[] = recipe.directions.map((direction, index) => <ListItem key={index}>{index + 1}. {direction}</ListItem>);
 
   const handleIngredientsDrawerToggle = useCallback(() => {
     setIngredientsOpen(!ingredientsOpen);
   }, [setIngredientsOpen, ingredientsOpen]);
+
+  const handleDirectionsDrawerToggle = useCallback(() => {
+    setDirectionsOpen(!directionsOpen);
+  }, [directionsOpen, setDirectionsOpen]);
 
   return (
     <Container>
@@ -65,6 +74,11 @@ const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
       <DropList title="Ingredients" open={ingredientsOpen} onToggle={handleIngredientsDrawerToggle}>
         <List>
           {ingredientItems}
+        </List>
+      </DropList>
+      <DropList title="Directions" open={directionsOpen} onToggle={handleDirectionsDrawerToggle}>
+        <List>
+          {directionItems}
         </List>
       </DropList>
     </Container>

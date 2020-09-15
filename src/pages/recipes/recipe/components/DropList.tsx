@@ -2,16 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 import MUICollapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import MUIArrowDropDown from '@material-ui/icons/ArrowDropDown';
+import MUITypography from '@material-ui/core/Typography';
 
-const Collapse = styled(MUICollapse)``;
-const ArrowDropDown = styled(MUIArrowDropDown)`
-  color: white;
+import DropDownArrow from '../../../../components/DropdownArrow';
+
+const Collapse = styled(MUICollapse)`
+  background-color: white;
 `;
 
 const TopBar = styled.div`
-  width: 100%;
   height: 50px;
 
   display: flex;
@@ -19,14 +18,14 @@ const TopBar = styled.div`
   justify-content: space-between;
 
   padding-left: 32px;
-  padding-right: 32px;
+  padding-right: 20px;
 
-  // background-color: ${({ theme }) => theme.palette.primary.main};
-  background-color: white;
+  background-color: ${({ theme }) => theme.palette.primary.main};
+`;
+
+const Title = styled(MUITypography)`
   color: ${({ theme }) => theme.palette.text.primary};
   font: bold 14px Arial;
-
-  width: 100%;
 `;
 
 const Container = styled.div``;
@@ -51,10 +50,8 @@ const DropList: React.FC<DropDownProps> = ({
   return (
     <Container className={className}>
       <TopBar>
-        {title}
-        <IconButton onClick={handleToggle} href="">
-          <ArrowDropDown/>
-        </IconButton>
+        <Title>{title}</Title>
+        <DropDownArrow onClick={handleToggle} isFlipped={open} />
       </TopBar>
       <Collapse in={open}>{children}</Collapse>
     </Container>
