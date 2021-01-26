@@ -3,8 +3,8 @@
     "target": "es5",
     "module": "esnext",
     "jsx": "react",
-    "outDir": "build-tsc",
-    "rootDir": "src",
+    "outDir": "./app/build-tsc",
+    "rootDir": "./app/src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -22,9 +22,9 @@
     "noEmit": true
   },
   "include": [
-    "src"
+    "./app/src"
   ],
   "exclude": [
-    "src/store/firebase"
+    "./app/src/store/firebase"
   ]
 }
