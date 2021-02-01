@@ -1,4 +1,5 @@
 import React from 'react';
+import process from 'process';
 
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +15,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 
+//TODO Move to styled components
 const useStyles = makeStyles(theme => ({
   list: {
     width: 250,
@@ -50,15 +52,15 @@ const NavBar: React.FC<Props> = ({ children }) => {
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-  const toggleDrawer: (open: boolean) => (event: Record<string, unknown>) => void = open => _ =>
+  const toggleDrawer: (open: boolean) => (event: Record<string, unknown>) => void = open => (): void =>
     setDrawerOpen(open);
 
-  const navigateTo = (uri: string) => () => {
+  const navigateTo = (uri: string) => (): void => {
     setDrawerOpen(false);
     history.push(uri);
   };
 
-  const renderChildren = (children: React.ReactNode) =>
+  const renderChildren = (children: React.ReactNode): React.ReactNode =>
     React.Children.map(children, child => {
       if (
         React.isValidElement(child) &&
@@ -94,7 +96,7 @@ const NavBar: React.FC<Props> = ({ children }) => {
             colorPrimary: classes.primaryText,
           }}
           edge="start"
-          onClick={() => setDrawerOpen(true)}
+          onClick={(): void => setDrawerOpen(true)}
         >
           <MenuIcon />
         </IconButton>

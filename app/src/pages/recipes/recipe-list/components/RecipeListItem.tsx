@@ -10,13 +10,13 @@ const Paper = styled(MUIPaper)`
   height: 337px;
   &:hover {
     cursor: pointer;
-  };
+  }
 `;
 
 const Image = styled.div`
   height: 200px;
   width: 100%;
-  background-color: ${({ theme }) => theme.palette.background.default};
+  background-color: ${({ theme }): string | number => theme.palette.background.default};
   &:hover: {
     cursor: pointer;
   }
@@ -49,23 +49,22 @@ const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     history.push(`${url}/${recipe.recipeId}`);
   };
 
   return (
-      <Paper elevation={2} onClick={handleClick}>
-        <Image/>
-        <Body>
-          <Header
-            variant="h6"
-            color="textSecondary"
-          >
-            {recipe.name}
-          </Header>
-          <Typography variant="body1" color="textSecondary">{recipe.description}</Typography>
-        </Body>
-      </Paper>
+    <Paper elevation={2} onClick={handleClick}>
+      <Image />
+      <Body>
+        <Header variant="h6" color="textSecondary">
+          {recipe.name}
+        </Header>
+        <Typography variant="body1" color="textSecondary">
+          {recipe.description}
+        </Typography>
+      </Body>
+    </Paper>
   );
 };
 

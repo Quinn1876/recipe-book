@@ -10,19 +10,19 @@ const ImagePlaceholder = styled.div`
   width: 100%;
   height: 215px;
 
-  background-color: ${({ theme }) => theme.palette.primary.main};
+  background-color: ${({ theme }): string => theme.palette.primary.main};
 `;
 
 const Container = styled.div``;
 
 const RecipeName = styled.h3`
   font: bold 20px Arial;
-  color: ${({ theme }) => theme.palette.text.secondary};
+  color: ${({ theme }): string => theme.palette.text.secondary};
 `;
 
 const RecipeDescription = styled.div`
   font: 14px Arial;
-  color: ${({ theme }) => theme.palette.text.secondary};
+  color: ${({ theme }): string => theme.palette.text.secondary};
 `;
 
 const RecipeDetails = styled.div`

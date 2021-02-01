@@ -1,27 +1,27 @@
-import React from 'react'
-import Typography from "@material-ui/core/Typography";
-import { createMuiTheme } from "@material-ui/core/styles";
-
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { DefaultTheme } from 'styled-components';
 // https://coolors.co/222423-566246-cde7ce-fafcfc-8a8d91
-export const theme = {
+export const theme: DefaultTheme = {
   palette: {
     primary: {
-      main: "#566246", // Ebony Green
+      main: '#566246', // Ebony Green
     },
     secondary: {
-      main: '#CDE7CE'
+      main: '#CDE7CE',
     },
     text: {
-      primary: "#FFFFFF", // White
-      secondary: "#222423" // Eerie Black
+      primary: '#FFFFFF', // White
+      secondary: '#222423', // Eerie Black
     },
     background: {
       default: '#CDE7CE',
-      paper: '#FAFCFC'
+      paper: '#FAFCFC',
     },
     grey: {
-      500: '#8A8D91'
-    }
+      500: '#8A8D91',
+    },
   },
   typography: {
     fontFamily: 'Roboto',
@@ -51,94 +51,115 @@ export const theme = {
     },
     body1: {
       fontSize: 14,
-    }
+    },
   },
 };
 
-export default createMuiTheme(theme);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default createMuiTheme(theme as any);
 
-export const Theme = () => {
-  return (
-    <div>
-      {renderTypographyVariants()}
-      {renderTypographyVariants('primary')}
-      <div style={{backgroundColor: theme.palette.primary.main}}>
-        {renderTypographyVariants('textSecondary')}
-        {renderTypographyVariants('textPrimary')}
-      </div>
-      <div style={{backgroundColor: theme.palette.background.default}}>
-        {renderTypographyVariants('textSecondary')}
-        {renderTypographyVariants('textPrimary')}
-        {renderTypographyVariants('primary')}
-      </div>
-      <hr/>
-      <Typography variant='h3'>
-        Color Palette
-      </Typography>
-      {colorPallete(['#566246','#CDE7CE', '#222423', '#FAFCFC' ])}
-    </div>
-  )
-}
-
-const ColorBlock = ({color}: {color: string}) => (
-  <div style={{width: 200, height: 200, backgroundColor: color, position: "relative"}}/>
-)
-
-const colorPallete = (colors: string[]) => (
-  <div style={{display: 'inline-flex', flexWrap: "wrap"}}>
-    {colors.map(color => <ColorBlock color={color} />)}
-  </div>
-)
-type colorType = "primary" | "secondary" | "inherit" | "initial" | "textPrimary" | "textSecondary" | "error" | undefined
-const renderTypographyVariants: (color?: colorType) => React.ReactElement = (color='inherit') => (
+const renderTypographyVariants: (color?: colorType) => React.ReactElement = (
+  color = 'inherit'
+) => (
   <>
     <Typography variant="h3" color={color}>
       Typography Variants
     </Typography>
-    <hr/>
-    <Typography variant='h1' color={color}>
+    <hr />
+    <Typography variant="h1" color={color}>
       H1
     </Typography>
-    <Typography variant='h2' color={color}>
+    <Typography variant="h2" color={color}>
       H2
     </Typography>
-    <Typography variant='h3' color={color}>
+    <Typography variant="h3" color={color}>
       H3
     </Typography>
-    <Typography variant='h4' color={color}>
+    <Typography variant="h4" color={color}>
       H4
     </Typography>
-    <Typography variant='h5' color={color}>
+    <Typography variant="h5" color={color}>
       H5
     </Typography>
-    <Typography variant='h6' color={color}>
+    <Typography variant="h6" color={color}>
       H6
     </Typography>
-    <Typography variant='body1' color={color}>
+    <Typography variant="body1" color={color}>
       Body1
     </Typography>
-    <Typography variant='body2' color={color}>
+    <Typography variant="body2" color={color}>
       Body2
     </Typography>
-    <Typography variant='button' color={color}>
+    <Typography variant="button" color={color}>
       Button
     </Typography>
-    <br/>
-    <Typography variant='overline' color={color}>
+    <br />
+    <Typography variant="overline" color={color}>
       Overline
     </Typography>
-    <br/>
-    <Typography variant='srOnly' color={color}>
+    <br />
+    <Typography variant="srOnly" color={color}>
       Hidden Text that only a Screen Reader can see
     </Typography>
-    <Typography variant='subtitle1' color={color}>
+    <Typography variant="subtitle1" color={color}>
       SubTitle1
     </Typography>
-    <Typography variant='subtitle2' color={color}>
+    <Typography variant="subtitle2" color={color}>
       SubTitle2
     </Typography>
-    <Typography variant='caption' color={color}>
+    <Typography variant="caption" color={color}>
       Caption
     </Typography>
   </>
-)
+);
+
+const colorPallete = (colors: string[]): React.ReactElement => (
+  <div style={{ display: 'inline-flex', flexWrap: 'wrap' }}>
+    {colors.map(color => (
+      <ColorBlock key={color} color={color} />
+    ))}
+  </div>
+);
+
+export const Theme = (): React.ReactElement => {
+  return (
+    <div>
+      {renderTypographyVariants()}
+      {renderTypographyVariants('primary')}
+      <div style={{ backgroundColor: theme.palette.primary.main }}>
+        {renderTypographyVariants('textSecondary')}
+        {renderTypographyVariants('textPrimary')}
+      </div>
+      <div style={{ backgroundColor: theme.palette.background.default }}>
+        {renderTypographyVariants('textSecondary')}
+        {renderTypographyVariants('textPrimary')}
+        {renderTypographyVariants('primary')}
+      </div>
+      <hr />
+      <Typography variant="h3">Color Palette</Typography>
+      {colorPallete(['#566246', '#CDE7CE', '#222423', '#FAFCFC'])}
+    </div>
+  );
+};
+
+const ColorBlock = ({ color }: { color: string }): React.ReactElement => (
+  <div
+    style={{
+      width: 200,
+      height: 200,
+      backgroundColor: color,
+      position: 'relative',
+    }}
+  />
+);
+
+
+type colorType =
+  | 'primary'
+  | 'secondary'
+  | 'inherit'
+  | 'initial'
+  | 'textPrimary'
+  | 'textSecondary'
+  | 'error'
+  | undefined;

@@ -9,7 +9,7 @@ interface RecipeResponse {
 type RecipeHook = (recipeId?: string) => RecipeResponse;
 
 
-const useRecipe: RecipeHook = (recipeId, load=true) => {
+const useRecipe: RecipeHook = (recipeId) => {
   const [recipe, setRecipe] = useState<Recipe | undefined>(undefined);
   const [error, setError] = useState<AxiosError | undefined>(undefined);
 

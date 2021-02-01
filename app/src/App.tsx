@@ -1,4 +1,5 @@
 import React from 'react';
+import process from 'process';
 import { HashRouter, Route, Link, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 

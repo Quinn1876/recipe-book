@@ -2,24 +2,17 @@ type RecipeId = string;
 
 interface Recipe {
   name: string;
-  ownerId: string;
-  ownerName: string;
+  owner: User;
   description: string;
-  ingredients: Ingredient[];
+  ingredients: string[];
   directions: string[];
   createdAt: Date;
   recipeId: RecipeId;
 }
 
-interface Ingredient {
-  name: string;
-  quantity: number;
-  unit: string;
-}
-
 interface NewRecipe {
   name: string;
   description: string;
-  ingredients: Ingredient[];
+  ingredients: string[];
   directions: string[];
 }

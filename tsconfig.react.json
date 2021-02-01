@@ -1,0 +1,38 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "jsx": "react",
+    "outDir": "./app/build-tsc",
+    "rootDir": "./app/src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "typeRoots": [
+      "./types"
+    ],
+    "types": [
+      "types/Recipes.d.ts"
+    ]
+  },
+  "include": [
+    "./app/src/*",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "./app/src/store/firebase"
+  ]
+}

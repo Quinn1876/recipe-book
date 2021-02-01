@@ -20,11 +20,11 @@ const TopBar = styled.div`
   padding-left: 32px;
   padding-right: 20px;
 
-  background-color: ${({ theme }) => theme.palette.primary.main};
+  background-color: ${({ theme }): string => theme.palette.primary.main};
 `;
 
 const Title = styled(MUITypography)`
-  color: ${({ theme }) => theme.palette.text.primary};
+  color: ${({ theme }): string => theme.palette.text.primary};
   font: bold 14px Arial;
 `;
 

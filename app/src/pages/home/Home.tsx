@@ -1,15 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import withAuthRedirect from '../../hoc/AuthRedirect'
+import withAuthRedirect from '../../hoc/AuthRedirect';
 
-const Home = () => {
-
-
+const Home: React.FC = () => {
   return (
     <div>
       <h2>Home</h2>
     </div>
-  )
-}
+  );
+};
 
 export default withAuthRedirect(Home);

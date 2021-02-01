@@ -1,4 +1,5 @@
 import React from 'react';
+import process from 'process';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AdminPage = () => {
+const AdminPage: React.FC = () => {
   const { root, dialogTitle } = useStyles();
   const { name, open, doOpen, doClose, doChangeName } = useDisplayNameDialog();
 
@@ -35,7 +36,7 @@ const AdminPage = () => {
     return <Redirect to="/home" />;
   }
 
-  const handleAddRecipe = () => {
+  const handleAddRecipe = (): void => {
     console.log('DEV COMMAND: Adding Recipe...');
     const recipe: NewRecipe = {
       name: 'Dev Recipe',
@@ -53,26 +54,26 @@ const AdminPage = () => {
     // dispatch(RecipesActions.recipeAddRequest(recipe));
   };
 
-  const handleAddFriend = () => {
+  const handleAddFriend = (): void => {
     console.log('DEV COMMAND: Adding Friend...');
   };
 
-  const handleChangeName = () => {
+  const handleChangeName = (): void => {
     console.log('DEV COMMAND: Changing Name...');
     // Firebase.updateUserDisplayName(name);
     doClose();
   };
 
-  const handleLogRecipes = () => {
+  const handleLogRecipes = (): void => {
     // console.log(recipes);
   };
 
-  const handleGetRecipes = () => {
+  const handleGetRecipes = (): void => {
     console.log('DEV COMMAND: Getting Recipes...');
     // dispatch(RecipesActions.recipesLoadRequest());
   };
 
-  const handleLogState = () => {
+  const handleLogState = (): void => {
     // console.log(state);
   };
 
@@ -148,7 +149,7 @@ const AdminPage = () => {
           <TextInput
             label="Display Name"
             value={name}
-            onChange={event => doChangeName(event.target.value)}
+            onChange={(event): void => doChangeName(event.target.value)}
           />
         </DialogContent>
         <DialogActions>

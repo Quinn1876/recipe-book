@@ -1,12 +1,20 @@
 import { useState } from 'react';
 
-const useDisplayNameDialog = () => {
+interface DisplayNameDialog {
+  open: boolean;
+  name: string;
+  doOpen: () => void;
+  doClose: () => void;
+  doChangeName: (name: string) => void;
+}
+
+const useDisplayNameDialog = (): DisplayNameDialog => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
 
-  const doOpen = () => setOpen(true);
-  const doClose = () => setOpen(false);
-  const doChangeName = (name: string) => setName(name);
+  const doOpen = (): void => setOpen(true);
+  const doClose = (): void => setOpen(false);
+  const doChangeName = (name: string): void => setName(name);
 
   return {
     open,
@@ -14,7 +22,7 @@ const useDisplayNameDialog = () => {
     doOpen,
     doClose,
     doChangeName,
-  }
-}
+  };
+};
 
 export default useDisplayNameDialog;

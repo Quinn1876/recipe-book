@@ -15,7 +15,7 @@ const Container = styled(Grid)`
   padding-top: 16px;
 `;
 
-const recipeMap = (recipe: Recipe) => (
+const recipeMap = (recipe: Recipe): React.ReactElement => (
   <RecipeGridItem key={recipe.recipeId} item xs={12} md={4} lg={3} xl={2}>
     <RecipeListItem recipe={recipe} />
   </RecipeGridItem>
