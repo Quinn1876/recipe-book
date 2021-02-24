@@ -1,17 +1,44 @@
 import mongoose from 'mongoose';
-import { AuthSchema } from '../schema';
+import { ObjectId } from 'mongodb';
+import { CookieAuthSchema, UserAuthSchema } from '../schema';
 
-const AuthModel = mongoose.model('auth', AuthSchema);
+const CookieAuthModel = mongoose.model<CookieAuthDocument>('cookie-auth', CookieAuthSchema);
+const UserAuthModel = mongoose.model<UserAuthDocument>('user-auth', UserAuthSchema);
 
-const getAuthDocumentBySelector = async (selector: string): Promise<Auth> => new Promise ((resolve, reject) => {
-  AuthModel.findOne({ selector }, (err: mongoose.Error, authDocument: Auth) => {
-    if (err) {
-      reject(err);
+const getCookieAuthDocumentBySelector: DbMethod<string, CookieAuthDocument | null> = async (selector) => CookieAuthModel.findOne({ selector }).exec();
+
+const deleteCookieAuthDocumentByDocumentId: DbMethod<mongoose.ObjectId, CookieAuthDocument | null> = async (documentId) => CookieAuthModel.findByIdAndDelete(documentId).exec();
+
+const createCookieAuthDocumentForUserId: DbMethod<NewAuthDocument, CookieAuthDocument | null> = async (newDoc) => (new CookieAuthModel({
+  ...newDoc,
+  expires: Date.now() + (1000 * 3600 * 24 * 30), // 30 days in ms
+  _id: new ObjectId(),
+})).save();
+
+const getUserAuthDocument: DbMethod<UserAuthDocumentRequest, UserAuthDocument | null> = async (documentRequest) => await UserAuthModel.findOne(documentRequest).exec();
+
+const doesUserNameExist: DbMethod<string, boolean> = async (userName) => UserAuthModel
+  .findOne({ userName })
+  .exec()
+  .then((document) => {
+    if (document) {
+      return true;
     }
-    resolve(authDocument);
+    return false;
   });
-});
+
+const createUserAuthDocument: DbMethod<NewUserAuthDocument, UserAuthDocument> = async (newUserAuthDocument) => (
+  new UserAuthModel({
+    ...newUserAuthDocument,
+    _id: new ObjectId()
+  })
+).save();
 
 export default {
-  getAuthDocumentBySelector,
+  createCookieAuthDocumentForUserId,
+  createUserAuthDocument,
+  deleteCookieAuthDocumentByDocumentId,
+  doesUserNameExist,
+  getCookieAuthDocumentBySelector,
+  getUserAuthDocument,
 };

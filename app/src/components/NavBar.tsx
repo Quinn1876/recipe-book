@@ -2,7 +2,7 @@ import React from 'react';
 import process from 'process';
 
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useAuthContext from '../hooks/auth-context';
 
 //TODO Move to styled components
 const useStyles = makeStyles(theme => ({
@@ -51,6 +53,9 @@ const NavBar: React.FC<Props> = ({ children }) => {
   const classes = useStyles();
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const { isAuthenticated } = useAuthContext();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const toggleDrawer: (open: boolean) => (event: Record<string, unknown>) => void = open => (): void =>
     setDrawerOpen(open);
@@ -90,22 +95,24 @@ const NavBar: React.FC<Props> = ({ children }) => {
     <AppBar position="sticky">
       <Toolbar className={classes.toolBar}>
         {/* TODO Fix this */}
-        <IconButton
-          color="primary"
-          classes={{
-            colorPrimary: classes.primaryText,
-          }}
-          edge="start"
-          onClick={(): void => setDrawerOpen(true)}
-        >
-          <MenuIcon />
-        </IconButton>
+        { isAuthenticated() && (
+          <IconButton
+            color="primary"
+            classes={{
+              colorPrimary: classes.primaryText,
+            }}
+            edge="start"
+            onClick={(): void => setDrawerOpen(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography variant="h6">Recipe Book</Typography>
       </Toolbar>
-      {process.env.NODE_ENV === 'development' && (
-        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-          <div className={classes.list}>
-            {/* TODO: Add Icon to right in Drawer */}
+      <Drawer anchor={matches ? 'bottom' : 'left'} open={drawerOpen} onClose={toggleDrawer(false)}>
+        <div className={classes.list}>
+          {/* TODO: Add Icon to right in Drawer */}
+          {!matches && (
             <Typography
               variant="h3"
               color="textPrimary"
@@ -113,11 +120,11 @@ const NavBar: React.FC<Props> = ({ children }) => {
             >
               Recipe Book
             </Typography>
-            <Divider />
-            <List>{renderChildren(children)}</List>
-          </div>
-        </Drawer>
-      )}
+          )}
+          <Divider />
+          <List>{renderChildren(children)}</List>
+        </div>
+      </Drawer>
     </AppBar>
   );
 };

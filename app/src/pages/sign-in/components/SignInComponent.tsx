@@ -1,36 +1,47 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import { Link as UnstyledLink } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import MUIButton from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import MUIFormControlLabel from '@material-ui/core/FormControlLabel';
 
 import useSignIn from '../hooks/sign-in';
+
+const FormControlLabel = styled(MUIFormControlLabel)`
+  color: ${({ theme }): string => theme.palette.text.secondary};
+`;
 
 import TextInput, {
   onChangeHandler,
 } from '../../../components/FormControl/TextInput';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    // width: '40%',
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: theme.spacing(6, 5),
-  },
-  button: {
-    marginTop: theme.spacing(2),
-  },
-}));
+const Link = styled(UnstyledLink)`
+  padding-top: 16px;
+  color: ${({theme}): string => theme.palette.text.secondary};
+`;
 
-const SignInComponent = () => {
-  const classes = useStyles();
+const Container = styled(Paper)`
+  background-color: ${({ theme }): string => theme.palette.background.paper};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 48px 40px 32px 40px;
+`;
+
+const Button = styled(MUIButton)`
+  margin-top: 16px;
+`;
+
+const SignInComponent: React.FC = () => {
   const {
     email,
     password,
+    rememberMe,
+    toggleRememberMe,
     doChangeEmail,
     doChangePassword,
     doSignInAttempt,
@@ -42,17 +53,12 @@ const SignInComponent = () => {
   const handlePasswordChange: onChangeHandler = event => {
     doChangePassword(event.target.value);
   };
-  const handleFormSubmit = (email: string, password: string) => (
-    event: object
-  ) => {
-    doSignInAttempt()
+  const handleFormSubmit = (email: string, password: string) => (): void => {
+    doSignInAttempt(email, password);
   };
 
   return (
-    <Paper
-      classes={{
-        root: classes.root,
-      }}
+    <Container
       elevation={3}
     >
       <Typography variant="h6" color="textSecondary">
@@ -69,9 +75,17 @@ const SignInComponent = () => {
         onChange={handlePasswordChange}
         label="Password"
         type="password"
+        onKeyPress={(event): void => {
+          if (event.key === 'Enter'){
+            handleFormSubmit(email, password);
+          }
+        }}
+      />
+      <FormControlLabel
+        control={<Switch checked={rememberMe} onChange={toggleRememberMe} color="primary" />}
+        label="Remember Me"
       />
       <Button
-        className={classes.button}
         variant="contained"
         color="primary"
         size="medium"
@@ -79,7 +93,8 @@ const SignInComponent = () => {
       >
         sign in
       </Button>
-    </Paper>
+      <Link to="/sign-up">Create Account</Link>
+    </Container>
   );
 };
 

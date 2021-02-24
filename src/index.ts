@@ -6,11 +6,10 @@ import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import useragent from 'express-useragent';
 import cors from 'cors';
 import api from './api';
 import './db'; // Connects to mongo
-import checkAuthCookie from './utils/check-auth-cookie';
-
 
 const app = express();
 const server = http.createServer(app);
@@ -33,12 +32,10 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
 }));
+app.use(useragent.express());
 
 //Routes
 app.use('/api', api);
-app.get('/', checkAuthCookie, (req, res) => {
-  res.sendStatus(200);
-});
 
 // Bootstrap
 server.listen(port, (): void => {

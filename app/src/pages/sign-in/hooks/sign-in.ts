@@ -1,4 +1,5 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useReducer, useState } from 'react';
+import useAuthContext from '../../../hooks/auth-context';
 
 const EMAIL_CHANGE = 'EMAIL_CHANGE';
 const PASSWORD_CHANGE = 'PASSWORD_CHANGE';
@@ -19,7 +20,7 @@ const initialState = {
   password: '',
 };
 
-const reducer = (state: typeof initialState, action: Action) => {
+const reducer = (state: typeof initialState, action: Action): typeof initialState => {
   switch (action.type) {
   case EMAIL_CHANGE:
     return {
@@ -37,8 +38,20 @@ const reducer = (state: typeof initialState, action: Action) => {
   }
 };
 
-const useSignIn = () => {
+type useSignInHook = () => {
+  email: string;
+  password: string;
+  doChangeEmail: (email: string) => void;
+  doChangePassword: (password: string) => void;
+  doSignInAttempt: (userName: string, password: string) => void;
+  rememberMe: boolean;
+  toggleRememberMe: () => void;
+}
+
+const useSignIn: useSignInHook = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [rememberMe, setRememberMe] = useState(false);
+  const { signIn } = useAuthContext();
 
   const doChangeEmail = useCallback(
     email => {
@@ -56,11 +69,16 @@ const useSignIn = () => {
 
   const doSignInAttempt = useCallback(() => {
     doChangePassword('');
-  }, [doChangePassword]);
+    signIn(state.email, state.password, rememberMe);
+  }, [doChangePassword, state.email, state.password, rememberMe]);
+
+  const toggleRememberMe = useCallback(() => { setRememberMe((r) => !r); }, [setRememberMe]);
 
   return {
     email: state.email,
     password: state.password,
+    rememberMe,
+    toggleRememberMe,
     doChangeEmail,
     doChangePassword,
     doSignInAttempt,

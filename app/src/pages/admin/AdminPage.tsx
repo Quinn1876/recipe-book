@@ -38,16 +38,12 @@ const AdminPage: React.FC = () => {
 
   const handleAddRecipe = (): void => {
     console.log('DEV COMMAND: Adding Recipe...');
-    const recipe: NewRecipe = {
+    const recipe: NewRecipeRequest = {
       name: 'Dev Recipe',
       description: 'This is a development Recipe added as a test',
       directions: ['Add Cookies to Sheet', 'Eat the cookies'],
       ingredients: [
-        {
-          name: 'sugar',
-          quantity: 0.75,
-          unit: 'cups',
-        },
+        '3/4 cup sugar',
       ],
     };
     console.log('Recipe: ', recipe);

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Route, Redirect, useRouteMatch } from 'react-router-dom';
+import withAuthRedirect from '../../hoc/AuthRedirect';
 
 import RecipeList from './recipe-list/RecipeList';
 import RecipeContainer from './recipe/RecipeContainer';
@@ -21,4 +22,4 @@ const RecipeRouter: FC = () => {
   );
 };
 
-export default RecipeRouter;
+export default withAuthRedirect(RecipeRouter);

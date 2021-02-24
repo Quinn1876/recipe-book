@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 export type InputTypes = 'text' | 'email' | 'password';
 export type onChangeHandler = (event: { target: { value: string } }) => void;
+export type onKeyPressHandler = (event: { key: string }) => void;
 
 interface TextInputProps {
   value: string;
@@ -29,6 +30,7 @@ interface TextInputProps {
   multiline?: boolean;
   name?: string;
   onChange: onChangeHandler;
+  onKeyPress?: onKeyPressHandler;
   required?: boolean;
   type?: InputTypes;
   label: string;
@@ -43,6 +45,7 @@ const TextInput: React.FC<TextInputProps> = ({
   multiline = false,
   name = '',
   onChange,
+  onKeyPress,
   required = false,
   type = 'text',
   label,
@@ -66,6 +69,7 @@ const TextInput: React.FC<TextInputProps> = ({
         value={value}
         multiline={multiline}
         type={type}
+        onKeyPress={onKeyPress}
       />
     </FormControl>
   );

@@ -42,7 +42,7 @@ const Header = styled(MUITypography)`
 const Typography = styled(MUITypography)``;
 
 interface RecipeListItemProps {
-  recipe: Recipe;
+  recipe: RecipeResponse;
 }
 
 const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
@@ -50,7 +50,7 @@ const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
   const { url } = useRouteMatch();
 
   const handleClick = (): void => {
-    history.push(`${url}/${recipe.recipeId}`);
+    history.push(`${url}/${recipe.id}`);
   };
 
   return (

@@ -6,12 +6,19 @@ export const UserSchema = new Schema({
   name: String,
 });
 
-export const AuthSchema = new Schema({
+export const CookieAuthSchema = new Schema({
   _id: Schema.Types.ObjectId,
   userId: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   selector: { type: String, required: true, unique: true },
   hashedValidator: { type: String, required: true },
   expires: { type: Schema.Types.Date, required: true }
+});
+
+export const UserAuthSchema = new Schema({
+  _id: Schema.Types.ObjectId,
+  userId: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+  userName: { type: String, required: true, unique: true },
+  hashedPassword: String,
 });
 
 export const RecipeSchema = new Schema({
