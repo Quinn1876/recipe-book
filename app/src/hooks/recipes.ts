@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import api from '../api';
 
 interface Return {
   recipes: RecipeResponse[];
   error?: AxiosError;
+  loadRecipes: () => void;
 }
 
 type RecipesHook = (load?: boolean) => Return;
@@ -13,26 +14,31 @@ const useRecipes: RecipesHook = (load = true) => {
   const [recipes, setRecipes] = useState<RecipeResponse[]>([]);
   const [error, setError] = useState<AxiosError | undefined>(undefined);
 
+  const loadRecipes = useCallback(() => {
+    api
+      .recipes
+      .getRecipes()
+      .then((response) => {
+        if (response.status === 200) {
+          setRecipes(response.data);
+          setError(undefined);
+        }
+      })
+      .catch((error: AxiosError) => {
+        setError(error);
+      });
+  }, [setRecipes, setError]);
+
   useEffect(() => {
     if (load || recipes.length === 0) {
-      api
-        .recipes
-        .getRecipes()
-        .then((response) => {
-          if (response.status === 200 ) {
-            setRecipes(response.data);
-            setError(undefined);
-          }
-        })
-        .catch((error: AxiosError) => {
-          setError(error);
-        });
+      loadRecipes();
     }
   }, [load, recipes.length]);
 
   return {
     recipes,
-    error
+    error,
+    loadRecipes,
   };
 };
 

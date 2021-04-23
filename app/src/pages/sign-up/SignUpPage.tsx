@@ -46,29 +46,13 @@ const SignUpPage: React.FC = () => {
     doSignUpAttempt,
   } = useSignUp();
 
-  const handleEmailChange: onChangeHandler = useCallback((event) => {
-    doChangeEmail(event.target.value);
-  }, [doChangeEmail]);
-
-  const handlePasswordChange: onChangeHandler = useCallback((event) => {
-    doChangePassword(event.target.value);
-  }, [doChangePassword]);
-
   const handleFormSubmit = useCallback((): void => {
     doSignUpAttempt();
   }, [doSignUpAttempt]);
 
-  const handleNameChange = useCallback((event) => {
-    doChangeName(event.target.value);
-  }, [doChangeName]);
-
-  const handleConfirmPasswordChange = useCallback((event) => {
-    doChangeConfirmPassword(event.target.value);
-  }, [doChangeConfirmPassword]);
-
   const { isAuthenticated } = useAuthContext();
   if (isAuthenticated()) {
-    return <Redirect to="/" />;
+    return <Redirect to="/recipes" />;
   }
 
   return (
@@ -79,25 +63,25 @@ const SignUpPage: React.FC = () => {
         </Typography>
         <TextInput
           value={name}
-          onChange={handleNameChange}
+          onChange={doChangeName}
           label="Name"
           type="text"
         />
         <TextInput
           value={email}
-          onChange={handleEmailChange}
+          onChange={doChangeEmail}
           label="Email"
           type="email"
         />
         <TextInput
           value={password}
-          onChange={handlePasswordChange}
+          onChange={doChangePassword}
           label="Password"
           type="password"
         />
         <TextInput
           value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
+          onChange={doChangeConfirmPassword}
           label="Confirm Password"
           type="password"
         />

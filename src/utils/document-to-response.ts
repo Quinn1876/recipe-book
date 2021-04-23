@@ -4,6 +4,7 @@ export const recipeDocumentToResponse = (recipeDocument: RecipeDocument): Recipe
   description: recipeDocument.description,
   ingredients: recipeDocument.ingredients,
   directions: recipeDocument.directions,
-  createdAt: recipeDocument.createdAt.getTime(),
-  id: recipeDocument.id
+  createdAt: recipeDocument.createdAt?.getTime() ?? (new Date()).getTime(),
+  id: recipeDocument.id,
+  image: recipeDocument?.image,
 });

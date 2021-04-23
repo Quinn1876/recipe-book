@@ -47,12 +47,6 @@ const SignInComponent: React.FC = () => {
     doSignInAttempt,
   } = useSignIn();
 
-  const handleEmailChange: onChangeHandler = event => {
-    doChangeEmail(event.target.value);
-  };
-  const handlePasswordChange: onChangeHandler = event => {
-    doChangePassword(event.target.value);
-  };
   const handleFormSubmit = (email: string, password: string) => (): void => {
     doSignInAttempt(email, password);
   };
@@ -66,13 +60,13 @@ const SignInComponent: React.FC = () => {
       </Typography>
       <TextInput
         value={email}
-        onChange={handleEmailChange}
+        onChange={doChangeEmail}
         label="Email"
         type="email"
       />
       <TextInput
         value={password}
-        onChange={handlePasswordChange}
+        onChange={doChangePassword}
         label="Password"
         type="password"
         onKeyPress={(event): void => {

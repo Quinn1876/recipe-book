@@ -15,6 +15,7 @@ declare global {
     createdAt:    Date;
     owner:        ObjectId;
     _id:          ObjectId;
+    image?:       string;
   }
 
   export interface RecipeDocument extends Recipe, Document {}
@@ -27,6 +28,7 @@ declare global {
     createdAt:      number;
     ownerId:        ObjectIdString;
     id:             ObjectIdString;
+    image?:          string;
   }
 
   export interface NewRecipeRequest {

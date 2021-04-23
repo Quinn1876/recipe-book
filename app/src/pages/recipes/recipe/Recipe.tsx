@@ -6,14 +6,29 @@ import UnstyledDropList from './components/DropList';
 
 const DropList = styled(UnstyledDropList)``;
 
-const ImagePlaceholder = styled.div`
+const ImageContainer = styled.div`
   width: 100%;
   height: 215px;
 
   background-color: ${({ theme }): string => theme.palette.primary.main};
+  img {
+    width: 100%;
+    height: 215px;
+    object-fit: cover;
+  }
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100%;
+
+@media only screen and (min-width: 600px) {
+    width: 600px;
+    margin: 32px;
+    box-shadow: ${({ theme }): string => theme.shadow.shadow2};
+    align-self: center;
+  }
+
+`;
 
 const RecipeName = styled.h3`
   font: bold 20px Arial;
@@ -42,7 +57,7 @@ const List = styled(MUIList)`
 `;
 
 interface RecipeProps{
-  recipe: Recipe;
+  recipe: RecipeResponse;
 }
 
 const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
@@ -62,7 +77,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
 
   return (
     <Container>
-      <ImagePlaceholder/>
+      <ImageContainer> <img src={recipe.image}/> </ImageContainer>
       <RecipeDetails>
         <RecipeName>
           {recipe.name}

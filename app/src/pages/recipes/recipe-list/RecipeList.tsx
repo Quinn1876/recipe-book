@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Grid from '@material-ui/core/Grid';
@@ -7,9 +7,10 @@ import RecipeListItem from './components/RecipeListItem';
 
 import useRecipes from '../../../hooks/recipes';
 import AddRecipeButton from './components/AddRecipeButton';
-import UserInputModal from '../../../components/UserInputModal';
-import useNewRecipeForm from './hooks/new-recipe-form';
-import TextInput from '../../../components/FormControl/TextInput';
+import { useHistory } from 'react-router';
+import useRouterContext from '../../../hooks/router-context';
+
+
 
 const RecipeGridItem = styled(Grid).attrs({
   item: true,
@@ -32,66 +33,24 @@ const recipeMap = (recipe: RecipeResponse): React.ReactElement => (
 );
 
 const RecipeList: React.FC = () => {
+  const history = useHistory();
+  const { routerContext } = useRouterContext();
   const { recipes } = useRecipes();
-  const [modalOpen, setModalOpen] = useState(true);
+
+  const handleNewRecipe = useCallback(() => {
+    history.push(`${routerContext.url}/new`);
+  }, [history, routerContext]);
 
   const recipeItems = recipes.map(recipeMap);
-
-  const {
-    name,
-    ingredients,
-    directions,
-    description,
-    currentIngredient,
-    currentDirection,
-    updateName,
-    updateDescription,
-    addIngredient,
-    addDirection,
-    updateCurrentIngredient,
-    updateCurrentDirection,
-    changeCurrentIngredient,
-    changeCurrentDirection,
-    reset,
-  } = useNewRecipeForm();
-
-  const handleOpenModal = useCallback(() => {
-    reset();
-    setModalOpen(true);
-  }, [reset, setModalOpen]);
 
   return (
     <>
       <Container container direction="column" alignItems="center">
         {recipeItems}
         <RecipeGridItem>
-          <AddRecipeButton onClick={handleOpenModal} />
+          <AddRecipeButton onClick={handleNewRecipe} />
         </RecipeGridItem>
       </Container>
-      <UserInputModal
-        open={modalOpen}
-        onClose={(): void => setModalOpen(false)}
-        onSave={(): void => setModalOpen(false)}
-        title="Add Recipe"
-      >
-        <Grid container>
-          <Grid item sm={12} md={6}>
-            <TextInput
-              label="Name"
-              value={name}
-              onChange={(event): void => {updateName(event.target.value); }}
-            />
-          </Grid>
-          <Grid item sm={12} md={6}>
-            <TextInput
-              label="Description"
-              multiline
-              value={description}
-              onChange={(event): void => updateDescription(event.target.value)}
-            />
-          </Grid>
-        </Grid>
-      </UserInputModal>
     </>
   );
 };

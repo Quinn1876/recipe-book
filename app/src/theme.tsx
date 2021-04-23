@@ -2,6 +2,32 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { DefaultTheme } from 'styled-components';
+
+const bolds = {
+  bold36: '700 36px Roboto',
+  bold24: '700 24px Roboto',
+  bold14: '700 14px Roboto',
+  bold18: '700 18px Roboto',
+};
+
+const mediums = {
+  medium12: '500 12px Roboto',
+  medium14: '500 14px Roboto',
+  medium18: '500 18px Roboto',
+  medium24: '500 24px Roboto',
+};
+
+const borders = {
+  solidGrey1: '1px solid #c4c4c4',
+  solidGrey2: '0.75px solid rgba(214, 220, 227, 0.5)',
+};
+
+const shadow = {
+  shadow1: '0 4px 4px 0px rgba(0, 0, 0, 0.25)',
+  shadow2: '8px 8px 8px 0px rgba(0, 0, 0, 0.25)',
+};
+
+
 // https://coolors.co/222423-566246-cde7ce-fafcfc-8a8d91
 export const theme: DefaultTheme = {
   palette: {
@@ -53,6 +79,12 @@ export const theme: DefaultTheme = {
       fontSize: 14,
     },
   },
+  fonts: {
+    ...mediums,
+    ...bolds,
+  },
+  borders,
+  shadow,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

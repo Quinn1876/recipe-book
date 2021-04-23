@@ -39,5 +39,8 @@ declare module 'styled-components' {
         fontSize: number;
       };
     };
+    fonts: Record<string, string>;
+    borders: Record<string, string>;
+    shadow: Record<string, string>;
   }
 }

@@ -14,7 +14,7 @@ const Container = styled.div`
 const SignIn: React.FC = () => {
   const { isAuthenticated } = useAuthContext();
   if (isAuthenticated()) {
-    return <Redirect to="/" />;
+    return <Redirect to="/recipes" />;
   }
   return (
     <Container>

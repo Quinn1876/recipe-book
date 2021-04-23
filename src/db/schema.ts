@@ -29,4 +29,5 @@ export const RecipeSchema = new Schema({
   ingredients: [String],
   directions: [String],
   image: String,
+  createdAt: Date
 });

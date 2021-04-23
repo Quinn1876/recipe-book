@@ -11,6 +11,7 @@ const getAll: RequestHandler = (req, res, next) => {
       .getRecipesByUserId(new ObjectId(userId))
       .then((recipes) => {
         res.status(200);
+        // console.log(recipes);
         res.send(recipes.map(recipeDocumentToResponse));
       })
       .catch((error) => {

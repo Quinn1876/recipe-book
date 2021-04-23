@@ -20,6 +20,10 @@ const Image = styled.div`
   &:hover: {
     cursor: pointer;
   }
+  img {
+    height: 200px;
+    width: 100%;
+  }
 `;
 
 const Body = styled.div`
@@ -50,12 +54,12 @@ const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
   const { url } = useRouteMatch();
 
   const handleClick = (): void => {
-    history.push(`${url}/${recipe.id}`);
+    history.push(`${url}/recipe/${recipe.id}`);
   };
 
   return (
     <Paper elevation={2} onClick={handleClick}>
-      <Image />
+      <Image><img src={recipe?.image} /></Image>
       <Body>
         <Header variant="h6" color="textSecondary">
           {recipe.name}

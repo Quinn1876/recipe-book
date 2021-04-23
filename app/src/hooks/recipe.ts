@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
-import Axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
+import api from '../api';
 
-interface RecipeResponse {
-  recipe?: Recipe;
+interface Return {
+  recipe?: RecipeResponse;
   error?: AxiosError;
 }
 
-type RecipeHook = (recipeId?: string) => RecipeResponse;
+type RecipeHook = (recipeId?: string) => Return;
 
 
 const useRecipe: RecipeHook = (recipeId) => {
-  const [recipe, setRecipe] = useState<Recipe | undefined>(undefined);
+  const [recipe, setRecipe] = useState<RecipeResponse | undefined>(undefined);
   const [error, setError] = useState<AxiosError | undefined>(undefined);
 
   useEffect(() => {
     if (recipeId) {
-      Axios
-        .get(`/recipes/${recipeId}`)
-        .then((response: AxiosResponse<Recipe>) => {
+      api.recipes.getRecipe(recipeId)
+        .then((response) => {
           setRecipe(response.data);
           setError(undefined);
         })
-        .catch((error: AxiosError) => {
+        .catch((error) => {
           setError(error);
         });
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export type InputTypes = 'text' | 'email' | 'password';
-export type onChangeHandler = (event: { target: { value: string } }) => void;
+export type onChangeHandler = (value: string) => void;
 export type onKeyPressHandler = (event: { key: string }) => void;
 
 interface TextInputProps {
@@ -34,6 +34,8 @@ interface TextInputProps {
   required?: boolean;
   type?: InputTypes;
   label: string;
+  inputRef?: React.MutableRefObject<HTMLInputElement>;
+  className?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -49,11 +51,14 @@ const TextInput: React.FC<TextInputProps> = ({
   required = false,
   type = 'text',
   label,
+  inputRef,
+  className,
 }) => {
   const classes = useStyles();
+  const handleChange = useCallback((event) => onChange(event.target.value), [onChange]);
   return (
     <FormControl
-      className={classes.root}
+      className={`${classes.root} ${className}`}
       fullWidth={fullWidth}
       required={required}
     >
@@ -65,11 +70,12 @@ const TextInput: React.FC<TextInputProps> = ({
         fullWidth={fullWidth}
         startAdornment={startAdornment}
         endAdornment={endAdornment}
-        onChange={onChange}
+        onChange={handleChange}
         value={value}
         multiline={multiline}
         type={type}
         onKeyPress={onKeyPress}
+        inputRef={inputRef}
       />
     </FormControl>
   );
