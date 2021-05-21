@@ -6,7 +6,7 @@ type AxiosRecipeResponse = Promise<AxiosResponse<RecipeResponse>>;
 type AxiosUpdateRecipeResponse = Promise<AxiosResponse<string>>;
 
 const getRecipes = (): AxiosRecipesResponse => server.get('/recipes');
-const getRecipe = (recipeId): AxiosRecipeResponse => server.get(`/recipes/${recipeId}`);
+const getRecipe = (recipeId: RecipeId): AxiosRecipeResponse => server.get(`/recipes/${recipeId}`);
 
 const createRecipe = (recipe: NewRecipeRequest): AxiosRecipesResponse => server.post('/recipes', recipe);
 

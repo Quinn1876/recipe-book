@@ -8,7 +8,7 @@ interface RouterContextHook {
 }
 
 const useRouterContext = (routerName?: string): RouterContextHook => {
-  const routerContext = useContext<RouterContextI>(RouterContext);
+  const routerContext = useContext<RouterContextI | null>(RouterContext);
   const match = useRouteMatch();
 
   const pageContext = useMemo(
@@ -20,8 +20,18 @@ const useRouterContext = (routerName?: string): RouterContextHook => {
     [match, routerName],
   );
 
+  const routerContextMemo = useMemo<RouterContextI>(() => {
+    return routerContext
+      ? routerContext
+      : {
+        path: '',
+        url: '',
+        routerName: '',
+      };
+  }, [routerContext]);
+
   return {
-    routerContext,
+    routerContext: routerContextMemo,
     pageContext,
   };
 };

@@ -1,5 +1,4 @@
-import { AxiosError } from 'axios';
-import { useEffect, useCallback, createContext, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import api from '../api';
 
 type useAuthHook = (attemptCookieAuth?: boolean) => {

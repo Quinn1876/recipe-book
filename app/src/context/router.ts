@@ -6,4 +6,4 @@ export interface RouterContextI {
   routerName?: string;
 }
 
-export const RouterContext = createContext<RouterContextI>(null);
+export const RouterContext = createContext<RouterContextI | null>(null);

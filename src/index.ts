@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 config();
+import path from 'path';
 import express from 'express';
 import http from 'http';
 import session from 'express-session';
@@ -36,6 +37,12 @@ app.use(useragent.express());
 
 //Routes
 app.use('/api', api);
+
+// fronendroutes
+app.use(express.static(path.join(__dirname, '..', 'app', 'build')));
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: path.join(__dirname, '../app/build') });
+});
 
 // Bootstrap
 server.listen(port, (): void => {
