@@ -3,18 +3,37 @@ import styled from 'styled-components';
 import MUIList from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import UnstyledDropList from './components/DropList';
+import MUIIconButton from '@material-ui/core/IconButton';
+import EditIconSvg from '../../../assets/edit-icon.svg';
+import useRouterContext from '../../../hooks/router-context';
+import { useHistory } from 'react-router';
 
 const DropList = styled(UnstyledDropList)``;
+
+const RecipeImage = styled.img``;
+
+const EditIcon = styled.img``;
+
+const IconButton = styled(MUIIconButton)``;
 
 const ImageContainer = styled.div`
   width: 100%;
   height: 215px;
+  position: relative;
 
   background-color: ${({ theme }): string => theme.palette.primary.main};
-  img {
+  ${RecipeImage} {
     width: 100%;
     height: 215px;
     object-fit: cover;
+  }
+
+  ${IconButton} {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: ${({ theme }): string => theme.palette.primary.main};
+    box-shadow: ${({ theme}): string => theme.shadow.shadow2};
   }
 `;
 
@@ -26,6 +45,7 @@ const Container = styled.div`
     margin: 32px;
     box-shadow: ${({ theme }): string => theme.shadow.shadow2};
     align-self: center;
+    justify-self: center;
   }
 
 `;
@@ -61,6 +81,9 @@ interface RecipeProps{
 }
 
 const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
+  const { routerContext } = useRouterContext();
+  const history = useHistory();
+
   const [ingredientsOpen, setIngredientsOpen] = useState<boolean>(true);
   const [directionsOpen, setDirectionsOpen] = useState<boolean>(true);
 
@@ -75,9 +98,18 @@ const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
     setDirectionsOpen(!directionsOpen);
   }, [directionsOpen, setDirectionsOpen]);
 
+  const handleEditRecipe = useCallback(() => {
+    history.push(`${routerContext.url}/edit/${recipe.id}`);
+  }, [history, routerContext]);
+
   return (
     <Container>
-      <ImageContainer> <img src={recipe.image}/> </ImageContainer>
+      <ImageContainer>
+        <RecipeImage src={recipe.image}/>
+        <IconButton onClick={handleEditRecipe}>
+          <EditIcon src={EditIconSvg} height="32px" width="32px"/>
+        </IconButton>
+      </ImageContainer>
       <RecipeDetails>
         <RecipeName>
           {recipe.name}

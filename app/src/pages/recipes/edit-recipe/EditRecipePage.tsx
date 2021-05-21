@@ -1,15 +1,49 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import useAuthContext from '../../../hooks/auth-context';
+import React, { useCallback } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import api from '../../../api';
 import useRecipe from '../../../hooks/recipe';
-import EditRecipeForm from './components/EditRecipeForm';
+import useRouterContext from '../../../hooks/router-context';
+import RecipeForm from '../components/RecipeForm';
 
 const EditRecipePage: React.FC = () => {
-  const { userId } = useAuthContext();
-  const { recipeId } = useParams<{ recipeId: string }>();
-  const { recipe  } = useRecipe(recipeId);
+  const { routerContext } = useRouterContext();
+  const history = useHistory();
 
-  return <EditRecipeForm recipe={recipe}/>;
+  const { recipeId } = useParams<{ recipeId: string }>();
+  const { recipe } = useRecipe(recipeId);
+
+  const handleBack = useCallback(() => {
+    history.push(`${routerContext.url}/recipe/${recipeId}`);
+  }, [history, routerContext]);
+
+  const handleRecipeSave = useCallback(
+    (updatedRecipe: RecipeResponse) => {
+      api.recipes
+        .updateRecipe({
+          description: updatedRecipe.description,
+          directions: updatedRecipe.directions,
+          id: recipeId,
+          ingredients: updatedRecipe.ingredients,
+          name: updatedRecipe.name,
+        })
+        .then(() => {
+          handleBack();
+        });
+    },
+    [api],
+  );
+
+  return (
+    recipe ? (
+      <RecipeForm
+        initialState={recipe}
+        onSave={handleRecipeSave}
+        onBack={handleBack}
+      />
+    ) : (
+      <></>
+    )
+  );
 };
 
 export default EditRecipePage;

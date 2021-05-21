@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./build",
     "rootDir": "./src",
+    "baseUrl": "./src",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

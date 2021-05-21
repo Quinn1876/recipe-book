@@ -1,8 +1,5 @@
 import { ObjectId } from 'mongodb';
-import mongoose from 'mongoose';
-import { RecipeSchema } from '../schema';
-
-const RecipeModel = mongoose.model<RecipeDocument>('recipes', RecipeSchema);
+import { RecipeModel } from '../models/Recipe';
 
 const getRecipesByUserId: DbMethod<ObjectId, RecipeDocument[]> = (userId) => RecipeModel.find({ owner: userId }).exec();
 
@@ -15,8 +12,16 @@ const createRecipe: DbMethod<NewRecipe, RecipeDocument> = (newRecipe) => new Rec
   _id: new ObjectId(),
 }).save();
 
+const updateRecipe: DbMethod<UpdateRecipeRequest, RecipeDocument | null> = (updatedRecipe) => RecipeModel.findByIdAndUpdate(updatedRecipe.id, {
+  name: updatedRecipe.name,
+  description: updatedRecipe.description,
+  ingredients: updatedRecipe.ingredients,
+  directions: updatedRecipe.directions,
+}).exec();
+
 export default {
   getRecipesByUserId,
   getRecipeById,
   createRecipe,
+  updateRecipe,
 };

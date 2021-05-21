@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-  children: React.ReactElement[];
+  children: React.ReactElement[] | React.ReactElement;
 }
 
 const NavBar: React.FC<Props> = ({ children }) => {

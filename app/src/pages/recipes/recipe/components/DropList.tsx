@@ -28,7 +28,9 @@ const Title = styled(MUITypography)`
   font: bold 14px Arial;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  cursor: pointer;
+`;
 
 interface DropDownProps {
   title: string;
@@ -48,7 +50,7 @@ const DropList: React.FC<DropDownProps> = ({
     onToggle();
   };
   return (
-    <Container className={className}>
+    <Container className={className} onClick={handleToggle}>
       <TopBar>
         <Title>{title}</Title>
         <DropDownArrow onClick={handleToggle} isFlipped={open} />

@@ -1,9 +1,6 @@
 import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
-import { CookieAuthSchema, UserAuthSchema } from '../schema';
-
-const CookieAuthModel = mongoose.model<CookieAuthDocument>('cookie-auth', CookieAuthSchema);
-const UserAuthModel = mongoose.model<UserAuthDocument>('user-auth', UserAuthSchema);
+import { CookieAuthModel, UserAuthModel } from '../models/Auth';
 
 const getCookieAuthDocumentBySelector: DbMethod<string, CookieAuthDocument | null> = async (selector) => CookieAuthModel.findOne({ selector }).exec();
 

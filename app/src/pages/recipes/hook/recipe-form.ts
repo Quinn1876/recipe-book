@@ -1,48 +1,18 @@
 import { useReducer, useCallback } from 'react';
 
-interface UpdateFieldAction {
-  updateFieldPayload: {
-    value: string;
-  };
-}
+import {
+  State,
+  Action,
+  AddListItemType,
+  DeleteListItemType,
+  UpdateFieldType,
+  UpdateListItemType,
+  useRecipeFormHook
+} from 'recipe-form';
 
-interface UpdateListItemAction {
-  updateListItemPayload: {
-    value: string;
-    index: number;
-  };
-}
 
-interface UpdateNameAction extends UpdateFieldAction  {
-  type: 'UpdateName';
-}
-
-interface UpdateDescriptionAction extends UpdateFieldAction {
-  type: 'UpdateDescription';
-}
-
-interface UpdateImageAction extends UpdateFieldAction {
-  type: 'UpdateImage';
-}
-
-interface UpdateIngredientAction extends UpdateListItemAction {
-  type: 'UpdateIngredient';
-}
-
-interface UpdateDirectionAction extends UpdateListItemAction {
-  type: 'UpdateDirection';
-}
-
-type State = RecipeResponse;
-type Action = UpdateNameAction
-            | UpdateDescriptionAction
-            | UpdateImageAction
-            | UpdateIngredientAction
-            | UpdateDirectionAction;
-
-type UpdateFieldType = SubUnion<Action, UpdateFieldAction>['type']
-type UpdateListItemType = SubUnion<Action, UpdateListItemAction>['type']
-
+const newIngredient = (): State['ingredients'][number] => '';
+const newDirection = (): State['ingredients'][number] => '';
 
 const initializer = (initialState: RecipeResponse): State => ({
   ...initialState,
@@ -76,6 +46,19 @@ const reducer = (state: State, action: Action): State => {
         )
       ),
     };
+  case 'AddIngredient':
+    return {
+      ...state,
+      ingredients: [
+        ...state.ingredients,
+        newIngredient()
+      ],
+    };
+  case 'DeleteIngredient':
+    return {
+      ...state,
+      ingredients: state.ingredients.filter((_1, index) => index !== action.deleteListItemPayload.index),
+    };
   case 'UpdateDirection':
     return {
       ...state,
@@ -86,21 +69,27 @@ const reducer = (state: State, action: Action): State => {
         )
       ),
     };
+  case 'AddDirection':
+    return {
+      ...state,
+      directions: [
+        ...state.directions,
+        newDirection(),
+      ],
+    };
+  case 'DeleteDirection':
+    return {
+      ...state,
+      directions: state.directions.filter((_1, index) => index !== action.deleteListItemPayload.index),
+    };
   default:
     return state;
   }
 };
 
-type useEditRecipeFormHook = (
-  initialState: RecipeResponse
-) => {
-  name: string;
-  updateName: (value: string) => void;
-  description: string;
-  updateDescription: (value: string) => void;
-}
 
-const useEditRecipeForm: useEditRecipeFormHook = (initialState) => {
+
+const useRecipeForm: useRecipeFormHook = (initialState) => {
   const [state, dispatch] = useReducer(reducer, initializer(initialState));
 
   const updateField = useCallback(( type: UpdateFieldType ) => (value: string): void => {
@@ -109,6 +98,16 @@ const useEditRecipeForm: useEditRecipeFormHook = (initialState) => {
 
   const updateListItem = useCallback(( type: UpdateListItemType ) => (index: number, value: string): void => {
     dispatch({ type, updateListItemPayload: { value, index }});
+  }, [dispatch]);
+
+  const addListItem = useCallback((type: AddListItemType) => (): void => {
+    dispatch({ type, addListItemPayload: {} });
+  }, [dispatch]);
+
+  const deleteListItem = useCallback((type: DeleteListItemType) => (index: number) => (): void => {
+    dispatch({ type, deleteListItemPayload: {
+      index,
+    } });
   }, [dispatch]);
 
   return {
@@ -120,9 +119,13 @@ const useEditRecipeForm: useEditRecipeFormHook = (initialState) => {
     updateImage: updateField('UpdateImage'),
     ingredients: state.ingredients,
     updateIngredient: updateListItem('UpdateIngredient'),
+    addIngredient: addListItem('AddIngredient'),
+    deleteIngredient: deleteListItem('DeleteIngredient'),
     directions: state.directions,
     updateDirection: updateListItem('UpdateDirection'),
+    addDirection: addListItem('AddDirection'),
+    deleteDirection: deleteListItem('DeleteDirection'),
   };
 };
 
-export default useEditRecipeForm;
+export default useRecipeForm;

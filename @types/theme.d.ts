@@ -41,6 +41,6 @@ declare module 'styled-components' {
     };
     fonts: Record<string, string>;
     borders: Record<string, string>;
-    shadow: Record<string, string>;
+    shadow: Record<'shadow1' | 'shadow2', string>;
   }
 }

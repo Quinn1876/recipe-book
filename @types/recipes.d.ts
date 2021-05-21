@@ -38,6 +38,10 @@ declare global {
     directions:   string[];
   }
 
+  export interface UpdateRecipeRequest extends NewRecipeRequest {
+    id: ObjectIdString;
+  }
+
   export interface NewRecipe {
     recipe:   NewRecipeRequest;
     owner:  ObjectId;
@@ -48,3 +52,5 @@ declare global {
   }
 
 }
+
+

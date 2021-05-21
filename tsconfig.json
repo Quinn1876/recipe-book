@@ -6,8 +6,5 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "module": "commonjs",
-    "typeRoots": [
-      "./types"
-    ]
   },
 }

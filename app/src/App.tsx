@@ -34,9 +34,9 @@ const App: React.FC = () => {
         {!loading && (
           <div className={classes.root}>
             <Nav>
-              <Link to="/home">Home</Link>
-              <Link to="/theme">Theme</Link>
               <Link to="/recipes">Recipe List</Link>
+              {/* <Link to="/home">Home</Link>
+              <Link to="/theme">Theme</Link> */}
               {/* <Link to="/admin">Admin</Link> */}
             </Nav>
             <Route path="/" >

@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import ListItem from './ListItem';
-import { onChangeHandler } from '../TextInput';
 import { Button, Typography } from '@material-ui/core';
 
 const Container = styled.div`
@@ -13,11 +12,9 @@ const Container = styled.div`
 
 interface Props {
   items: string[];
-  activeItemIndex: number;
-  onChange: onChangeHandler;
+  onChange: (index: number, value: string) => void;
   onRemove: (index: number) => () => void;
   onAdd: () => void;
-  onEdit: (index: number) => () => void;
   className?: string;
   label: string;
 }
@@ -25,18 +22,20 @@ interface Props {
 const ListEditor: React.FC<Props> = ({
   className,
   items,
-  activeItemIndex,
   onChange,
   onRemove,
   onAdd,
-  onEdit,
   label,
 }) => {
+  const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
+  const handleChange = useCallback((index: number) => (value: string): void => {
+    onChange(index, value);
+  }, [onChange]);
   const listItems = items.map((item: string, index: number) => (
     <ListItem
       editable={activeItemIndex === index}
-      onChange={onChange}
-      onEdit={onEdit(index)}
+      onChange={handleChange(index)}
+      onEdit={(): void => setActiveItemIndex(index)}
       onDelete={onRemove(index)}
       value={item}
       key={index}

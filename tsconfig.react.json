@@ -6,6 +6,7 @@
     "jsx": "react",
     "outDir": "./app/build-tsc",
     "rootDir": "./app/src",
+    "baseUrl": "./app/src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -21,16 +22,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "typeRoots": [
-      "./types"
-    ],
-    "types": [
-      "types/Recipes.d.ts"
-    ]
   },
   "include": [
     "./app/src/*",
-    "types/**/*.d.ts"
+    "@types/**/*.d.ts"
   ],
   "exclude": [
     "./app/src/store/firebase"
