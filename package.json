@@ -97,7 +97,7 @@
   "scripts": {
     "react": "node scripts/start.js",
     "build-react": "node scripts/build.js",
-    "build": "tsc --project tsconfig.react.json",
+    "reactTs:build": "tsc --project tsconfig.react.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "node scripts/test.js",
@@ -105,7 +105,8 @@
     "dev": "nodemon --watch src -e ts --exec yarn dev:start",
     "dev:start": "npm-run-all express:build express:start",
     "express:build": "tsc --project tsconfig.express.json",
-    "express:start": "cross-env NODE_ENV=development babel-node ./build/index.js"
+    "express:start": "cross-env NODE_ENV=development babel-node ./build/index.js",
+    "build": "npm-run-all express:build reactTs:build"
   },
   "eslintConfig": {
     "extends": "react-app"

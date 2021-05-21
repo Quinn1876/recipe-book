@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from 'react';
+import { useContext, useEffect, useCallback, useMemo } from 'react';
 import { AuthContext } from '../context/auth';
 
 type useAuthContextHook = () => {
@@ -6,25 +6,34 @@ type useAuthContextHook = () => {
   userId: string | null;
   signIn: (userName: string, password: string, rememberMe: boolean) => void;
   signUp: (userName: string, password: string, name: string) => void;
-}
+};
 
 const useAuthContext: useAuthContextHook = () => {
-  const { userId, signIn, signUp } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
-  const isAuthenticated = useCallback(() => userId !== null, [userId]);
+  const isAuthenticated = useCallback(() => authContext?.userId !== null, [authContext]);
 
 
   useEffect(() => {
-    console.log(`UserId: ${userId}`);
+    console.log(`UserId: ${authContext?.userId}`);
     console.log(isAuthenticated());
-  }, [userId]);
+  }, [authContext]);
 
-  return {
-    userId,
-    isAuthenticated,
-    signIn,
-    signUp,
-  };
+  const authContextResponse = useMemo<ReturnType<useAuthContextHook>>(() => {
+    return authContext
+      ? {
+        ...authContext,
+        isAuthenticated,
+      }
+      : {
+        isAuthenticated: (): boolean => { console.error('Unable to access Auth context'); return false; },
+        signIn: (): void => { console.error('Unable to access Auth context'); },
+        signUp: (): void => { console.error('Unable to access Auth context'); },
+        userId: null,
+      };
+  }, [authContext]);
+
+  return authContextResponse;
 };
 
 export default useAuthContext;

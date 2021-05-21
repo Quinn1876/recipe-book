@@ -34,7 +34,7 @@ interface TextInputProps {
   required?: boolean;
   type?: InputTypes;
   label: string;
-  inputRef?: React.MutableRefObject<HTMLInputElement>;
+  inputRef?: React.MutableRefObject<HTMLInputElement | null>;
   className?: string;
 }
 

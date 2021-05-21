@@ -5,7 +5,7 @@ type ObjectIdString = string; // Fields that hold ids in their string format
 
 declare global {
 
-  type RecipeId = string;
+  type RecipeId = ObjectIdString;
 
   export interface Recipe {
     name:         string;

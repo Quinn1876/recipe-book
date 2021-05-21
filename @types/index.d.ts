@@ -96,7 +96,7 @@ declare module 'recipe-form' {
     updateName: UpdateFieldCb;
     description: string;
     updateDescription: UpdateFieldCb;
-    image: string;
+    image?: string;
     updateImage: UpdateFieldCb;
     ingredients: string[];
     updateIngredient: UpdateListItemCb;
