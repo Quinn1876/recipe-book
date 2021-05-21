@@ -4,7 +4,7 @@
     "target": "es5",
     "module": "esnext",
     "jsx": "react",
-    "outDir": "./app/build-tsc",
+    "outDir": "./build-reactTs",
     "rootDir": "./app/src",
     "baseUrl": "./app/src",
     "strict": true,

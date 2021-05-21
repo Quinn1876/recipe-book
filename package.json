@@ -2,7 +2,7 @@
   "name": "recipe-book",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://quinn1876.github.io/recipe-book/",
+  "homepage": "/",
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@babel/core": "^7.12.10",
@@ -106,7 +106,8 @@
     "dev:start": "npm-run-all express:build express:start",
     "express:build": "tsc --project tsconfig.express.json",
     "express:start": "cross-env NODE_ENV=development babel-node ./build/index.js",
-    "build": "npm-run-all express:build reactTs:build"
+    "build": "cross-env NODE_ENV=production npm-run-all express:build build-react",
+    "start": "cross-env NODE_ENV=production node ./build/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
