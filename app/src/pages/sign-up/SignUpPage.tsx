@@ -4,7 +4,7 @@ import { Link as UnstyledLink, Redirect } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import MUIButton from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import TextInput, {onChangeHandler} from '../../components/FormControl/TextInput';
+import TextInput from '../../components/FormControl/TextInput';
 import useSignUp from './hooks/sign-up';
 import useAuthContext from '../../hooks/auth-context';
 

@@ -10,13 +10,10 @@ import MUIFormControlLabel from '@material-ui/core/FormControlLabel';
 
 import useSignIn from '../hooks/sign-in';
 
+import TextInput from '../../../components/FormControl/TextInput';
 const FormControlLabel = styled(MUIFormControlLabel)`
   color: ${({ theme }): string => theme.palette.text.secondary};
 `;
-
-import TextInput, {
-  onChangeHandler,
-} from '../../../components/FormControl/TextInput';
 
 const Link = styled(UnstyledLink)`
   padding-top: 16px;
