@@ -1,9 +1,8 @@
 import { Response } from 'express';
-import mongoose from 'mongoose';
 import db from '../db';
 import crypto from 'crypto';
 
-const setAuthCookie = async (userId: mongoose.Types.ObjectId, res: Response): Promise<boolean> => {
+const setAuthCookie = async (userId: number, res: Response): Promise<boolean> => {
   const selector = crypto
     .randomBytes(12)
     .toString();
@@ -12,11 +11,11 @@ const setAuthCookie = async (userId: mongoose.Types.ObjectId, res: Response): Pr
 
   const cookieAuthDocument = await db
     .auth
-    .createCookieAuthDocumentForUserId({
-      hashedValidator,
+    .createCookieAuthForUserId(
+      userId,
       selector,
-      userId
-    });
+      hashedValidator,
+    );
 
   if (cookieAuthDocument) {
     res.cookie('token', `${selector}:${validator}`, { httpOnly: true });

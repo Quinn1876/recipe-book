@@ -1,56 +1,111 @@
-import { ObjectId } from 'mongodb';
-import { Document } from 'mongoose';
-
 type ObjectIdString = string; // Fields that hold ids in their string format
+type PgDate = string;
+declare module 'recipes' {
+  export namespace RecipeDatabase {
+    export interface RecipeRow {
+      id:           number;
+      name:         string;
+      owner:        number;
+      description:  string;
+      image?:       string;
+      created_at:   PgDate;
+      updated_at:   PgDate;
+    }
 
-declare global {
+    export interface DirectionRow {
+      id: number;
+      direction: string;
+      recipe_id: number;
+      direction_number: number;
+    }
 
-  type RecipeId = ObjectIdString;
+    export interface UnitRow {
+      id: number;
+      name: string;
+    }
 
-  export interface Recipe {
-    name:         string;
-    description:  string;
-    ingredients:  string[];
-    directions:   string[];
-    createdAt:    Date;
-    owner:        ObjectId;
-    _id:          ObjectId;
-    image?:       string;
+    export interface IngredientRow {
+      id: number;
+      name: string;
+      amount: number;
+      unit_id: number;
+    }
   }
 
-  export interface RecipeDocument extends Recipe, Document {}
+  export namespace RecipeQuery {
 
-  export interface RecipeResponse {
-    name:           string;
-    description:    string;
-    ingredients:    string[];
-    directions:     string[];
-    createdAt:      number;
-    ownerId:        ObjectIdString;
-    id:             ObjectIdString;
-    image?:          string;
+    export interface NewIngredient {
+      name:   string;
+      amount: number;
+      unitId: number;
+      recipeId: number;
+    }
+
+    export interface UpdatedIngredient extends NewIngredient {
+      id: number;
+    }
+
+    export interface NewDirection {
+      direction:        string;
+      directionNumber:  number;
+      recipeId:         number;
+    }
+
+    export interface UpdatedDirection extends NewDirection {
+      id: number;
+    }
+    export interface NewRecipeRequest {
+      name:         string;
+      description:  string;
+      ingredients:  NewIngredient[];
+      directions:   NewDirection[];
+    }
+
+    export interface UpdateRecipeRequest {
+      id:           number;
+      name:         string;
+      owner:        number;
+      description:  string;
+      ingredients:  Array<NewIngredient | UpdatedIngredient>;
+      directions:   Array<NewDirection | UpdatedDirection>;
+    }
   }
 
-  export interface NewRecipeRequest {
-    name:         string;
-    description:  string;
-    ingredients:  string[];
-    directions:   string[];
-  }
+  export namespace RecipeResponse {
+    export interface Unit {
+      id:   number;
+      name: string;
+    }
+    export interface Ingredient {
+      id:     number;
+      name:   string;
+      unit:   Unit;
+      amount: number;
+    }
 
-  export interface UpdateRecipeRequest extends NewRecipeRequest {
-    id: ObjectIdString;
-  }
+    export interface Direction {
+      id:               number;
+      direction:        string;
+      directionNumber:  number;
+    }
 
-  export interface NewRecipe {
-    recipe:   NewRecipeRequest;
-    owner:  ObjectId;
-  }
+    export interface GetRecipeResponse {
+      id:             number;
+      ownerId:        number;
+      name:           string;
+      description:    string;
+      ingredients:    Ingredient[];
+      directions:     Direction[];
+      createdAt:      string;
+      image?:         string;
+    }
 
-  export interface NewRecipeResponse {
-    id: ObjectIdString;
-  }
+    export interface NewRecipeResponse {
+      id: number;
+    }
 
+    export type UpdateRecipeResponse = GetRecipeResponse;
+  }
 }
 
 

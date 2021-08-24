@@ -9,7 +9,7 @@ const checkAuthCookie: RequestHandler = (req, res, next) => {
     const [selector, validator] = token.split(':');
     db
       .auth
-      .getCookieAuthDocumentBySelector(selector)
+      .getCookieAuthBySelector(selector)
       .then((authDocument) => {
         if (authDocument) {
           // Validate validator
@@ -17,17 +17,17 @@ const checkAuthCookie: RequestHandler = (req, res, next) => {
           if (hashedReqValidator.toString() === authDocument.hashedValidator) {
             if (authDocument.expires.getTime() > Date.now()) {
               // auth complete
-              req.session.userId = authDocument.userId.toHexString();
+              req.session.userId = authDocument.userId;
               res.status(200);
               res.send({
                 auth: true,
-                userId: authDocument.userId.toHexString()
+                userId: authDocument.userId
               });
               next();
               return;
             }
             // expired cookie, user should re auth
-            db.auth.deleteCookieAuthDocumentByDocumentId(authDocument.id);
+            db.auth.deleteCookieAuthById(authDocument.id);
             throw new Error('Token expired, please log in again');
           } else {
             console.log('Invalide validator');

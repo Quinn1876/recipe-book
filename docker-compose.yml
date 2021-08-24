@@ -1,0 +1,19 @@
+version: '3'
+services:
+  test-db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: docker
+    ports:
+          - 5474:5432
+
+  dev-db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: docker
+    ports:
+          - 5464:5432

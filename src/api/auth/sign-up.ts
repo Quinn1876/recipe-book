@@ -15,25 +15,25 @@ const signUp: RequestHandler = (req, res, next) => {
       }
       return db
         .user
-        .createUserDocument({ name });
+        .addUser({ name });
     })
     .then((user) => {
       console.log(user);
       const hashedPassword = hashPassword(unHashed);
       return db
         .auth
-        .createUserAuthDocument({
+        .createUserAuth({
           userName,
-          userId: user._id,
+          userId: user.id,
           hashedPassword
         });
     })
     .then((userAuthDocument) => {
-      req.session.userId = userAuthDocument.userId.toHexString();
+      req.session.userId = userAuthDocument.userId;
       res.status(200);
       res.send({
         auth: true,
-        userId: userAuthDocument.userId.toHexString(),
+        userId: userAuthDocument.userId,
       } as AuthResponse);
     })
     .catch((error) => {

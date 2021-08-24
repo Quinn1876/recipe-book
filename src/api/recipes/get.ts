@@ -8,7 +8,7 @@ const get: RequestHandler = (req, res, next) => {
   if (recipeId) {
     db
       .recipe
-      .getRecipeById(new ObjectId(recipeId))
+      .getRecipeById(parseInt(recipeId, 10))
       .then((recipe) => {
         if (recipe) {
           res.status(200);

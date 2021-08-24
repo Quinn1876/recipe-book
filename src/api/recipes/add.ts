@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { ObjectId } from 'mongodb';
 import db from '../../db';
 import { isNewRecipeRequest } from '../../utils/request-validators';
 
@@ -9,11 +8,11 @@ const add: RequestHandler = (req, res) => {
   if (isNewRecipeRequest(body)) {
     const newRecipe: NewRecipe = {
       recipe: body,
-      owner: new ObjectId(userId),
+      owner: userId,
     };
 
     db.recipe
-      .createRecipe(newRecipe)
+      .addRecipe(newRecipe)
       .then((recipeDocument) => {
         const response: NewRecipeResponse = {
           id: recipeDocument.id,

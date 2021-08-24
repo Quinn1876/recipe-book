@@ -8,7 +8,7 @@ const getAll: RequestHandler = (req, res, next) => {
   if (userId) {
     db
       .recipe
-      .getRecipesByUserId(new ObjectId(userId))
+      .getRecipesByUserId(userId)
       .then((recipes) => {
         res.status(200);
         // console.log(recipes);

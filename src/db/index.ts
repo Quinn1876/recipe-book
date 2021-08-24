@@ -1,14 +1,15 @@
-import mongoose from 'mongoose';
-import controller from './controller';
+import config from '../../knexfile';
+import knex from 'knex';
+import auth from './auth';
+import recipe from './recipe';
+import user from './user';
 
-const mongoURI = process.env.NODE_ENV === 'development'
-  ? process.env.MONGO_BASE_URI_DEV
-  : process.env.MONGO_BASE_URI;
 
-mongoose.connect(mongoURI || '', {useNewUrlParser: true, useUnifiedTopology: true});
+const connection = config[process.env.NODE_ENV || 'test'];
+export const db = knex(connection);
 
-const mongoDB = mongoose.connection;
-
-mongoDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-export default controller;
+export default {
+  auth: auth(db),
+  recipe: recipe(db),
+  user: user(db),
+};

@@ -1,20 +1,29 @@
 import { ObjectId } from 'mongodb';
 import { Document } from 'mongoose';
+
+import { PG, MONGO } from 'database';
 declare global {
-  export interface CookieAuth {
-    _id: ObjectId;
-    userId: ObjectId;
+
+  export interface CookieAuthGeneric {
     selector: string;
     hashedValidator: string;
     expires: Date;
   }
-
-  export interface CookieAuthDocument extends Document, CookieAuth {
+  export interface CookieAuthDocument extends CookieAuthGeneric, Document, MONGO {
+    _id: ObjectId;
+    userId: ObjectId;
   }
+
+  export interface CookieAuthRow extends CookieAuthGeneric, PG {
+    id: number;
+    userId: number;
+  }
+
+  export type CookieAuthObject = CookieAuthDocument | CookieAuthRow;
 
   export interface AuthResponse {
     auth: boolean;
-    userId: string;
+    userId: number;
   }
 
   export interface NewAuthDocument {
@@ -33,22 +42,31 @@ declare global {
     name: string;
   }
 
-  export interface UserAuth {
+  export interface UserAuthGeneric {
+    userName: string;
+    hashedPassword: string;
+  }
+  export interface UserAuthDocument extends Document, UserAuthGeneric, MONGO {
     _id: ObjectId;
     userId: ObjectId;
-    userName: string;
-    hashedPassword: string;
-  }
-  export interface UserAuthDocument extends Document, UserAuth {
-  }
-  export interface UserAuthDocumentRequest {
-    userName: string;
-    hashedPassword: string;
   }
 
-  export interface NewUserAuthDocument {
-    userId: ObjectId;
-    userName: string;
-    hashedPassword: string;
+  export interface UserAuthRow extends UserAuthGeneric, PG {
+    id: number;
+    userId: number;
   }
+
+  export type UserAuthObject = UserAuthRow | UserAuthDocument;
+
+  export type UserAuthRequest = UserAuthGeneric;
+
+  export interface NewUserAuthDocument extends UserAuthGeneric, MONGO {
+    userId: ObjectId;
+  }
+
+  export interface NewUserAuthRow extends UserAuthGeneric, PG {
+    userId: number;
+  }
+
+  export type NewUserAuthObject = NewUserAuthDocument | NewUserAuthRow;
 }

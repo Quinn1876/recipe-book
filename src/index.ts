@@ -10,9 +10,14 @@ import cookieParser from 'cookie-parser';
 import useragent from 'express-useragent';
 import cors from 'cors';
 import api from './api';
-import './db'; // Connects to mongo
+import { connect as connectToMongo } from './db/mongo';
 
 const app = express();
+
+if (process.env.DB_TYPE == 'mongo') {
+  connectToMongo();
+}
+
 const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 const sessionStore = connectSqlite3(session);
