@@ -1,5 +1,4 @@
 type ObjectIdString = string; // Fields that hold ids in their string format
-type PgDate = string;
 declare module 'recipes' {
   export namespace RecipeDatabase {
     export interface RecipeRow {
@@ -59,6 +58,7 @@ declare module 'recipes' {
       description:  string;
       ingredients:  NewIngredient[];
       directions:   NewDirection[];
+      image?:       string;
     }
 
     export interface UpdateRecipeRequest {
@@ -66,6 +66,7 @@ declare module 'recipes' {
       name:         string;
       owner:        number;
       description:  string;
+      image?:       string;
       ingredients:  Array<NewIngredient | UpdatedIngredient>;
       directions:   Array<NewDirection | UpdatedDirection>;
     }

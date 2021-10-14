@@ -1,45 +1,49 @@
+import { AuthResponse } from 'auth';
 import { RequestHandler } from 'express';
 import db from '../../db';
 import hashPassword from '../../utils/hash-password';
+import { isUserAuthSignUpRequest } from '../../utils/request-validators';
 
-const signUp: RequestHandler = (req, res, next) => {
-  const { userName, password: unHashed, name }: SignUpBody = req.body;
-  db
-    .auth
-    .doesUserNameExist(userName)
-    .then((exists) => {
-      if (exists) {
-        res.status(400);
-        res.send('Username Already Exists');
-        next();
-      }
-      return db
-        .user
-        .addUser({ name });
-    })
-    .then((user) => {
-      console.log(user);
-      const hashedPassword = hashPassword(unHashed);
-      return db
+const signUp: RequestHandler = async (req, res) => {
+  const { body }: { body: unknown } = req;
+  if (isUserAuthSignUpRequest(body)) {
+    const { userName, password: unHashed, name } = body;
+    try {
+      const userNameExists = await db
         .auth
-        .createUserAuth({
-          userName,
-          userId: user.id,
-          hashedPassword
-        });
-    })
-    .then((userAuthDocument) => {
-      req.session.userId = userAuthDocument.userId;
-      res.status(200);
-      res.send({
-        auth: true,
-        userId: userAuthDocument.userId,
-      } as AuthResponse);
-    })
-    .catch((error) => {
+        .doesUserNameExist(userName);
+      if (userNameExists) {
+        res.status(400);
+        res.send({ message: 'Username Already Exists', accountCreated: false } as AuthResponse.AuthSignUpFailure);
+      } else {
+        const user = await db
+          .user
+          .addUser({ name });
+        console.log(user);
+        const hashedPassword = hashPassword(unHashed);
+        const userAuthRow = await db
+          .auth
+          .createUserAuth(
+            user.id,
+            userName,
+            hashedPassword
+          );
+        req.session.userId = userAuthRow.user_id;
+        res.status(200);
+        res.send({
+          accountCreated: true,
+          userId: userAuthRow.user_id,
+        } as AuthResponse.UserAuthSignUpSuccess);
+      }
+    } catch (error) {
       console.log(error);
-      res.sendStatus(400);
-    });
+      res.status(500);
+      res.send({ accountCreated: false, message: 'An Unknown Error Occurred '} as AuthResponse.AuthSignUpFailure);
+    }
+  } else {
+    res.status(404);
+    res.send({ accountCreated: false, message: 'Invalid Body' } as AuthResponse.AuthSignUpFailure);
+  }
 };
 
 export default signUp;

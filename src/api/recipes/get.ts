@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { ObjectId } from 'mongodb';
 import { recipeDocumentToResponse } from '../../utils/document-to-response';
 import db from '../../db';
 
@@ -23,8 +22,7 @@ const get: RequestHandler = (req, res, next) => {
         res.sendStatus(500);
       });
   } else {
-    res.sendStatus(400);
-    next();
+    res.sendStatus(403);
   }
 };
 

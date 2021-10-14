@@ -1,9 +1,10 @@
 import { AxiosError } from 'axios';
 import { useState, useEffect, useCallback } from 'react';
+import { RecipeResponse } from 'recipes';
 import api from '../api';
 
 interface Return {
-  recipes: RecipeResponse[];
+  recipes: RecipeResponse.GetRecipeResponse[];
   error?: AxiosError;
   loadRecipes: () => void;
 }
@@ -11,7 +12,7 @@ interface Return {
 type RecipesHook = (load?: boolean) => Return;
 
 const useRecipes: RecipesHook = (load = true) => {
-  const [recipes, setRecipes] = useState<RecipeResponse[]>([]);
+  const [recipes, setRecipes] = useState<RecipeResponse.GetRecipeResponse[]>([]);
   const [error, setError] = useState<AxiosError | undefined>(undefined);
 
   const loadRecipes = useCallback(() => {

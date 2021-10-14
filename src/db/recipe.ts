@@ -37,9 +37,8 @@ const getRecipesByUserId = (db: Knex) => async (userId: number): Promise<RecipeR
     });
 
   const units = await db('units');
-
   return await Promise.all(recipeRows.map(async (recipeRow) => {
-    const ingredientRows: RecipeDatabase.IngredientRow[] = await db('ingredients').select('ingredient').where({ recipe_id: recipeRow.id });
+    const ingredientRows: RecipeDatabase.IngredientRow[] = await db('ingredients').where({ recipe_id: recipeRow.id });
     const directionRows: RecipeDatabase.DirectionRow[] = await db('directions').select('direction').where({ recipe_id: recipeRow.id });
     return toGetRecipeResponse(recipeRow, ingredientRows, directionRows, units);
   }));

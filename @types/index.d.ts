@@ -1,3 +1,4 @@
+
 declare module '*.svg' {
   import React from 'react';
   export const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>;
@@ -73,7 +74,8 @@ declare module 'recipe-form' {
     type: 'AddDirection';
   }
 
-  export type State = RecipeResponse;
+  import { RecipeQuery } from 'recipes';
+  export type State = RecipeQuery.UpdateRecipeRequest;
   export type Action = UpdateNameAction
                     | UpdateDescriptionAction
                     | UpdateImageAction
@@ -90,21 +92,21 @@ declare module 'recipe-form' {
   export type AddListItemType = SubUnion<Action, AddListItemAction>['type'];
 
   export type useRecipeFormHook = (
-    initialState: RecipeResponse
+    initialState: State
   ) => {
-    name: string;
-    updateName: UpdateFieldCb;
-    description: string;
-    updateDescription: UpdateFieldCb;
-    image?: string;
-    updateImage: UpdateFieldCb;
-    ingredients: string[];
-    updateIngredient: UpdateListItemCb;
-    addIngredient: AddListItemCb;
-    deleteIngredient: DeleteListItemCb;
-    directions: string[];
-    updateDirection: UpdateListItemCb;
-    addDirection: AddListItemCb;
-    deleteDirection: DeleteListItemCb;
+    name:               State['name'];
+    updateName:         UpdateFieldCb;
+    description:        State['description'];
+    updateDescription:  UpdateFieldCb;
+    image?:             State['image'];
+    updateImage:        UpdateFieldCb;
+    ingredients:        State['ingredients'];
+    updateIngredient:   UpdateListItemCb;
+    addIngredient:      AddListItemCb;
+    deleteIngredient:   DeleteListItemCb;
+    directions:         State['directions'];
+    updateDirection:    UpdateListItemCb;
+    addDirection:       AddListItemCb;
+    deleteDirection:    DeleteListItemCb;
   }
 }

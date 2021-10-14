@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ListItem from './ListItem';
+import DefaultListItem from './ListItem';
 import { Button, Typography } from '@material-ui/core';
+import { Props } from 'components';
 
 const Container = styled.div`
   border: 1px solid ${({ theme }): string => theme.palette.primary.main};
@@ -10,22 +11,14 @@ const Container = styled.div`
   margin-right: 8px;
 `;
 
-interface Props {
-  items: string[];
-  onChange: (index: number, value: string) => void;
-  onRemove: (index: number) => () => void;
-  onAdd: () => void;
-  className?: string;
-  label: string;
-}
-
-const ListEditor: React.FC<Props> = ({
+const ListEditor: React.FC<Props.ListEditor> = ({
   className,
   items,
   onChange,
   onRemove,
   onAdd,
   label,
+  ListItem = DefaultListItem
 }) => {
   const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
   const handleChange = useCallback((index: number) => (value: string): void => {

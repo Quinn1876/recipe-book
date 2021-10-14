@@ -8,7 +8,7 @@ exports.up = async function(knex) {
     table.string('description');
     table.string('image');
 
-    table.timeStamps(true, true);
+    table.timestamps(true, true);
 
     table.foreign('owner').references('users.id').onDelete('CASCADE');
   });

@@ -14,14 +14,14 @@ const checkAuthCookie: RequestHandler = (req, res, next) => {
         if (authDocument) {
           // Validate validator
           const hashedReqValidator = crypto.createHash('sha256').update(validator).digest();
-          if (hashedReqValidator.toString() === authDocument.hashedValidator) {
-            if (authDocument.expires.getTime() > Date.now()) {
+          if (hashedReqValidator.toString() === authDocument.hashed_validator) {
+            if (new Date(authDocument.expires).getTime() > Date.now()) {
               // auth complete
-              req.session.userId = authDocument.userId;
+              req.session.userId = authDocument.user_id;
               res.status(200);
               res.send({
                 auth: true,
-                userId: authDocument.userId
+                userId: authDocument.user_id
               });
               next();
               return;

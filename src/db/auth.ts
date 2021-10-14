@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import { AuthDatabase } from 'auth';
 import { Knex } from 'knex';
 
-const getCookieAuthBySelector = (db: Knex) => async (selector: string): Promise<CookieAuthRow> => {
+const getCookieAuthBySelector = (db: Knex) => async (selector: string): Promise<AuthDatabase.CookieAuthRow> => {
   return db('cookie_auth')
     .where({
       selector
@@ -9,7 +10,7 @@ const getCookieAuthBySelector = (db: Knex) => async (selector: string): Promise<
     .first();
 };
 
-const deleteCookieAuthById = (db: Knex) => async (cookieAuthId: number): Promise<CookieAuthRow> =>
+const deleteCookieAuthById = (db: Knex) => async (cookieAuthId: number): Promise<AuthDatabase.CookieAuthRow> =>
   db('cookie_auth')
     .delete()
     .where({
@@ -18,7 +19,7 @@ const deleteCookieAuthById = (db: Knex) => async (cookieAuthId: number): Promise
     .returning('*')
     .first();
 
-const createCookieAuthForUserId = (db: Knex) => async (userId: number, selector: string, hashedValidator: string): Promise<CookieAuthRow> =>
+const createCookieAuthForUserId = (db: Knex) => async (userId: number, selector: string, hashedValidator: string): Promise<AuthDatabase.CookieAuthRow> =>
   db('cookie_auth')
     .insert({
       user_id: userId,
@@ -36,17 +37,17 @@ const doesUserNameExist = (db: Knex) => async (userName: string): Promise<boolea
     })
     .then((rows) => rows.length > 0);
 
-const createUserAuth = (db: Knex) => async (newUserAuth: NewUserAuthRow): Promise<UserAuthRow> =>
+const createUserAuth = (db: Knex) => async (userId: number, userName: string, hashedPassword: string): Promise<AuthDatabase.UserAuthRow> =>
   db('user_auth')
     .insert({
-      user_id: newUserAuth.userId,
-      user_name: newUserAuth.userName,
-      hashed_password: newUserAuth.hashedPassword
+      user_id: userId,
+      user_name: userName,
+      hashed_password: hashedPassword
     })
     .returning('*')
     .first();
 
-const getUserAuthDocument = (db: Knex) => async (userName: string, hashedPassword: string): Promise<UserAuthRow> =>
+const getUserAuthDocument = (db: Knex) => async (userName: string, hashedPassword: string): Promise<AuthDatabase.UserAuthRow> =>
   db('user_auth')
     .where({
       user_name: userName,

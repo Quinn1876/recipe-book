@@ -1,72 +1,74 @@
-import { ObjectId } from 'mongodb';
-import { Document } from 'mongoose';
+declare module 'auth' {
+  type USER_AUTH = 'USER_AUTH';
+  type GOOGLE_AUTH = 'GOOGLE_AUTH';
 
-import { PG, MONGO } from 'database';
-declare global {
+  export namespace AuthDatabase {
+    export interface CookieAuthRow  {
+      id:               number;
+      user_id:          number;
+      selector:         string;
+      hashed_validator: string;
+      expires:          PgDate;
+    }
 
-  export interface CookieAuthGeneric {
-    selector: string;
-    hashedValidator: string;
-    expires: Date;
-  }
-  export interface CookieAuthDocument extends CookieAuthGeneric, Document, MONGO {
-    _id: ObjectId;
-    userId: ObjectId;
-  }
-
-  export interface CookieAuthRow extends CookieAuthGeneric, PG {
-    id: number;
-    userId: number;
-  }
-
-  export type CookieAuthObject = CookieAuthDocument | CookieAuthRow;
-
-  export interface AuthResponse {
-    auth: boolean;
-    userId: number;
+    export interface UserAuthRow {
+        user_name:        string;
+        hashed_password:  string;
+        id:               number;
+        user_id:          number;
+      }
   }
 
-  export interface NewAuthDocument {
-    userId: ObjectId;
-    selector: string;
-    hashedValidator: string;
+  export namespace AuthQuery {
+    export interface NewAuthRequest {
+      userId:           number;
+      selector:         string;
+      hashedValidator:  string;
+    }
+    export interface UserAuthSignInRequest {
+      readonly type: USER_AUTH;
+
+      userName: string;
+      password: string;
+      remember?: boolean | number | string | null;
+    }
+    export interface UserAuthSignUpRequest extends SignInRequest {
+      name: string;
+    }
+
+    export interface GoogleAuthSignInRequest {
+      readonly type: GOOGLE_AUTH;
+    }
+    export type GoogleAuthSignUpRequest = unknown;
+
+    export type SignInRequest = UserAuthSignInRequest;
+    export type SignUpRequest = UserAuthSignUpRequest;
   }
 
-  export interface SignInBody {
-    userName: string;
-    password: string;
-    remember?: boolean | number | string | null;
+  export namespace AuthResponse {
+    export interface AuthSuccess {
+      readonly authenticated:   true;
+      readonly userId:          number;
+    }
+    export interface AuthFailure {
+      readonly authenticated: false;
+      readonly message?:      string;
+    }
+
+    export type AuthResult = AuthSuccess | AuthFailure;
+
+    export interface UserAuthSignUpSuccess {
+      readonly type:            USER_AUTH;
+      readonly accountCreated:  true;
+      readonly userId:          number;
+    }
+
+    export interface AuthSignUpFailure {
+      readonly accountCreated:  false;
+      readonly message?:        string;
+    }
+
+    export type SignUpResult = AuthSignUpFailure
+                             | UserAuthSignUpSuccess;
   }
-
-  export interface SignUpBody extends SignInBody {
-    name: string;
-  }
-
-  export interface UserAuthGeneric {
-    userName: string;
-    hashedPassword: string;
-  }
-  export interface UserAuthDocument extends Document, UserAuthGeneric, MONGO {
-    _id: ObjectId;
-    userId: ObjectId;
-  }
-
-  export interface UserAuthRow extends UserAuthGeneric, PG {
-    id: number;
-    userId: number;
-  }
-
-  export type UserAuthObject = UserAuthRow | UserAuthDocument;
-
-  export type UserAuthRequest = UserAuthGeneric;
-
-  export interface NewUserAuthDocument extends UserAuthGeneric, MONGO {
-    userId: ObjectId;
-  }
-
-  export interface NewUserAuthRow extends UserAuthGeneric, PG {
-    userId: number;
-  }
-
-  export type NewUserAuthObject = NewUserAuthDocument | NewUserAuthRow;
 }

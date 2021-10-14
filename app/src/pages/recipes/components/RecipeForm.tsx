@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import UnstyledTypography from '@material-ui/core/Typography';
 import UnstyledButton from '@material-ui/core/Button';
 import useEditRecipeForm from '../hook/recipe-form';
+import { RecipeQuery, RecipeResponse } from 'recipes';
 
 const FormGridItem = styled(Grid)`
   padding-bottom: 16px;
@@ -57,9 +58,9 @@ const Container = styled(Paper)`
 `;
 
 interface Props {
-  initialState: RecipeResponse;
+  initialState: RecipeQuery.UpdateRecipeRequest;
   onBack: () => void;
-  onSave: (recipe: RecipeResponse) => void;
+  onSave: (recipe: RecipeQuery.UpdateRecipeRequest) => void;
 }
 
 const RecipeForm: React.FC<Props> = ({

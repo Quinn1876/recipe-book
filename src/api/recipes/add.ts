@@ -1,20 +1,20 @@
 import { RequestHandler } from 'express';
+import { RecipeResponse } from 'recipes';
 import db from '../../db';
 import { isNewRecipeRequest } from '../../utils/request-validators';
 
 const add: RequestHandler = (req, res) => {
   const { userId } = req.session;
-  const { body }: { body: NewRecipeRequest } = req;
+  if (!userId) {
+    res.sendStatus(403);
+    return;
+  }
+  const { body }: { body: unknown } = req;
   if (isNewRecipeRequest(body)) {
-    const newRecipe: NewRecipe = {
-      recipe: body,
-      owner: userId,
-    };
-
     db.recipe
-      .addRecipe(newRecipe)
+      .addRecipe(userId, body)
       .then((recipeDocument) => {
-        const response: NewRecipeResponse = {
+        const response: RecipeResponse.NewRecipeResponse = {
           id: recipeDocument.id,
         };
         res.status(200);

@@ -1,8 +1,9 @@
 import { ObjectId } from 'mongodb';
 
+declare global {
+  type PgDate = string;
+}
 declare module 'database' {
-
-  export type PgDate = string;
   export interface DatabaseController {
     auth: AuthController;
     recipe: RecipeController;

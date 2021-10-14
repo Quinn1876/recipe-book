@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Typography, IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TextInput, {onChangeHandler} from '../TextInput';
+import TextInput from '../TextInput';
+import { Props } from 'components';
 
 const EditContainer = styled.div`
 `;
@@ -18,15 +19,7 @@ const ViewContainer = styled.div`
 
 const EditDeleteContainer = styled.div``;
 
-interface Props {
-  value: string;
-  editable?: boolean;
-  onChange: onChangeHandler;
-  onEdit: () => void;
-  onDelete: () => void;
-}
-
-const ListItem: React.FC<Props> = ({
+const ListItem: React.FC<Props.ListItem> = ({
   value,
   editable = false,
   onChange,

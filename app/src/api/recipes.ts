@@ -1,16 +1,17 @@
 import server from './server';
 import { AxiosResponse } from 'axios';
+import { RecipeQuery, RecipeResponse } from 'recipes';
 
-type AxiosRecipesResponse = Promise<AxiosResponse<RecipeResponse[]>>;
-type AxiosRecipeResponse = Promise<AxiosResponse<RecipeResponse>>;
+type AxiosRecipesResponse = Promise<AxiosResponse<RecipeResponse.GetRecipeResponse[]>>;
+type AxiosRecipeResponse = Promise<AxiosResponse<RecipeResponse.GetRecipeResponse>>;
 type AxiosUpdateRecipeResponse = Promise<AxiosResponse<string>>;
 
 const getRecipes = (): AxiosRecipesResponse => server.get('/recipes');
-const getRecipe = (recipeId: RecipeId): AxiosRecipeResponse => server.get(`/recipes/${recipeId}`);
+const getRecipe = (recipeId: number): AxiosRecipeResponse => server.get(`/recipes/${recipeId}`);
 
-const createRecipe = (recipe: NewRecipeRequest): AxiosRecipesResponse => server.post('/recipes', recipe);
+const createRecipe = (recipe: RecipeQuery.NewRecipeRequest): AxiosRecipesResponse => server.post('/recipes', recipe);
 
-const updateRecipe = (recipe: UpdateRecipeRequest): AxiosUpdateRecipeResponse => server.patch('/recipes', recipe);
+const updateRecipe = (recipe: RecipeQuery.UpdateRecipeRequest): AxiosUpdateRecipeResponse => server.patch('/recipes', recipe);
 
 export default {
   getRecipes,

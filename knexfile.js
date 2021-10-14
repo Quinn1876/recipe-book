@@ -20,6 +20,14 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   },
+  test: {
+    client: 'pg',
+    connection: 'postgresql://docker:docker@localhost:5474',
+    useNullAsDefault: true,
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
   production: {
     client: 'postgresql',
     connection: config,

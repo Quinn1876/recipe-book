@@ -9,12 +9,13 @@ import {
   UpdateListItemType,
   useRecipeFormHook
 } from 'recipe-form';
+import { RecipeQuery } from 'recipes';
 
 
-const newIngredient = (): State['ingredients'][number] => '';
-const newDirection = (): State['ingredients'][number] => '';
+const newIngredient = (recipeId: number): State['ingredients'][number] => ({ amount: 0, name: '', recipeId, unitId: 1 });
+const newDirection = (recipeId: number, directionNumber: number): State['directions'][number] => ({ recipeId, direction: '', directionNumber, });
 
-const initializer = (initialState: RecipeResponse): State => ({
+const initializer = (initialState: RecipeQuery.UpdateRecipeRequest): State => ({
   ...initialState,
 });
 

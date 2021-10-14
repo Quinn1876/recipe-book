@@ -3,7 +3,7 @@ import { AuthContext } from '../context/auth';
 
 type useAuthContextHook = () => {
   isAuthenticated: () => boolean;
-  userId: string | null;
+  userId: number | null;
   signIn: (userName: string, password: string, rememberMe: boolean) => void;
   signUp: (userName: string, password: string, name: string) => void;
 };
