@@ -26,8 +26,13 @@ declare module 'recipes' {
     export interface IngredientRow {
       id: number;
       name: string;
-      amount: number;
+      amount: string; // Decimal is returned as a number. We will parse it into a float before returning it
       unit_id: number;
+      recipe_id: number;
+    }
+
+    export interface IngredientRowWithUnit extends IngredientRow {
+      unit_name: string;
     }
   }
 
@@ -37,7 +42,6 @@ declare module 'recipes' {
       name:   string;
       amount: number;
       unitId: number;
-      recipeId: number;
     }
 
     export interface UpdatedIngredient extends NewIngredient {
@@ -47,7 +51,6 @@ declare module 'recipes' {
     export interface NewDirection {
       direction:        string;
       directionNumber:  number;
-      recipeId:         number;
     }
 
     export interface UpdatedDirection extends NewDirection {
@@ -64,7 +67,7 @@ declare module 'recipes' {
     export interface UpdateRecipeRequest {
       id:           number;
       name:         string;
-      owner:        number;
+      ownerId:        number;
       description:  string;
       image?:       string;
       ingredients:  Array<NewIngredient | UpdatedIngredient>;

@@ -4,7 +4,6 @@ import path from 'path';
 import express from 'express';
 import http from 'http';
 import session from 'express-session';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import useragent from 'express-useragent';
 import cors from 'cors';
@@ -13,19 +12,16 @@ import connectPgSimple from 'connect-pg-simple';
 import api from './api';
 import knexConfig from '../knexfile';
 import { db as knex } from './db';
-import { up as createSessionTableIfItDoesNotExist } from '../migrations/10210824231152_user_sessions';
-import * as authMiddleWare from './utils/check-user-logged-in';
+import { authMiddleware } from './utils/auth-middleware';
 
-const app = express();
-const server = http.createServer(app);
-
-(async (): Promise<void> => {
+const port = process.env.PORT || 4000;
+const buildApp = async (): Promise<express.Express> => {
+  const app = express();
 
   // This needs to be run to completion before connecting the session middleware which depends on
-  // this table being available
-  await createSessionTableIfItDoesNotExist(knex);
+  // the session table being available
+  await knex.migrate.latest();
 
-  const port = process.env.PORT || 4000;
 
   const sessionConnectionString: string = process.env.NODE_ENV === 'production'
     ? process.env.DATABASE_URL
@@ -50,8 +46,8 @@ const server = http.createServer(app);
 
   // Middle Ware
   app.use(session(sessionConfig));
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
   app.use(cookieParser());
   app.use(cors({
     origin: 'http://localhost:3000',
@@ -59,7 +55,7 @@ const server = http.createServer(app);
   }));
   app.use(useragent.express());
 
-  app.use(authMiddleWare.checkUserLoggedIn);
+  app.use(authMiddleware.checkUserLoggedIn);
 
   // Api Routes
   app.use('/api', api);
@@ -69,12 +65,16 @@ const server = http.createServer(app);
   app.get('*', (req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, '../app/build') });
   });
+  return app;
+};
 
-  // Bootstrap
-  app.listen(port);
-  console.log(`Server listening on port: ${port}`);
-  console.log(`Server environment: ${process.env.NODE_ENV}`);
-})();
+// Bootstrap
+buildApp().then((app) => {
+  if (process.env.NODE_ENV !== 'test') {
+    app.listen(port);
+    console.log(`Server listening on port: ${port}`);
+    console.log(`Server environment: ${process.env.NODE_ENV}`);
+  }
+});
 
-
-export default server;
+export default buildApp;

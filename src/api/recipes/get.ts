@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express';
-import { recipeDocumentToResponse } from '../../utils/document-to-response';
 import db from '../../db';
 
-const get: RequestHandler = (req, res, next) => {
+const get: RequestHandler = (req, res) => {
   const { recipeId } = req.params;
   if (recipeId) {
     db
@@ -12,9 +11,9 @@ const get: RequestHandler = (req, res, next) => {
         if (recipe) {
           res.status(200);
           // console.log(recipes);
-          res.send(recipeDocumentToResponse(recipe));
+          res.send(recipe);
         } else {
-          res.sendStatus(400);
+          res.sendStatus(404);
         }
       })
       .catch((error) => {
@@ -22,7 +21,7 @@ const get: RequestHandler = (req, res, next) => {
         res.sendStatus(500);
       });
   } else {
-    res.sendStatus(403);
+    res.sendStatus(400);
   }
 };
 

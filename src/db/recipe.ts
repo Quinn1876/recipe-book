@@ -8,25 +8,27 @@ const toDirection = (row: RecipeDatabase.DirectionRow): RecipeResponse.Direction
   directionNumber: row.direction_number
 });
 
-const toIngredient = (unitRows: RecipeDatabase.UnitRow[]) => (ingredientRow: RecipeDatabase.IngredientRow): RecipeResponse.Ingredient => ({
+const toIngredient = (ingredientRow: RecipeDatabase.IngredientRowWithUnit): RecipeResponse.Ingredient => ({
   id: ingredientRow.id,
-  amount: ingredientRow.amount,
+  amount: parseFloat(ingredientRow.amount),
   name: ingredientRow.name,
-  unit: unitRows.find((unitRow) => ingredientRow.unit_id === unitRow.id ),
+  unit: {
+    name: ingredientRow.unit_name,
+    id: ingredientRow.unit_id
+  },
 });
 
 const toGetRecipeResponse = (
   recipeRow: RecipeDatabase.RecipeRow,
-  ingredientRows: RecipeDatabase.IngredientRow[],
+  ingredientRows: RecipeDatabase.IngredientRowWithUnit[],
   directionRows: RecipeDatabase.DirectionRow[],
-  units: RecipeDatabase.UnitRow[]
 ): RecipeResponse.GetRecipeResponse => ({
   id: recipeRow.id,
   ownerId: recipeRow.owner,
   createdAt: recipeRow.created_at,
   description: recipeRow.description,
   directions: directionRows.map(toDirection),
-  ingredients: ingredientRows.map(toIngredient(units)),
+  ingredients: ingredientRows.map(toIngredient),
   name: recipeRow.name,
 });
 
@@ -36,25 +38,26 @@ const getRecipesByUserId = (db: Knex) => async (userId: number): Promise<RecipeR
       owner: userId,
     });
 
-  const units = await db('units');
-  return await Promise.all(recipeRows.map(async (recipeRow) => {
-    const ingredientRows: RecipeDatabase.IngredientRow[] = await db('ingredients').where({ recipe_id: recipeRow.id });
+  return Promise.all(recipeRows.map(async (recipeRow) => {
+    const ingredientRows: RecipeDatabase.IngredientRowWithUnit[] = await db('ingredients').join('units', 'ingredients.unit_id', '=', 'units.id').select('ingredients.id as id', 'ingredients.name as name', 'ingredients.amount as amount', 'ingredients.unit_id as unit_id', 'units.name as unit_name').where({ recipe_id: recipeRow.id });
     const directionRows: RecipeDatabase.DirectionRow[] = await db('directions').select('direction').where({ recipe_id: recipeRow.id });
-    return toGetRecipeResponse(recipeRow, ingredientRows, directionRows, units);
+    return toGetRecipeResponse(recipeRow, ingredientRows, directionRows);
   }));
 };
 
-const getRecipeById = (db: Knex) => async (recipeId: number): Promise<RecipeResponse.GetRecipeResponse> => {
+const getRecipeById = (db: Knex) => async (recipeId: number): Promise<RecipeResponse.GetRecipeResponse | null> => {
   const recipeRow: RecipeDatabase.RecipeRow = await db('recipes')
     .where({
       id: recipeId,
     })
     .first();
-  const ingredientRows: RecipeDatabase.IngredientRow[] = await db('ingredients').where({ recipe_id: recipeRow.id });
-  const directionRows: RecipeDatabase.DirectionRow[] = await db('directions').where({ recipe_id: recipeRow.id });
-  const units: RecipeDatabase.UnitRow[] = await db('units');
+  if (recipeRow) {
+    const ingredientRows: RecipeDatabase.IngredientRowWithUnit[] = await db('ingredients').join('units', 'ingredients.unit_id', '=', 'units.id').select('ingredients.id as id', 'ingredients.name as name', 'ingredients.amount as amount', 'ingredients.unit_id as unit_id', 'units.name as unit_name').where({ recipe_id: recipeRow.id });
+    const directionRows: RecipeDatabase.DirectionRow[] = await db('directions').where({ recipe_id: recipeRow.id });
 
-  return toGetRecipeResponse(recipeRow, ingredientRows, directionRows, units);
+    return toGetRecipeResponse(recipeRow, ingredientRows, directionRows);
+  }
+  return null;
 };
 
 const addRecipe = (db: Knex) => async (owner: number, recipe: RecipeQuery.NewRecipeRequest): Promise<RecipeResponse.NewRecipeResponse> => {
@@ -66,7 +69,7 @@ const addRecipe = (db: Knex) => async (owner: number, recipe: RecipeQuery.NewRec
   } = recipe;
   const trx = await db.transaction();
   try {
-    const { id: newRecipeId } = await trx('recipe').insert({ name, owner, description }).returning('id');
+    const [ newRecipeId ] = await trx('recipes').insert({ name, owner, description }).returning('id');
     await trx('ingredients').insert(ingredients.map(
       ({ amount, name, unitId }) => ({ name, amount, recipe_id: newRecipeId, unit_id: unitId,  })
     ));
@@ -89,7 +92,7 @@ const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecip
     ingredients,
     description,
     name,
-    owner,
+    ownerId,
   } = updatedRecipe;
 
   const [newIngredients, updatedIngredients]: [RecipeQuery.NewIngredient[], RecipeQuery.UpdatedIngredient[]] = ingredients.reduce((acc, cur) => {
@@ -113,32 +116,63 @@ const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecip
 
   const trx = await db.transaction();
   try {
-    await db('ingredients').insert(newIngredients.map(
-      ({name, unitId, amount, recipeId }) => ({ name, amount, unit_id: unitId, recipe_id: recipeId})
+    // Remove Old Ingredients
+    const oldIngredients: {id: number}[] = await trx('ingredients').select('id');
+    if (oldIngredients.length > 0) {
+      const ingredientsToRemove = oldIngredients.map(({ id }) => id).filter((id) => !updatedIngredients.map(({id}) => id).includes(id));
+      if (ingredientsToRemove.length > 0) {
+        await trx('ingredients').delete().whereIn('id', ingredientsToRemove);
+      }
+    }
+
+    // Add new Ingredients
+    await trx('ingredients').insert(newIngredients.map(
+      ({name, unitId, amount }) => ({ name, amount, unit_id: unitId, recipe_id: id})
     ));
+
+    // Update Old Ingredients that didn't get removed
     await Promise.all(updatedIngredients.map(
-      ({ amount, id, unitId, name }) => db('ingredients').where({ id }).update({ amount, name, unit_id: unitId })
+      ({ amount, id, unitId, name }) => trx('ingredients').where({ id }).update({ amount, name, unit_id: unitId })
     ));
 
-    await db('directions').insert(newDirections.map(
-      ({ direction, directionNumber, recipeId }) => ({ direction, direction_number: directionNumber, recipe_id: recipeId})
+    // Remove Old Directions
+    const oldDirections: { id: number }[] = await trx('directions').select('id');
+    if (oldDirections.length > 0) {
+      const directionsToRemove = oldDirections.map(({ id }) => id).filter((id) => !updatedDirections.map(({id}) => id).includes(id));
+      if (directionsToRemove.length > 0){
+        await trx('directions').delete().whereIn('id', directionsToRemove);
+      }
+    }
+
+    // Add new directions
+    await trx('directions').insert(newDirections.map(
+      ({ direction, directionNumber }) => ({ direction, direction_number: directionNumber, recipe_id: id})
     ));
+
+    // Update Directions that didn't get removed
     await Promise.all(updatedDirections.map(
-      ({ id, direction, directionNumber  }) => db('ingredients').where({ id }).update({ direction_number: directionNumber, direction })
+      ({ id, direction, directionNumber  }) => trx('directions').where({ id }).update({ direction_number: directionNumber, direction })
     ));
 
-    await db('recipes').where({ id }).update({ description, name, owner });
+    await trx('recipes').where({ id }).update({ description, name, owner: ownerId });
 
     await trx.commit();
     return getRecipeById(db)(id);
   } catch (err) {
     await trx.rollback();
+    throw err;
   }
 };
+
+const getRecipeOwner = (db: Knex) => async (recipeId: number): Promise<{owner: number}> => db('recipes').select('owner').where({ id: recipeId }).first();
+
+const deleteRecipeWithId = (db: Knex) => async (recipeId: number): Promise<void> => db('recipes').where({ id: recipeId }).del();
 
 export default (db: Knex) => ({
   getRecipesByUserId: getRecipesByUserId(db),
   getRecipeById: getRecipeById(db),
   addRecipe: addRecipe(db),
-  updateRecipe: updateRecipe(db)
+  updateRecipe: updateRecipe(db),
+  getRecipeOwner: getRecipeOwner(db),
+  deleteRecipeWithId: deleteRecipeWithId(db),
 });
