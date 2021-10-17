@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const RecipeContainer: React.FC = () => {
   const { recipeId } = useParams<{recipeId: string }>();
-  const { recipe } = useRecipe(recipeId);
+  const { recipe } = useRecipe(parseInt(recipeId, 10));
   console.log('Recipe: ', recipe);
 
   return (

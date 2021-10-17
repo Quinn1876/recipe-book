@@ -13,9 +13,12 @@ const createRecipe = (recipe: RecipeQuery.NewRecipeRequest): AxiosRecipesRespons
 
 const updateRecipe = (recipe: RecipeQuery.UpdateRecipeRequest): AxiosUpdateRecipeResponse => server.patch('/recipes', recipe);
 
+const getUnits = (): Promise<AxiosResponse<RecipeResponse.Unit[]>> => server.get('/recipes/units');
+
 export default {
   getRecipes,
   getRecipe,
   createRecipe,
   updateRecipe,
+  getUnits,
 };

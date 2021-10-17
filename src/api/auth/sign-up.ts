@@ -19,7 +19,7 @@ const signUp: RequestHandler = async (req, res) => {
         const user = await db
           .user
           .addUser({ name });
-        console.log(user);
+        console.log('user', user);
         const hashedPassword = hashPassword(unHashed);
         const userAuthRow = await db
           .auth

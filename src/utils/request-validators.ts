@@ -3,15 +3,15 @@ import { RecipeQuery } from 'recipes';
 import { AuthQuery } from 'auth';
 
 
-function isNewIngredient(object: any): object is RecipeQuery.NewIngredient {
+export function isNewIngredient(object: any): object is RecipeQuery.NewIngredient {
   return (
     'name' in object
     && 'amount' in object
-    && 'unitId' in object
+    && 'unit' in object
   );
 }
 
-function isNewDirection(object: any): object is RecipeQuery.NewDirection {
+export function isNewDirection(object: any): object is RecipeQuery.NewDirection {
   return (
     'direction' in object
     && 'directionNumber' in object
@@ -25,9 +25,21 @@ export function isNewRecipeRequest(object: any): object is RecipeQuery.NewRecipe
     && 'ingredients' in object
     && 'directions' in object
   )&& (
-    object.ingredients.reduce((acc, cur) => acc && isNewIngredient(cur), true)
+    object.ingredients.reduce((acc: boolean, cur: unknown) => {
+      if (isNewIngredient(cur)) {
+        return acc && true;
+      } else {
+        return false;
+      }
+    }, true)
   ) && (
-    object.directions.reduce((acc, cur) => acc && isNewDirection(cur), true)
+    object.directions.reduce((acc: boolean, cur: unknown) => {
+      if(isNewDirection(cur)) {
+        return acc && true;
+      } else {
+        return false;
+      }
+    }, true)
   );
 }
 
@@ -40,9 +52,21 @@ export function isUpdateRecipeRequest(object: any): object is RecipeQuery.Update
     && 'ingredients' in object
     && 'directions' in object
   ) && (
-    object.ingredients.reduce((acc, cur) => acc && isNewIngredient(cur), true)
+    object.ingredients.reduce((acc: boolean, cur: unknown) => {
+      if (isNewIngredient(cur)) {
+        return acc && true;
+      } else {
+        return false;
+      }
+    }, true)
   ) && (
-    object.directions.reduce((acc, cur) => acc && isNewDirection(cur), true)
+    object.directions.reduce((acc: boolean, cur: unknown) => {
+      if(isNewDirection(cur)) {
+        return acc && true;
+      } else {
+        return false;
+      }
+    }, true)
   );
 }
 

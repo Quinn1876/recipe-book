@@ -1,10 +1,11 @@
+import { IconButton, Typography } from '@material-ui/core';
+import { Props } from 'components';
 import React, { useEffect, useRef } from 'react';
+import { RecipeQuery } from 'recipes';
 import styled from 'styled-components';
-import { Typography, IconButton } from '@material-ui/core';
+import TextInput from '../../../components/FormControl/TextInput';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TextInput from '../TextInput';
-import { Props } from 'components';
 
 const EditContainer = styled.div`
 `;
@@ -19,13 +20,13 @@ const ViewContainer = styled.div`
 
 const EditDeleteContainer = styled.div``;
 
-const ListItem = ({
-  value,
-  editable = false,
+const DirectionListItem = ({
   onChange,
-  onEdit,
   onDelete,
-}: Props.ListItem<string>): React.ReactElement => {
+  onEdit,
+  value,
+  editable,
+}: Props.ListItem<RecipeQuery.UpdateRecipeRequest['directions'][number]>): React.ReactElement | null => {
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (editable && inputRef.current) {
@@ -33,13 +34,22 @@ const ListItem = ({
       inputRef.current.focus();
     }
   }, [editable]);
+
+  const handleChange = (field: 'direction' | 'directionNumber') => (newValue: string | number ): void => {
+    onChange({
+      ...value,
+      [field]: newValue
+    });
+  };
+
   return editable ? (
     <EditContainer>
-      <TextInput inputRef={inputRef} value={value} onChange={onChange} label="" />
+      <TextInput inputRef={inputRef} value={value.direction} onChange={handleChange('direction')} label="Direction" />
+      <TextInput inputRef={inputRef} value={value.directionNumber} onChange={handleChange('directionNumber')} label="Direction Number" type="number"/>
     </EditContainer>
   ) : (
     <ViewContainer>
-      <Typography variant="body1" color="textSecondary">{value}</Typography>
+      <Typography variant="body1" color="textSecondary">{value.directionNumber}. {value.direction}</Typography>
       <EditDeleteContainer>
         <IconButton onClick={onEdit}><EditIcon/></IconButton>
         <IconButton onClick={onDelete}><DeleteIcon/></IconButton>
@@ -48,4 +58,4 @@ const ListItem = ({
   );
 };
 
-export default ListItem;
+export default DirectionListItem;

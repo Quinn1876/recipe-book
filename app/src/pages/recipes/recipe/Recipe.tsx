@@ -7,6 +7,7 @@ import MUIIconButton from '@material-ui/core/IconButton';
 import EditIconSvg from '../../../assets/edit-icon.svg';
 import useRouterContext from '../../../hooks/router-context';
 import { useHistory } from 'react-router';
+import { RecipeResponse } from 'recipes';
 
 const DropList = styled(UnstyledDropList)``;
 
@@ -77,7 +78,7 @@ const List = styled(MUIList)`
 `;
 
 interface RecipeProps{
-  recipe: RecipeResponse;
+  recipe: RecipeResponse.GetRecipeResponse;
 }
 
 const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
@@ -87,8 +88,8 @@ const Recipe: React.FC<RecipeProps> = ({ recipe }) => {
   const [ingredientsOpen, setIngredientsOpen] = useState<boolean>(true);
   const [directionsOpen, setDirectionsOpen] = useState<boolean>(true);
 
-  const ingredientItems: React.ReactElement[] = recipe.ingredients.map((ingredient, index) => <ListItem key={index}>{ingredient}</ListItem>);
-  const directionItems: React.ReactElement[] = recipe.directions.map((direction, index) => <ListItem key={index}>{index + 1}. {direction}</ListItem>);
+  const ingredientItems: React.ReactElement[] = recipe.ingredients.map((ingredient, index) => <ListItem key={index}>{ingredient.amount} {ingredient.unit.name} {ingredient.name}</ListItem>);
+  const directionItems: React.ReactElement[] = recipe.directions.map((direction, index) => <ListItem key={index}>{direction.directionNumber}. {direction.direction}</ListItem>);
 
   const handleIngredientsDrawerToggle = useCallback(() => {
     setIngredientsOpen(!ingredientsOpen);

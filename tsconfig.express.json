@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": ".",
     "baseUrl": "./src",
     "strict": true,
     "esModuleInterop": true,
@@ -19,7 +19,10 @@
   },
   "include": [
     "@types/**/*.d.ts",
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "./knexfile.js"
   ],
-  "exclude": []
+  "exclude": [
+    "./build/**/*"
+  ]
 }

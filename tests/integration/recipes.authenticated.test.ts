@@ -142,7 +142,10 @@ describe('Recipe Api Endpoints', () => {
             {
               name: 'carrots',
               amount: 7,
-              unitId: 1
+              unit: {
+                id: 1,
+                name: 'Cups',
+              }
             }
           ],
         } as RecipeQuery.NewRecipeRequest);

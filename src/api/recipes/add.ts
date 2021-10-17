@@ -4,7 +4,10 @@ import { isNewRecipeRequest } from '../../utils/request-validators';
 
 const add: RequestHandler = (req, res) => {
   const { userId } = req.session;
-
+  if (!userId) {
+    res.sendStatus(500);
+    return;
+  }
   const { body }: { body: unknown } = req;
   if (isNewRecipeRequest(body)) {
     db.recipe

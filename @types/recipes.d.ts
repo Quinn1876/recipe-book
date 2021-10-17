@@ -38,24 +38,13 @@ declare module 'recipes' {
 
   export namespace RecipeQuery {
 
-    export interface NewIngredient {
-      name:   string;
-      amount: number;
-      unitId: number;
-    }
+    export type NewIngredient = Omit<RecipeResponse.Ingredient, 'id'>
 
-    export interface UpdatedIngredient extends NewIngredient {
-      id: number;
-    }
+    export type UpdatedIngredient = RecipeResponse.Ingredient;
 
-    export interface NewDirection {
-      direction:        string;
-      directionNumber:  number;
-    }
+    export type NewDirection = Omit<RecipeResponse.Direction, 'id'>
 
-    export interface UpdatedDirection extends NewDirection {
-      id: number;
-    }
+    export type UpdatedDirection = RecipeResponse.Direction;
     export interface NewRecipeRequest {
       name:         string;
       description:  string;

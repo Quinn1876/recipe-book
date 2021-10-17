@@ -9,6 +9,7 @@ import useRecipes from '../../../hooks/recipes';
 import AddRecipeButton from './components/AddRecipeButton';
 import { useHistory } from 'react-router';
 import useRouterContext from '../../../hooks/router-context';
+import { RecipeResponse } from 'recipes';
 
 
 
@@ -26,7 +27,7 @@ const Container = styled(Grid)`
   padding-top: 16px;
 `;
 
-const recipeMap = (recipe: RecipeResponse): React.ReactElement => (
+const recipeMap = (recipe: RecipeResponse.GetRecipeResponse): React.ReactElement => (
   <RecipeGridItem key={recipe.id}>
     <RecipeListItem recipe={recipe} />
   </RecipeGridItem>

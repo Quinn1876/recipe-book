@@ -24,7 +24,7 @@
     "noEmit": true
   },
   "include": [
-    "./app/src/*",
+    "./app/src/**/*",
     "@types/**/*.d.ts"
   ],
   "exclude": [

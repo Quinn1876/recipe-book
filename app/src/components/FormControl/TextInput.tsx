@@ -17,19 +17,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export type InputTypes = 'text' | 'email' | 'password';
-export type onChangeHandler = (value: string) => void;
+export type InputTypes = 'text' | 'email' | 'password' | 'number';
+export type onChangeHandler<T> = (value: T) => void;
 export type onKeyPressHandler = (event: { key: string }) => void;
 
-interface TextInputProps {
-  value: string;
+interface TextInputProps<T> {
+  value: T;
   autoFocus?: boolean;
   fullWidth?: boolean;
   endAdornment?: React.ReactNode;
   startAdornment?: React.ReactNode;
   multiline?: boolean;
   name?: string;
-  onChange: onChangeHandler;
+  onChange: (value: T) => void;
   onKeyPress?: onKeyPressHandler;
   required?: boolean;
   type?: InputTypes;
@@ -38,7 +38,7 @@ interface TextInputProps {
   className?: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({
+function TextInput<T>({
   value,
   autoFocus = false,
   fullWidth = false,
@@ -53,7 +53,7 @@ const TextInput: React.FC<TextInputProps> = ({
   label,
   inputRef,
   className,
-}) => {
+}: TextInputProps<T>): React.ReactElement | null {
   const classes = useStyles();
   const handleChange = useCallback((event) => onChange(event.target.value), [onChange]);
   return (
@@ -79,6 +79,6 @@ const TextInput: React.FC<TextInputProps> = ({
       />
     </FormControl>
   );
-};
+}
 
 export default TextInput;

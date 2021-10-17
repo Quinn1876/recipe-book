@@ -8,12 +8,14 @@ import UnstyledTypography from '@material-ui/core/Typography';
 import UnstyledButton from '@material-ui/core/Button';
 import useEditRecipeForm from '../hook/recipe-form';
 import { RecipeQuery, RecipeResponse } from 'recipes';
+import IngredientListItem from './IngredientListItem';
+import DirectionListItem from './DirectionListItem';
 
 const FormGridItem = styled(Grid)`
   padding-bottom: 16px;
 `;
 
-const TextInput = styled(UnstyledTextInput)`
+const TextInput = styled(props => <UnstyledTextInput<string> {...props} />)`
   width: 100%;
 `;
 
@@ -51,9 +53,10 @@ const Container = styled(Paper)`
   }
 
   max-width: 900px;
-  @media only screen and (min-width: 1028px) { // maxWidth + margins
-    margin-left: calc((100vw - 900px)/2);
-    margin-right: calc((100vw - 900px)/2);
+  @media only screen and (min-width: 1028px) {
+    // maxWidth + margins
+    margin-left: calc((100vw - 900px) / 2);
+    margin-right: calc((100vw - 900px) / 2);
   }
 `;
 
@@ -63,11 +66,7 @@ interface Props {
   onSave: (recipe: RecipeQuery.UpdateRecipeRequest) => void;
 }
 
-const RecipeForm: React.FC<Props> = ({
-  initialState,
-  onBack,
-  onSave,
-}) => {
+const RecipeForm: React.FC<Props> = ({ initialState, onBack, onSave }) => {
   const {
     name,
     ingredients,
@@ -79,8 +78,9 @@ const RecipeForm: React.FC<Props> = ({
     addDirection,
     deleteIngredient,
     deleteDirection,
-    updateIngredient,
-    updateDirection,
+    updateListItem,
+    loading,
+    units,
   } = useEditRecipeForm(initialState);
 
   const handleSave = useCallback(() => {
@@ -89,10 +89,39 @@ const RecipeForm: React.FC<Props> = ({
       name,
       ingredients,
       description,
-      directions
+      directions,
     });
   }, [name, ingredients, description, directions, initialState, onSave]);
-  return (
+
+  const handleIngredientUpdated = (
+    index: number,
+    ingredient: RecipeQuery.NewIngredient,
+  ): void => {
+    updateListItem({
+      type: 'UpdateIngredient',
+      updateListItemPayload: {
+        index,
+        value: ingredient,
+      },
+    });
+  };
+
+  const handleDirectionUpdated = (
+    index: number,
+    direction: RecipeQuery.NewDirection,
+  ): void => {
+    updateListItem({
+      type: 'UpdateDirection',
+      updateListItemPayload: {
+        index,
+        value: direction,
+      },
+    });
+  };
+
+  return loading ? (
+    <></>
+  ) : (
     <Container elevation={4}>
       <Grid container justify="space-between">
         <FormGridItem>
@@ -101,7 +130,7 @@ const RecipeForm: React.FC<Props> = ({
           </Typography>
         </FormGridItem>
         <FormGridItem item xs={12}>
-          <TextInput label="Name" value={name} onChange={updateName} />
+          <TextInput label="Name" value={name as string} onChange={updateName} />
         </FormGridItem>
         <FormGridItem item xs={12}>
           <TextInput
@@ -114,19 +143,22 @@ const RecipeForm: React.FC<Props> = ({
         <FormGridItem item xs={12} md={6}>
           <ListEditor
             items={ingredients}
-            label="Ingredient"
+            label="Ingredients"
             onAdd={addIngredient}
-            onChange={updateIngredient}
+            onChange={handleIngredientUpdated}
             onRemove={deleteIngredient}
+            ListItem={IngredientListItem}
+            additionalProps={{units}}
           />
         </FormGridItem>
         <FormGridItem item xs={12} md={6}>
           <ListEditor
             items={directions}
-            label="Direction"
+            label="Directions"
             onAdd={addDirection}
-            onChange={updateDirection}
+            onChange={handleDirectionUpdated}
             onRemove={deleteDirection}
+            ListItem={DirectionListItem}
           />
         </FormGridItem>
       </Grid>

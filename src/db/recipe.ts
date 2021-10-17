@@ -71,7 +71,7 @@ const addRecipe = (db: Knex) => async (owner: number, recipe: RecipeQuery.NewRec
   try {
     const [ newRecipeId ] = await trx('recipes').insert({ name, owner, description }).returning('id');
     await trx('ingredients').insert(ingredients.map(
-      ({ amount, name, unitId }) => ({ name, amount, recipe_id: newRecipeId, unit_id: unitId,  })
+      ({ amount, name, unit: { id: unitId } }) => ({ name, amount, recipe_id: newRecipeId, unit_id: unitId,  })
     ));
     await trx('directions').insert(directions.map(
       ({ direction, directionNumber }) => ({ direction, recipe_id: newRecipeId, direction_number: directionNumber })
@@ -85,7 +85,7 @@ const addRecipe = (db: Knex) => async (owner: number, recipe: RecipeQuery.NewRec
   }
 };
 
-const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecipeRequest): Promise<RecipeResponse.UpdateRecipeResponse> => {
+const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecipeRequest): Promise<RecipeResponse.UpdateRecipeResponse | null> => {
   const {
     id,
     directions,
@@ -95,7 +95,7 @@ const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecip
     ownerId,
   } = updatedRecipe;
 
-  const [newIngredients, updatedIngredients]: [RecipeQuery.NewIngredient[], RecipeQuery.UpdatedIngredient[]] = ingredients.reduce((acc, cur) => {
+  const [newIngredients, updatedIngredients]: [RecipeQuery.NewIngredient[], RecipeQuery.UpdatedIngredient[]] = ingredients.reduce<[RecipeQuery.NewIngredient[], RecipeQuery.UpdatedIngredient[]]>((acc, cur) => {
     if ('id' in cur) {
       acc[1].push(cur);
     } else {
@@ -104,7 +104,7 @@ const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecip
     return acc;
   }, [[],[]]);
 
-  const [newDirections, updatedDirections]: [RecipeQuery.NewDirection[], RecipeQuery.UpdatedDirection[]] = directions.reduce((acc, cur) => {
+  const [newDirections, updatedDirections]: [RecipeQuery.NewDirection[], RecipeQuery.UpdatedDirection[]] = directions.reduce<[RecipeQuery.NewDirection[], RecipeQuery.UpdatedDirection[]]>((acc, cur) => {
     if ('id' in cur) {
       acc[1].push(cur);
     } else {
@@ -127,12 +127,12 @@ const updateRecipe = (db: Knex) => async (updatedRecipe: RecipeQuery.UpdateRecip
 
     // Add new Ingredients
     await trx('ingredients').insert(newIngredients.map(
-      ({name, unitId, amount }) => ({ name, amount, unit_id: unitId, recipe_id: id})
+      ({name, unit: { id: unitId }, amount }) => ({ name, amount, unit_id: unitId, recipe_id: id})
     ));
 
     // Update Old Ingredients that didn't get removed
     await Promise.all(updatedIngredients.map(
-      ({ amount, id, unitId, name }) => trx('ingredients').where({ id }).update({ amount, name, unit_id: unitId })
+      ({ amount, id, unit: { id: unitId }, name }) => trx('ingredients').where({ id }).update({ amount, name, unit_id: unitId })
     ));
 
     // Remove Old Directions
@@ -168,6 +168,8 @@ const getRecipeOwner = (db: Knex) => async (recipeId: number): Promise<{owner: n
 
 const deleteRecipeWithId = (db: Knex) => async (recipeId: number): Promise<void> => db('recipes').where({ id: recipeId }).del();
 
+const getUnits = (db: Knex) => async (): Promise<RecipeResponse.Unit[] | null> => db('units');
+
 export default (db: Knex) => ({
   getRecipesByUserId: getRecipesByUserId(db),
   getRecipeById: getRecipeById(db),
@@ -175,4 +177,5 @@ export default (db: Knex) => ({
   updateRecipe: updateRecipe(db),
   getRecipeOwner: getRecipeOwner(db),
   deleteRecipeWithId: deleteRecipeWithId(db),
+  getUnits: getUnits(db),
 });

@@ -13,6 +13,7 @@ const signIn: RequestHandler = (req, res) => {
     db.auth.getUserAuthDocument(userName, password)
       .then((authRow) => {
         if (authRow) {
+          // console.log(authRow);
           if (remember) {
             setAuthCookie(authRow.user_id, res)
               .then(() => {

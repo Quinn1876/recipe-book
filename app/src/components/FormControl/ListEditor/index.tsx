@@ -11,20 +11,21 @@ const Container = styled.div`
   margin-right: 8px;
 `;
 
-const ListEditor: React.FC<Props.ListEditor> = ({
+function ListEditor <T, A extends Props.ListItem<T>>({
   className,
   items,
   onChange,
   onRemove,
   onAdd,
   label,
-  ListItem = DefaultListItem
-}) => {
+  ListItem,
+  additionalProps,
+}: Props.ListEditor<T, A>): React.ReactElement | null {
   const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
-  const handleChange = useCallback((index: number) => (value: string): void => {
+  const handleChange = useCallback((index: number) => (value: T): void => {
     onChange(index, value);
   }, [onChange]);
-  const listItems = items.map((item: string, index: number) => (
+  const listItems = items.map((item: T, index: number) => (
     <ListItem
       editable={activeItemIndex === index}
       onChange={handleChange(index)}
@@ -32,8 +33,13 @@ const ListEditor: React.FC<Props.ListEditor> = ({
       onDelete={onRemove(index)}
       value={item}
       key={index}
+      {...additionalProps}
     />
   ));
+
+  useEffect(() => {
+    setActiveItemIndex(items.length - 1);
+  }, [items.length]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const handelEnter = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -60,6 +66,6 @@ const ListEditor: React.FC<Props.ListEditor> = ({
       <Button onClick={onAdd} color="primary">Add {label}</Button>
     </Container>
   );
-};
+}
 
 export default ListEditor;

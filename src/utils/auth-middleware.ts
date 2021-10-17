@@ -21,6 +21,8 @@ const checkUserLoggedIn = (req: Request, res: Response, next: NextFunction): voi
     session: { userId }
   } = req;
 
+  // console.log('userID of Logged in user', userId);
+
   if (pathNeedsUserToBeLoggedIn(path)) {
     if (userId) {
       next();

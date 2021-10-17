@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { RecipeQuery } from 'recipes';
 import api from '../../../api';
 import useRecipe from '../../../hooks/recipe';
 import useRouterContext from '../../../hooks/router-context';
@@ -10,22 +11,16 @@ const EditRecipePage: React.FC = () => {
   const history = useHistory();
 
   const { recipeId } = useParams<{ recipeId: string }>();
-  const { recipe } = useRecipe(recipeId);
+  const { recipe } = useRecipe(parseInt(recipeId, 10));
 
   const handleBack = useCallback(() => {
     history.push(`${routerContext.url}/recipe/${recipeId}`);
   }, [history, routerContext]);
 
   const handleRecipeSave = useCallback(
-    (updatedRecipe: RecipeResponse) => {
+    (updatedRecipe: RecipeQuery.UpdateRecipeRequest) => {
       api.recipes
-        .updateRecipe({
-          description: updatedRecipe.description,
-          directions: updatedRecipe.directions,
-          id: recipeId,
-          ingredients: updatedRecipe.ingredients,
-          name: updatedRecipe.name,
-        })
+        .updateRecipe(updatedRecipe)
         .then(() => {
           handleBack();
         });

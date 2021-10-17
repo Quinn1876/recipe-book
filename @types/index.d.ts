@@ -11,6 +11,11 @@ declare module '*.svg' {
   causes react to think it does not exist.
 */
 declare module 'recipe-form' {
+
+  export interface SetUnitsAction {
+    type: 'SET_UNITS';
+    unitsPayload: RecipeResponse.Unit[];
+  }
   export interface UpdateFieldAction {
     updateFieldPayload: {
       value: string;
@@ -18,13 +23,13 @@ declare module 'recipe-form' {
   }
   export type UpdateFieldCb = (value: string) => void;
 
-  export interface UpdateListItemAction {
+  export interface UpdateListItemAction<T> {
     updateListItemPayload: {
-      value: string;
+      value: T;
       index: number;
     };
   }
-  export type UpdateListItemCb = (index: number, value: string) => void;
+  export type UpdateListItemCb = (updateListItemAction: UpdateListItemActions) => void;
 
   export interface DeleteListItemAction {
     deleteListItemPayload: {
@@ -50,7 +55,7 @@ declare module 'recipe-form' {
     type: 'UpdateImage';
   }
 
-  export interface UpdateIngredientAction extends UpdateListItemAction {
+  export interface UpdateIngredientAction extends UpdateListItemAction<RecipeQuery.NewIngredient> {
     type: 'UpdateIngredient';
   }
 
@@ -62,7 +67,7 @@ declare module 'recipe-form' {
     type: 'AddIngredient';
   }
 
-  export interface UpdateDirectionAction extends UpdateListItemAction {
+  export interface UpdateDirectionAction extends UpdateListItemAction<RecipeQuery.NewDirection> {
     type: 'UpdateDirection';
   }
 
@@ -74,8 +79,8 @@ declare module 'recipe-form' {
     type: 'AddDirection';
   }
 
-  import { RecipeQuery } from 'recipes';
-  export type State = RecipeQuery.UpdateRecipeRequest;
+  import { RecipeQuery, RecipeResponse } from 'recipes';
+  export type State = RecipeQuery.UpdateRecipeRequest & { units?: RecipeResponse.Unit[]};
   export type Action = UpdateNameAction
                     | UpdateDescriptionAction
                     | UpdateImageAction
@@ -84,10 +89,15 @@ declare module 'recipe-form' {
                     | DeleteDirectionAction
                     | DeleteIngredientAction
                     | AddIngredientAction
-                    | AddDirectionAction;
+                    | AddDirectionAction
+                    | SetUnitsAction;
 
   export type UpdateFieldType = SubUnion<Action, UpdateFieldAction>['type'];
-  export type UpdateListItemType = SubUnion<Action, UpdateListItemAction>['type'];
+  export type UpdateListItemType = SubUnion<Action, UpdateListItemAction<unknown>>['type'];
+  export type UpdateListItemActions = SubUnion<Action, UpdateListItemAction<unknown>>;
+
+  type UpdateListItemValueFromType<T, U> = T
+
   export type DeleteListItemType = SubUnion<Action, DeleteListItemAction>['type'];
   export type AddListItemType = SubUnion<Action, AddListItemAction>['type'];
 
@@ -101,12 +111,13 @@ declare module 'recipe-form' {
     image?:             State['image'];
     updateImage:        UpdateFieldCb;
     ingredients:        State['ingredients'];
-    updateIngredient:   UpdateListItemCb;
+    updateListItem:     UpdateListItemCb;
     addIngredient:      AddListItemCb;
     deleteIngredient:   DeleteListItemCb;
     directions:         State['directions'];
-    updateDirection:    UpdateListItemCb;
     addDirection:       AddListItemCb;
     deleteDirection:    DeleteListItemCb;
+    loading:            boolean;
+    units?:              RecipeResponse.Unit[];
   }
 }

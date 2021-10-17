@@ -31,7 +31,7 @@ const createCookieAuthForUserId = (db: Knex) => async (userId: number, selector:
     .first();
 
 const doesUserNameExist = (db: Knex) => async (userName: string): Promise<boolean> =>
-  db('user-auth')
+  db('user_auth')
     .where({
       user_name: userName
     })
@@ -45,7 +45,7 @@ const createUserAuth = (db: Knex) => async (userId: number, userName: string, ha
       hashed_password: hashedPassword
     })
     .returning('*')
-    .first();
+    .then((rows) => rows[0]);
 
 const getUserAuthDocument = (db: Knex) => async (userName: string, hashedPassword: string): Promise<AuthDatabase.UserAuthRow> =>
   db('user_auth')
@@ -63,3 +63,6 @@ export default (db: Knex) => ({
   createUserAuth: createUserAuth(db),
   getUserAuthDocument: getUserAuthDocument(db),
 });
+
+
+

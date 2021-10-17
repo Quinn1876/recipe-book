@@ -8,6 +8,8 @@ services:
       POSTGRES_DB: docker
     ports:
           - 5474:5432
+    volumes:
+      - test-data:/var/lib/postgresql/data
 
   dev-db:
     image: "postgres"
@@ -17,3 +19,10 @@ services:
       POSTGRES_DB: docker
     ports:
           - 5464:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
+  test-data:
+

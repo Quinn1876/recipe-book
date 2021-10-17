@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import api from '../api';
-import { RecipeResponse } from 'recipes';
+import { RecipeResponse, RecipeQuery } from 'recipes';
+import { useMemo } from 'hoist-non-react-statics/node_modules/@types/react';
 
 interface Return {
   recipe?: RecipeResponse.GetRecipeResponse;
@@ -19,6 +20,7 @@ const useRecipe: RecipeHook = (recipeId) => {
     if (recipeId) {
       api.recipes.getRecipe(recipeId)
         .then((response) => {
+          response.data.directions.sort((a,b) => a.directionNumber - b.directionNumber);
           setRecipe(response.data);
           setError(undefined);
         })

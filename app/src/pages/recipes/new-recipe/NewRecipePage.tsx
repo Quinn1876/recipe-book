@@ -3,11 +3,13 @@ import useRouterContext from '../../../hooks/router-context';
 import { useHistory } from 'react-router';
 import api from '../../../api';
 import RecipeForm from '../components/RecipeForm';
+import useAuthContext from '../../../hooks/auth-context';
 
 
 
 const NewRecipePage: React.FC = () => {
   const { routerContext } = useRouterContext();
+  const { userId } = useAuthContext();
   const history = useHistory();
 
   const handleSave = useCallback(({ name, ingredients, directions, description}) => {
@@ -30,20 +32,21 @@ const NewRecipePage: React.FC = () => {
     history.push(`${routerContext.url}/`);
   }, [history, routerContext]);
 
-  return (
+  return userId ? (
     <RecipeForm
       initialState={{
-        createdAt: Date.now(),
         description: '',
         directions: [],
-        id: '',
+        id: -1,
         ingredients: [],
         name: '',
-        ownerId: '',
+        ownerId: userId,
       }}
       onSave={handleSave}
       onBack={handleBack}
     />
+  ) : ( // TODO Add loading screen
+    <></>
   );
 };
 

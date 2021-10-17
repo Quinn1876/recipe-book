@@ -4,6 +4,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import MUIPaper from '@material-ui/core/Paper';
 import MUITypography from '@material-ui/core/Typography';
+import { RecipeResponse } from 'recipes';
 
 const Paper = styled(MUIPaper)`
   width: 311px;
@@ -17,6 +18,7 @@ const Image = styled.div`
   height: 200px;
   width: 100%;
   background-color: ${({ theme }): string | number => theme.palette.background.default};
+
   &:hover: {
     cursor: pointer;
   }
@@ -46,7 +48,7 @@ const Header = styled(MUITypography)`
 const Typography = styled(MUITypography)``;
 
 interface RecipeListItemProps {
-  recipe: RecipeResponse;
+  recipe: RecipeResponse.GetRecipeResponse;
 }
 
 const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {

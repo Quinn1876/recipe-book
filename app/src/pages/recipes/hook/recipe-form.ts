@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react';
+import { useEffect, useMemo, useReducer, useCallback } from 'react';
 
 import {
   State,
@@ -6,14 +6,30 @@ import {
   AddListItemType,
   DeleteListItemType,
   UpdateFieldType,
-  UpdateListItemType,
-  useRecipeFormHook
+  useRecipeFormHook,
+  UpdateListItemActions,
 } from 'recipe-form';
-import { RecipeQuery } from 'recipes';
+import { RecipeQuery, RecipeResponse } from 'recipes';
+import api from '../../../api';
+
+export function isNewIngredient(object: any): object is RecipeQuery.NewIngredient {
+  return (
+    'name' in object
+    && 'amount' in object
+    && 'unitId' in object
+  );
+}
+
+export function isNewDirection(object: any): object is RecipeQuery.NewDirection {
+  return (
+    'direction' in object
+    && 'directionNumber' in object
+  );
+}
 
 
-const newIngredient = (recipeId: number): State['ingredients'][number] => ({ amount: 0, name: '', recipeId, unitId: 1 });
-const newDirection = (recipeId: number, directionNumber: number): State['directions'][number] => ({ recipeId, direction: '', directionNumber, });
+const newIngredient = (units: RecipeResponse.Unit[]): State['ingredients'][number] => ({ amount: 0, name: '', unit: units[0] });
+const newDirection = (directionNumber: number): State['directions'][number] => ({ direction: '', directionNumber, });
 
 const initializer = (initialState: RecipeQuery.UpdateRecipeRequest): State => ({
   ...initialState,
@@ -47,14 +63,20 @@ const reducer = (state: State, action: Action): State => {
         )
       ),
     };
-  case 'AddIngredient':
-    return {
-      ...state,
-      ingredients: [
-        ...state.ingredients,
-        newIngredient()
-      ],
-    };
+  case 'AddIngredient':{
+    const { units } = state;
+    if (units) {
+      return {
+        ...state,
+        ingredients: [
+          ...state.ingredients,
+          newIngredient(units)
+        ],
+      };
+    } else {
+      return state;
+    }
+  }
   case 'DeleteIngredient':
     return {
       ...state,
@@ -75,13 +97,18 @@ const reducer = (state: State, action: Action): State => {
       ...state,
       directions: [
         ...state.directions,
-        newDirection(),
+        newDirection(state.directions.reduce<number>((acc, curr) => Math.max(acc, curr.directionNumber), 0) + 1),
       ],
     };
   case 'DeleteDirection':
     return {
       ...state,
       directions: state.directions.filter((_1, index) => index !== action.deleteListItemPayload.index),
+    };
+  case 'SET_UNITS':
+    return {
+      ...state,
+      units: action.unitsPayload,
     };
   default:
     return state;
@@ -97,8 +124,8 @@ const useRecipeForm: useRecipeFormHook = (initialState) => {
     dispatch({ type, updateFieldPayload: { value }});
   }, [dispatch]);
 
-  const updateListItem = useCallback(( type: UpdateListItemType ) => (index: number, value: string): void => {
-    dispatch({ type, updateListItemPayload: { value, index }});
+  const updateListItem = useCallback((updateListItemAction: UpdateListItemActions): void => {
+    dispatch(updateListItemAction);
   }, [dispatch]);
 
   const addListItem = useCallback((type: AddListItemType) => (): void => {
@@ -111,7 +138,14 @@ const useRecipeForm: useRecipeFormHook = (initialState) => {
     } });
   }, [dispatch]);
 
+  const loading = useMemo<boolean>(() => !state.units, [state.units]);
+
+  useEffect(() => {
+    api.recipes.getUnits().then((units) => dispatch({ type: 'SET_UNITS', unitsPayload: units.data }));
+  }, [dispatch]);
+
   return {
+    loading,
     name: state.name,
     updateName: updateField('UpdateName'),
     description: state.description,
@@ -119,13 +153,13 @@ const useRecipeForm: useRecipeFormHook = (initialState) => {
     image: state.image,
     updateImage: updateField('UpdateImage'),
     ingredients: state.ingredients,
-    updateIngredient: updateListItem('UpdateIngredient'),
     addIngredient: addListItem('AddIngredient'),
     deleteIngredient: deleteListItem('DeleteIngredient'),
     directions: state.directions,
-    updateDirection: updateListItem('UpdateDirection'),
+    updateListItem,
     addDirection: addListItem('AddDirection'),
     deleteDirection: deleteListItem('DeleteDirection'),
+    units: state.units,
   };
 };
 

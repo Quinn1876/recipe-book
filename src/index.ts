@@ -14,6 +14,18 @@ import knexConfig from '../knexfile';
 import { db as knex } from './db';
 import { authMiddleware } from './utils/auth-middleware';
 
+interface KnexConfig {
+  'development': {
+    connection: string;
+  };
+  'production': {
+    connection: string;
+  };
+  'test': {
+    connection: string;
+  };
+}
+
 const port = process.env.PORT || 4000;
 const buildApp = async (): Promise<express.Express> => {
   const app = express();
@@ -22,10 +34,16 @@ const buildApp = async (): Promise<express.Express> => {
   // the session table being available
   await knex.migrate.latest();
 
-
-  const sessionConnectionString: string = process.env.NODE_ENV === 'production'
+  if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') {
+    throw new Error('Unknown NODE_ENV');
+  }
+  const sessionConnectionString: string | undefined = process.env.NODE_ENV === 'production'
     ? process.env.DATABASE_URL
     : knexConfig[process.env.NODE_ENV].connection;
+
+  if (!sessionConnectionString) {
+    throw new Error('Invalid Session Connection String');
+  }
 
   const pgPool = new pg.Pool({
     connectionString: sessionConnectionString
@@ -40,7 +58,7 @@ const buildApp = async (): Promise<express.Express> => {
     store: new pgSession({
       pool: pgPool,
       tableName: 'user_sessions'
-    }),
+    }) as unknown as session.Store,
     name: 'user_session',
   };
 

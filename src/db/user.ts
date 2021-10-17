@@ -10,7 +10,7 @@ const addUser = (db: Knex) => (newUser: NewUser): Promise<{ id: number }> => db(
   })
   .returning('id')
   .then((values) => {
-    return values[0];
+    return { id: values[0] };
   });
 
 export default (db: Knex): PGUserController => ({
