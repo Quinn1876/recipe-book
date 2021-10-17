@@ -84,3 +84,9 @@ export function isUserAuthSignUpRequest(object: any): object is AuthQuery.UserAu
     && 'name' in object
   );
 }
+
+export function isGoogleAuthSignInRequest(object: any): object is AuthQuery.GoogleAuthSignInRequest {
+  return (
+    'type' in object && object['type'] === 'GOOGLE_AUTH'
+  );
+}

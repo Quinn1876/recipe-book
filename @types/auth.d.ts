@@ -12,11 +12,16 @@ declare module 'auth' {
     }
 
     export interface UserAuthRow {
-        user_name:        string;
-        hashed_password:  string;
-        id:               number;
-        user_id:          number;
-      }
+      user_name:        string;
+      hashed_password:  string;
+      id:               number;
+      user_id:          number;
+    }
+
+    export interface GoogleAuthRow {
+      google_id: string;
+      user_id: number;
+    }
   }
 
   export namespace AuthQuery {
@@ -38,6 +43,7 @@ declare module 'auth' {
 
     export interface GoogleAuthSignInRequest {
       readonly type: GOOGLE_AUTH;
+      idToken: string;
     }
     export type GoogleAuthSignUpRequest = unknown;
 

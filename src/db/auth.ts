@@ -55,6 +55,17 @@ const getUserAuthDocument = (db: Knex) => async (userName: string, hashedPasswor
     })
     .first();
 
+const getUserByGoogleId = (db: Knex) => async (googleId: string): Promise<AuthDatabase.GoogleAuthRow & UserRow | null> =>
+  db('google_auth')
+    .innerJoin('users', 'google_auth.user_id', 'users.id')
+    .where('google_auth.id', googleId)
+    .first();
+
+const createNewGoogleUser = (db: Knex) => async (googleId: string, name: string): Promise<number | null> => {
+  const [userId] = await db('users').insert({ name }).returning('id');
+  return (await db('google_auth').insert({ user_id: userId, google_id: googleId }).returning('id'))[0];
+};
+
 export default (db: Knex) => ({
   getCookieAuthBySelector: getCookieAuthBySelector(db),
   deleteCookieAuthById: deleteCookieAuthById(db),
@@ -62,6 +73,8 @@ export default (db: Knex) => ({
   doesUserNameExist: doesUserNameExist(db),
   createUserAuth: createUserAuth(db),
   getUserAuthDocument: getUserAuthDocument(db),
+  getUserByGoogleId: getUserByGoogleId(db),
+  createNewGoogleUser: createNewGoogleUser(db),
 });
 
 

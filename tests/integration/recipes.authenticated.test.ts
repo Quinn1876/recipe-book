@@ -86,7 +86,7 @@ describe('Recipe Api Endpoints', () => {
 
   describe('GET /api/recipes/:id', () => {
     it('should return a recipe if the user is logged in and the recipe exists', async () => {
-      const [recipe, ..._recipes] = await db.recipe.getRecipesByUserId(1);
+      const [recipe] = await db.recipe.getRecipesByUserId(1);
       const res = await chai
         .request(server)
         .get(`/api/recipes/${recipe.id}`);
@@ -176,7 +176,10 @@ describe('Recipe Api Endpoints', () => {
             {
               name: 'carrots',
               amount: 7,
-              unitId: 1
+              unit: {
+                id: 1,
+                name: 'Cups',
+              },
             }
           ],
           image: 'cats.png'
@@ -227,7 +230,10 @@ describe('Recipe Api Endpoints', () => {
             {
               name: 'carrots',
               amount: 7,
-              unitId: 1
+              unit: {
+                id: 1,
+                name: 'Cups',
+              },
             }
           ],
           ownerId: 1,
@@ -270,7 +276,10 @@ describe('Recipe Api Endpoints', () => {
             {
               name: 'carrots',
               amount: 7,
-              unitId: 1
+              unit: {
+                id: 1,
+                name: 'Cups',
+              }
             }
           ],
           ownerId: 1
@@ -324,7 +333,10 @@ describe('Recipe Api Endpoints', () => {
             {
               name: 'carrots',
               amount: 7,
-              unitId: 1
+              unit: {
+                id: 1,
+                name: 'Cups',
+              },
             }
           ],
           ownerId: 1,
