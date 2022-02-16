@@ -10,6 +10,7 @@ import { Theme } from './theme';
 import useAuth from './hooks/auth';
 import { AuthContext } from './context/auth';
 import SignUpPage from './pages/sign-up/SignUpPage';
+import Profile from './pages/profile/ProfileContainer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,22 +20,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const About: React.FC = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
-
 const App: React.FC = () => {
   const classes = useStyles();
-  const { userId, signIn, signUp, loading } = useAuth(true);
+  const { userId, signIn, signUp, loading: authenticating } = useAuth(true);
   return (
-    <AuthContext.Provider value={{userId, signIn, signUp, loading}}>
+    <AuthContext.Provider value={{userId, signIn, signUp, loading: authenticating}}>
       <BrowserRouter basename="/">
-        {!loading && (
+        {!authenticating && (
           <div className={classes.root}>
             <Nav>
               <Link to="/recipes">Recipe List</Link>
+              <Link to="/profile">Profile</Link>
               {/* <Link to="/home">Home</Link>
               <Link to="/theme">Theme</Link> */}
               {/* <Link to="/admin">Admin</Link> */}
@@ -44,11 +40,11 @@ const App: React.FC = () => {
             </Route>
             <Route path="/recipes" component={RecipeRouter} />
             <Route path="/home" component={Home} />
-            <Route path="/about" component={About} />
             <Route path="/theme" component={Theme} />
             <Route path="/sign-in" component={SignIn} />
             {/* <Route path="/admin" component={AdminPage} /> */}
             <Route path="/sign-up" component={SignUpPage} />
+            <Route path="/profile" component={Profile} />
           </div>
         )}
       </BrowserRouter>

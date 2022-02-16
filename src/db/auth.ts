@@ -25,10 +25,8 @@ const createCookieAuthForUserId = (db: Knex) => async (userId: number, selector:
       user_id: userId,
       selector,
       hashed_validator: hashedValidator,
-      expires: Date.now() + (1000 * 3600 * 24 * 30),
-    })
-    .returning('*')
-    .first();
+      expires: Date.now() + (1000 * 3600 * 24 * 30), // 30 days
+    }).returning('*').then((rows) => rows[0]);
 
 const doesUserNameExist = (db: Knex) => async (userName: string): Promise<boolean> =>
   db('user_auth')

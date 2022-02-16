@@ -63,10 +63,16 @@ const signIn: RequestHandler = (req, res) => {
       })
       .then((ticket) => {
         const payload = ticket.getPayload();
+        if (!payload) {
+          res.status(500);
+          res.send({
+            authenticated: false,
+            message: 'Invalid Payload'
+          } as AuthResponse.AuthFailure);
+          return;
+        }
         const {
           sub: googleId,
-          email,
-          family_name: familyName,
           given_name: givenName,
           email_verified: emailVerified,
         } = payload;
@@ -93,12 +99,20 @@ const signIn: RequestHandler = (req, res) => {
               } as AuthResponse.AuthSuccess);
             } else {
               // User does not exist
+              if (!givenName) {
+                res.status(500);
+                res.send({
+                  authenticated: false,
+                  message: 'Unable to get givenName from Google, please try again'
+                } as AuthResponse.AuthFailure);
+                return;
+              }
               db.auth.createNewGoogleUser(googleId, givenName)
                 .then((userId) => {
                   if (userId) {
                     res.status(200);
                     res.send({
-                      userId: row.user_id,
+                      userId,
                       authenticated: true,
                     } as AuthResponse.AuthSuccess);
                   } else {
